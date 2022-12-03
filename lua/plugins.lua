@@ -332,6 +332,7 @@ end
 -- Scrollbar {{{
 require("scrollbar").setup({
   show_in_active_only = true,
+  hide_if_all_visible = true, -- Hides everything if all lines are visible
   handle = {
     color = "#353f46",
   },
