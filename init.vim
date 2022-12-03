@@ -89,6 +89,7 @@ Plug 'neovim/nvim-lspconfig'
 " Plug 'williamboman/nvim-lsp-installer' -- migrated to mason.nvim
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
 
 " Native LSP visual enchancements
 Plug 'onsails/lspkind.nvim'

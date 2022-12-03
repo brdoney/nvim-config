@@ -479,7 +479,7 @@ vim.keymap.set('n', '<leader>wv', function()
 end, { desc = 'Toggle Nabla virt' })
 -- }}}
 
--- BPF {{{
+-- BQF {{{
 require('bqf').setup({
   auto_resize_height = true,
 })

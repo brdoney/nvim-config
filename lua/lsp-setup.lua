@@ -206,11 +206,15 @@ vim.keymap.set('n', 'qD', function() cmp.setup.buffer { enabled = false } end, {
 require("mason").setup()
 
 local servers = { 'emmet_ls', 'gopls', 'vimls', 'clangd', 'tsserver', 'html', 'pyright',
-  'rust_analyzer', 'sumneko_lua', 'bashls', 'jdtls' }
-local null_ls_tools = { 'eslint_d' }
+  'rust_analyzer', 'sumneko_lua', 'bashls', 'jdtls', 'cssls' }
+local null_ls_tools = { 'eslint_d', 'prettierd' }
 
 require("mason-lspconfig").setup {
   ensure_installed = servers
+}
+
+require('mason-tool-installer').setup {
+  ensure_installed = null_ls_tools
 }
 -- }}}
 
@@ -389,12 +393,13 @@ local null_ls = require("null-ls")
 null_ls.setup({
   sources = {
     -- Javascript
-    null_ls.builtins.code_actions.eslint,
-    null_ls.builtins.diagnostics.eslint.with({ method = null_ls.methods.DIAGNOSTICS_ON_SAVE }),
-    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.code_actions.eslint_d,
+    null_ls.builtins.diagnostics.eslint_d.with({ method = null_ls.methods.DIAGNOSTICS_ON_SAVE }),
+    null_ls.builtins.formatting.prettierd,
 
     -- Python
-    null_ls.builtins.diagnostics.flake8,
+    null_ls.builtins.diagnostics.flake8.with({ method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+      extra_args = { "--max-line-length=88", "--extend-ignore=E203" } }),
     null_ls.builtins.diagnostics.mypy.with({ method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
       ---@diagnostic disable-next-line: unused-local
       extra_args = function(params)
