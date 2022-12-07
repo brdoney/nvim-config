@@ -42,6 +42,7 @@ Plug 'airblade/vim-gitgutter'
 " Plug 'nvim-lua/plenary.nvim'  " For gitsigns below
 " Plug 'lewis6991/gitsigns.nvim'  " Lua gitgutter with blame messages
 Plug 'tpope/vim-fugitive'
+Plug 'akinsho/git-conflict.nvim'
 
 " Command-line tools
 " VSCode-like terminal (toggle, AsyncRun support, and more)

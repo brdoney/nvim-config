@@ -37,6 +37,8 @@ local on_attach = function(client, bufnr)
 
   vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts('Format buffer'))
 
+  vim.keymap.set('n', '<leader>qd', vim.diagnostic.disable, opts('Disable diagnostics'))
+
   vim.keymap.set('n', '<leader>qg', require('telescope.builtin').diagnostics, opts('List diagnostics'))
   vim.keymap.set('n', '<leader>qo', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
   vim.keymap.set('n', '<leader>qwo', require('telescope.builtin').lsp_dynamic_workspace_symbols,
