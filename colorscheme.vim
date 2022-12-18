@@ -123,9 +123,22 @@ function! s:sonokai_custom() abort
   " Make completion icons match VSCode Dark+ theme
   " gray
   highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
-  " blue
-  highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
-  highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
+
+  " Highlight matches in blue
+  " highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
+  " highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
+
+  " Highlight matches in regular bold
+  call sonokai#highlight("CmpItemAbbrMatch", l:palette.fg, l:palette.none, "bold")
+  call sonokai#highlight("CmpItemAbbrMatchFuzzy", l:palette.fg, l:palette.none, "bold")
+
+  " Abbreviation (e.g. method name) is grey for contrast with bold matching text
+  call sonokai#highlight("CmpItemAbbr", l:lighter_grey_color, l:palette.none)
+
+  " Light coloured selection background w/ yellow text for contrast (237 is from bg4)
+  call sonokai#highlight('PmenuSel', l:palette.yellow, ["#63696e", '237'])
+  " call sonokai#highlight('PmenuSel', l:palette.yellow, l:palette.bg4)
+
   " light blue
   highlight! CmpItemKindVariable guibg=NONE guifg=#9CDCFE
   highlight! CmpItemKindInterface guibg=NONE guifg=#9CDCFE
