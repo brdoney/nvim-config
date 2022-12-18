@@ -137,6 +137,9 @@ function! s:sonokai_custom() abort
   highlight! CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
   highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
   highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
+
+  " lua require("colorscheme").reverse_colors()
+  call sonokai#highlight("CmpItemMenu", l:palette.grey, l:palette.none, "italic")
   " }}}
 
   " Barbar {{{

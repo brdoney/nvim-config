@@ -54,37 +54,80 @@ end
 -- LSPkind {{{
 local lspkind = require('lspkind')
 
+-- Custom one, before I had codicons
+-- local symbol_map = {
+--   Text = "",
+--   Method = "",
+--   Function = "",
+--   Constructor = "",
+--   Field = "",
+--   Variable = "",
+--   Class = "פּ",
+--   Interface = "",
+--   Module = "",
+--   Property = "",
+--   Unit = "塞",
+--   Value = "",
+--   Enum = "練",
+--   Keyword = "",
+--   Snippet = "",
+--   Color = "",
+--   File = "",
+--   Reference = "",
+--   Folder = "",
+--   EnumMember = "",
+--   Constant = "",
+--   Struct = "פּ",
+--   Event = "",
+--   Operator = "",
+--   TypeParameter = ""
+-- }
+-- Basically just codicons preset with a couple tweaks
+local symbol_map = {
+  Text = "",
+  Method = "",
+  Function = "",
+  Constructor = "",
+  Field = "",
+  Variable = "",
+  Class = "",
+  Interface = "",
+  Module = "",
+  Property = "",
+  Unit = "",
+  Value = "",
+  Enum = "",
+  Keyword = "",
+  Snippet = "",
+  Color = "",
+  File = "",
+  Reference = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
+  Struct = "",
+  Event = "",
+  Operator = "",
+  TypeParameter = ""
+}
+
 lspkind.init({
   mode = "symbol_text",
-
-  symbol_map = {
-    Text = "",
-    Method = "",
-    Function = "",
-    Constructor = "",
-    Field = "",
-    Variable = "",
-    Class = "פּ",
-    Interface = "",
-    Module = "",
-    Property = "",
-    Unit = "塞",
-    Value = "",
-    Enum = "練",
-    Keyword = "",
-    Snippet = "",
-    Color = "",
-    File = "",
-    Reference = "",
-    Folder = "",
-    EnumMember = "",
-    Constant = "",
-    Struct = "פּ",
-    Event = "",
-    Operator = "",
-    TypeParameter = ""
-  }
+  symbol_map = symbol_map
 })
+
+local function find_max_symbol_len()
+  local symbol_len = nil
+  for symbol_name, _ in pairs(symbol_map) do
+    if symbol_len == nil or #symbol_name > symbol_len then
+      symbol_len = #symbol_name
+    end
+  end
+  return symbol_len
+end
+
+local max_symbol_len = find_max_symbol_len()
+local symbol_format_string = string.format("%%%ds", max_symbol_len)
 
 -- }}}
 
@@ -108,10 +151,15 @@ cmp.setup({
   completion = {
     completeopt = "menu,menuone,noinsert"
   },
-  -- window = {
-  --   completion = cmp.config.window.bordered(),
-  --   documentation = cmp.config.window.bordered(),
-  -- },
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
+    completion = {
+      -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+      col_offset = -3,
+      side_padding = 0,
+    }
+  },
   snippet = {
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
@@ -122,7 +170,29 @@ cmp.setup({
     end,
   },
   formatting = {
-    format = lspkind.cmp_format(),
+    -- lspkind default
+    -- format = lspkind.cmp_format(),
+
+    -- Highlighted type on left, annotation on right
+    -- Taken from https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-get-types-on-the-left-and-offset-the-menu
+    fields = { "kind", "abbr", "menu" },
+    format = function(entry, vim_item)
+      local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+      local strings = vim.split(kind.kind, "%s", { trimempty = true })
+      kind.kind = " " .. strings[1] .. " "
+      kind.menu = " " .. string.format(symbol_format_string, strings[2]:lower()) .. ""
+
+      -- Get rid of empty leading space on clangd
+      -- (it reserves empty space for dot char do signify imports)
+      -- From https://stackoverflow.com/a/48328232/7162675
+      if kind.abbr:byte(1) <= 32 then
+        kind.abbr = kind.abbr:sub(2)
+      end
+
+      return kind
+    end,
+
+    -- Something else? Idk what
     --   fields = { "kind", "abbr" },
     --   format = function(_, vim_item)
     --     vim_item.kind = cmp_kinds[vim_item.kind] or ""
