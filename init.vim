@@ -72,7 +72,8 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 " Pairs and surround
 Plug 'windwp/nvim-autopairs'
 Plug 'tpope/vim-surround'
-Plug 'alvan/vim-closetag'
+" Plug 'alvan/vim-closetag'  " Doesn't autorename tags, just closes them
+Plug 'windwp/nvim-ts-autotag'  " Auto-closes and auto-renames tags
 
 " COC.nvim {{{
 " Plug '/usr/local/opt/fzf'
@@ -112,6 +113,7 @@ Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
+Plug 'lukas-reineke/cmp-under-comparator'  " For putting dunder methods lower in list in Python
 Plug 'hrsh7th/nvim-cmp'
 
 " For nvim Lua API
@@ -171,4 +173,7 @@ lua require("plugins")
 " LSP setup (either CoC or native)
 " source $HOME/.config/nvim/coc-setup.vim
 lua require("lsp-setup")
+
+" Project-specific configurations
+lua require("projects")
 

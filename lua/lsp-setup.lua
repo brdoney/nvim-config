@@ -251,11 +251,12 @@ cmp.setup({
           end
         end
       end,
-      -- Default values from here down
+      -- Almost default values from here down
       compare.offset,
       compare.exact,
       -- compare.scopes,
       compare.score,
+      require("cmp-under-comparator").under,
       compare.recently_used,
       compare.locality,
       compare.kind,
@@ -525,19 +526,6 @@ null_ls.setup({
     null_ls.builtins.formatting.swiftformat
   },
 })
-
--- What about when things are missing? Is there form validation?
-local null_ls_check_group = vim.api.nvim_create_augroup("null_ls_check", {})
-local function dir_setup(dir_pattern, callback)
-  vim.api.nvim_create_autocmd({ "BufRead", "BufNew" }, {
-    pattern = dir_pattern,
-    callback = callback,
-    group = null_ls_check_group
-  })
-end
-
-dir_setup("*/CSGenome/website/*", function() null_ls.disable("eslint") end)
-dir_setup("*/CSGenome/csg/*", function() null_ls.disable("flake8") end)
 -- }}}
 
 -- Telescope {{{
@@ -680,6 +668,24 @@ require("trouble").setup({})
 require "fidget".setup({
   text = {
     spinner = "square_corners"
+  },
+  fmt = {
+    task = function(task_name, message, percentage)
+      -- Hide all code-actions until we can specific sources from null-ls
+      -- https://github.com/j-hui/fidget.nvim/issues/99
+      -- https://github.com/j-hui/fidget.nvim/issues/112
+      -- Still shows spinner for null-ls (even when there are no items besides the hidden code-actions)
+      -- and still show any non-code-action items for null-ls
+      if task_name == "code_action" then
+        return false
+      end
+      return string.format(
+        "%s%s [%s]",
+        message,
+        percentage and string.format(" (%s%%)", percentage) or "",
+        task_name
+      )
+    end,
   }
 })
 

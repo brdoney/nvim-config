@@ -55,7 +55,8 @@ endif
 set cursorline
 
 " Lazy redraw to (maybe?) speed up scrolling and definitely speed up macros
-set lazyredraw
+" Only meant to be set temporarily according to the documentation though
+" set lazyredraw
 
 " Hide the buffers instead of abandoning them when switching
 set hidden
@@ -121,8 +122,8 @@ tnoremap <C-w> <C-\><C-n><C-w>
 nnoremap Y y$
 
 " Navigate lines visually when lines are wrapped
-nnoremap j gj
-nnoremap k gk
+nnoremap <silent> j gj
+nnoremap <silent> k gk
 
 " Add semicolon to end of line without messing up cursor position
 nnoremap <leader>; :normal! mqA;<Esc>`q
