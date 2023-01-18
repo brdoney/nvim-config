@@ -342,13 +342,14 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 for _, server in ipairs(servers) do
 
   if server == 'rust_analyzer' then
-    -- rust_analyzer configuration {{{
+    -- rust-tools.nvim {{{
     require('rust-tools').setup({
       tools = {
         hover_with_actions = false,
         inlay_hints = {
           parameter_hints_prefix = '<- ',
-          other_hints_prefix = '» '
+          other_hints_prefix = '» ',
+          right_align = true
         },
         hover_actions = {
           border = border

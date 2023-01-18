@@ -29,7 +29,7 @@ require('nvim-treesitter.configs').setup {
 }
 -- }}}
 
--- Gitsigns {{{
+-- Gitsigns -- Disabled {{{
 -- require('gitsigns').setup {
 --   current_line_blame = false,
 --   linehl = false,
@@ -37,7 +37,7 @@ require('nvim-treesitter.configs').setup {
 -- }
 -- }}}
 
--- Todo Comments {{{
+-- Todo Comments -- Disabled {{{
 -- require("todo-comments").setup {
 --   signs = false,
 -- }
@@ -270,7 +270,7 @@ wk.register({
 }, { prefix = "<leader>", mode = "v" })
 -- }}}
 
--- Icons {{{
+-- nvim-web-devicons {{{
 local web = require("nvim-web-devicons")
 web.setup {
   -- your personal icons can go here (to override)
@@ -333,7 +333,7 @@ end
 
 -- }}}
 
--- Scrollbar {{{
+-- nvim-scrollbar {{{
 require("scrollbar").setup({
   show_in_active_only = true,
   hide_if_all_visible = true, -- Hides everything if all lines are visible
@@ -407,7 +407,7 @@ vim.keymap.set('i', '<C-_>', imode_comment, { remap = true, desc = 'Toggle comme
 vim.keymap.set('x', '<C-_>', 'gcgv', { remap = true, desc = 'Toggle comment' })
 -- }}}
 
--- File picker {{{
+-- File picker script {{{
 local function pickFile()
   local output = vim.fn.system("~/Developer/Swift/NvimFilePicker/.build/release/NvimFilePicker")
 
@@ -441,20 +441,6 @@ vim.api.nvim_create_autocmd('FileType', { pattern = 'markdown', group = eagroup,
 end })
 -- }}}
 
--- Local config {{{
--- vim.api.nvim_create_augroup(''
--- )
-
--- require('config-local').setup {
---   config_files = { ".vimrc.lua", ".vimrc" },  -- Config file patterns to load (lua supported)
---   hashfile = vim.fn.stdpath("data") .. "/config-local", -- Where the plugin keeps files data
---   autocommands_create = true,                 -- Create autocommands (VimEnter, DirectoryChanged)
---   commands_create = true,                     -- Create commands (ConfigSource, ConfigEdit, ConfigTrust, ConfigIgnore)
---   silent = false,                             -- Disable plugin messages (Config loaded/ignored)
---   lookup_parents = false,                     -- Lookup config files in parent directories
--- }
--- }}}
-
 -- Distant -- disabled b/c not working {{{
 -- require('distant').setup {
 --   -- Applies Chip's personal settings to every machine you connect to
@@ -467,21 +453,46 @@ end })
 -- }}}
 
 -- Autolist {{{
-require('autolist').setup()
+local autolist_group = vim.api.nvim_create_augroup("autolist", {})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "text" },
+  group = autolist_group,
+  callback = function()
+    local autolist = require("autolist")
+    autolist.setup()
+    autolist.create_mapping_hook("i", "<CR>", autolist.new)
+    autolist.create_mapping_hook("i", "<Tab>", autolist.indent)
+    autolist.create_mapping_hook("i", "<S-Tab>", autolist.indent, "<C-D>")
+    autolist.create_mapping_hook("n", "o", autolist.new)
+    autolist.create_mapping_hook("n", "O", autolist.new_before)
+    autolist.create_mapping_hook("n", ">>", autolist.indent)
+    autolist.create_mapping_hook("n", "<<", autolist.indent)
+    autolist.create_mapping_hook("n", "<C-r>", autolist.force_recalculate)
+    autolist.create_mapping_hook("n", "<leader>x", autolist.invert_entry, "")
+  end
+})
+
+-- vim.api.nvim_create_autocmd("TextChanged", {
+--   pattern = "*",
+--   callback = function()
+--     vim.cmd.normal({ autolist.force_recalculate(nil, nil), bang = false })
+--   end
+-- })
 -- }}}
 
 -- Nabla.nvim {{{
 -- nnoremap <leader>p :lua require("nabla").popup()<CR> " Customize with popup({border = ...})  : `single` (default), `double`, `rounded`
 vim.keymap.set('n', '<leader>wp', require('nabla').popup, { desc = 'Nabla popup' })
-local nabla_enabled = false
-vim.keymap.set('n', '<leader>wv', function()
-  if nabla_enabled then
-    require('nabla').enable_virt()
-  else
-    require('nabla').disable_virt()
-  end
-  nabla_enabled = not nabla_enabled
-end, { desc = 'Toggle Nabla virt' })
+-- local nabla_enabled = false
+-- vim.keymap.set('n', '<leader>wv', function()
+--   if nabla_enabled then
+--     require('nabla').enable_virt()
+--   else
+--     require('nabla').disable_virt()
+--   end
+--   nabla_enabled = not nabla_enabled
+-- end, { desc = 'Toggle Nabla virt' })
 -- }}}
 
 -- BQF {{{
