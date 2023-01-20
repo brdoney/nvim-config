@@ -203,7 +203,14 @@ cmp.setup({
     ghost_text = true
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-b>'] = function(fallback)
+      -- Not currently important, but just in case I end up using <C-b> for bolding
+      if cmp.visible() then
+        cmp.mapping.scroll_docs(-4)
+      else
+        fallback()
+      end
+    end,
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ['<Tab>'] = cmp.mapping(function(fallback)
@@ -223,7 +230,7 @@ cmp.setup({
       elseif vim.fn["vsnip#jumpable"](-1) == 1 then
         feedkey("<Plug>(vsnip-jump-prev)", "")
       else
-        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+        fallback() -- The fallback function sends a already mapped key
       end
     end, { "i", "s" }),
   }),

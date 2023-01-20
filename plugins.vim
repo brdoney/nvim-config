@@ -113,13 +113,23 @@ let g:VM_leader = '<Space><Space>'
 " }}}
 
 " Startify {{{
+function s:courses()
+  return [
+    \ { 'line': 'CS 5754 Virtual Environments', 'cmd': 'SLoad virtualenvs'},
+    \ { 'line': 'CS 5544 Compiler Optimisations', 'cmd': 'SLoad compileropts'},
+    \ { 'line': 'CS 5614 Big Data Engineering', 'cmd': 'SLoad bigdata'},
+    \ { 'line': 'Research', 'cmd': 'SLoad csg-notes'},
+    \ ]
+endfunction
+
 let g:startify_lists = [
-\ { 'type': 'sessions',  'header': ['   Sessions']       },
-\ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-\ { 'type': 'files',     'header': ['   MRU']            },
-\ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-\ { 'type': 'commands',  'header': ['   Commands']       },
-\ ]
+      \ { 'type': function('s:courses'),  'header': ['   Notes']},
+      \ { 'type': 'sessions',  'header': ['   Sessions']       },
+      \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+      \ { 'type': 'files',     'header': ['   MRU']            },
+      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+      \ { 'type': 'commands',  'header': ['   Commands']       },
+      \ ]
 
 " Autoload Session.vim when found in a directory
 let g:startify_session_autoload = 1

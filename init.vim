@@ -6,6 +6,9 @@ call plug#begin('~/.vim/plugged')
 " Speed up startup
 Plug 'lewis6991/impatient.nvim'
 
+" Scope to make buffers window-specific
+Plug 'tiagovla/scope.nvim'
+
 " Distant for remote editing
 " Plug 'chipsenkbeil/distant.nvim'
 
@@ -153,6 +156,9 @@ Plug 'junegunn/vim-easy-align'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }  " Nvim in the browser
 Plug 'edkolev/tmuxline.vim'
+
+" Rainbow CSV and querying
+Plug 'mechatroner/rainbow_csv'
 
 call plug#end()
 

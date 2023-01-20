@@ -1,3 +1,6 @@
+-- Scope.nvim
+require("scope").setup()
+
 -- TreeSitter {{{
 require('nvim-treesitter.configs').setup {
   ensureInstalled = "all",
