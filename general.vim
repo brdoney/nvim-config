@@ -134,9 +134,6 @@ nnoremap <silent> ]Q :cnf<CR>
 nnoremap <silent> [Q :cpf<CR>
 nnoremap <silent> <leader>qq :cclose<CR>
 
-" Close current tab
-nnoremap <silent> <leader>\| :tabclose<CR>
-
 " Don't list quickfix windows in the buffer list
 augroup qf
   autocmd FileType qf set nobuflisted

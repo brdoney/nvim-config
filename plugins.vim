@@ -54,6 +54,12 @@ nnoremap <silent> <leader>] :BufferNext<CR>
 nnoremap <silent> <leader>{ :BufferMovePrevious<CR>
 nnoremap <silent> <leader>} :BufferMoveNext<CR>
 nnoremap <silent> <leader>\ :BufferClose<CR>
+
+" Close current tab
+nnoremap <silent> <leader>tt :tabnew<CR>
+nnoremap <silent> <leader>t[ :tabprevious<CR>
+nnoremap <silent> <leader>t] :tabnext<CR>
+nnoremap <silent> <leader>\| :tabclose<CR>
 " nnoremap <silent> <leader>| :BufferClose!<CR>
 " }}}
 
@@ -118,12 +124,23 @@ function s:courses()
     \ { 'line': 'CS 5754 Virtual Environments', 'cmd': 'SLoad virtualenvs'},
     \ { 'line': 'CS 5544 Compiler Optimisations', 'cmd': 'SLoad compileropts'},
     \ { 'line': 'CS 5614 Big Data Engineering', 'cmd': 'SLoad bigdata'},
+    \ { 'line': 'CS 5944 Graduate Seminar', 'cmd': 'SLoad gradseminar'},
+    \ { 'line': 'CS 5024 Ethics and Professionalism', 'cmd': 'SLoad cs5024notes'},
     \ { 'line': 'Research', 'cmd': 'SLoad csg-notes'},
     \ ]
 endfunction
 
+function s:research()
+  return [
+    \ { 'line': 'Notes', 'cmd': 'SLoad csg-notes'},
+    \ { 'line': 'Backend', 'cmd': 'SLoad csgserver'},
+    \ { 'line': 'Frontend', 'cmd': 'SLoad csgfrontend'},
+    \ ]
+endfunction
+
 let g:startify_lists = [
-      \ { 'type': function('s:courses'),  'header': ['   Notes']},
+      \ { 'type': function('s:courses'),  'header': ['   Courses']},
+      \ { 'type': function('s:research'),  'header': ['   CSGenome']},
       \ { 'type': 'sessions',  'header': ['   Sessions']       },
       \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
       \ { 'type': 'files',     'header': ['   MRU']            },
@@ -173,7 +190,7 @@ let g:terminal_list = 0  " Hide the terminal buffer in buffer list (tabs)
 
 noremap <silent> <leader>r :AsyncTask file-run<cr>
 noremap <silent> <leader>b :AsyncTask file-build<cr>
-noremap <silent> <leader>t :AsyncTask test<cr>
+noremap <silent> <leader>T :AsyncTask test<cr>
 " }}}
 
 " WhichKey {{{
