@@ -17,7 +17,7 @@ local on_attach = function(client, bufnr)
 
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts('Go to declaration'))
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts('Go to definition'))
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts('Go to implementation'))
+  vim.keymap.set('n', 'gm', vim.lsp.buf.implementation, opts('Go to implementation'))
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts('Go to references'))
 
   -- Trouble only works with its list and provides no preview

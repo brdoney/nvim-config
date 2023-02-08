@@ -29,3 +29,7 @@ vim.api.nvim_create_autocmd('FileType', {
     end, { silent = true, buffer = 0, desc = "Go to vim help" })
   end
 })
+
+-- I and A shortcuts for visible lines
+vim.keymap.set("n", "gA", "g$a", {desc = "Insert at end of visible line"})
+vim.keymap.set("n", "gI", "g^i", {desc = "Insert at start of visible line"})
