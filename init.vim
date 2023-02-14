@@ -148,6 +148,7 @@ Plug 'tpope/vim-sleuth'  " Auto detects file tabs/spaces
 
 " Weird file types that don't have LSP support
 Plug 'vim-scripts/applescript.vim'
+Plug 'rhysd/vim-llvm'
 
 " Aligning text
 Plug 'junegunn/vim-easy-align'
@@ -159,6 +160,11 @@ Plug 'edkolev/tmuxline.vim'
 
 " Rainbow CSV and querying
 Plug 'mechatroner/rainbow_csv'
+
+" Database explorer
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-completion'
+Plug 'kristijanhusak/vim-dadbod-ui'
 
 call plug#end()
 

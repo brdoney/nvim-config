@@ -1,5 +1,6 @@
--- Scope.nvim
+-- Scope.nvim {{{
 require("scope").setup()
+-- }}}
 
 -- TreeSitter {{{
 require('nvim-treesitter.configs').setup {
@@ -80,7 +81,6 @@ end
 require 'nvim-tree'.setup {
   disable_netrw       = true,
   hijack_netrw        = true,
-  open_on_setup       = true,
   ignore_ft_on_setup  = { 'startify' },
   hijack_directories  = {
     enable = true,
@@ -369,14 +369,17 @@ vim.keymap.set('n', '<C-_>', require("Comment.api").toggle.linewise.current, { d
 --   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>A", true, false, true), "m", true)
 -- end, { desc = 'Toggle comment' })
 
+local comft = require("Comment.ft");
+comft.set("llvm", ";%s")
+
 -- Modeled after insert mode command under NERDCommenter
 local comapi = require("Comment.api")
 local function imode_comment()
   local curr_line = vim.api.nvim_get_current_line()
-  vim.pretty_print(curr_line)
+  -- vim.pretty_print(curr_line)
   if curr_line ~= nil and curr_line:match('^%s*$') then
     -- Empty
-    local input = vim.api.nvim_replace_termcodes("x<BS><Esc>gccA", true, true, true)
+    local input = vim.api.nvim_replace_termcodes("x<Esc>gccA<BS>", true, true, true)
     vim.api.nvim_feedkeys(input, "m", true)
   else
     -- Not empty
@@ -473,15 +476,14 @@ vim.api.nvim_create_autocmd("FileType", {
     autolist.create_mapping_hook("n", "<<", autolist.indent)
     autolist.create_mapping_hook("n", "<C-r>", autolist.force_recalculate)
     autolist.create_mapping_hook("n", "<leader>x", autolist.invert_entry, "")
+    -- vim.api.nvim_create_autocmd("TextChanged", {
+    --   pattern = "*",
+    --   callback = function()
+    --     vim.cmd.normal({ autolist.force_recalculate(nil, nil), bang = false })
+    --   end
+    -- })
   end
 })
-
--- vim.api.nvim_create_autocmd("TextChanged", {
---   pattern = "*",
---   callback = function()
---     vim.cmd.normal({ autolist.force_recalculate(nil, nil), bang = false })
---   end
--- })
 -- }}}
 
 -- Nabla.nvim {{{
@@ -520,6 +522,37 @@ vim.keymap.set('n', '<leader>cb', '<Plug>(git-conflict-both)')
 vim.keymap.set('n', '<leader>c0', '<Plug>(git-conflict-none)')
 vim.keymap.set('n', '[x', '<Plug>(git-conflict-prev-conflict)')
 vim.keymap.set('n', ']x', '<Plug>(git-conflict-next-conflict)')
+-- }}}
+
+-- vim-llvm {{{
+-- " e.g. Map 'go to definition' to gd
+-- autocmd FileType llvm nmap <buffer><silent>gd <Plug>(llvm-goto-definition)
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "llvm",
+  callback = function()
+    vim.keymap.set("n", "gd", "<Plug>(llvm-goto-definition)", { buffer = true, silent = true })
+  end
+})
+-- }}}
+
+-- vim-dadbod {{{
+vim.g.db_ui_save_location = vim.fn.stdpath "config" .. require("plenary.path").path.sep .. "db_ui"
+
+local function db_completion()
+  require("cmp").setup.buffer { sources = { { name = "vim-dadbod-completion" } } }
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "sql",
+    "mysql",
+    "plsql",
+  },
+  callback = function()
+    vim.schedule(db_completion)
+  end,
+})
+require('cmp').setup.buffer({ sources = { { name = 'vim-dadbod-completion' } } })
 -- }}}
 
 -- vim: set fdm=marker fmr={{{,}}}:

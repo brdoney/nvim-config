@@ -324,7 +324,7 @@ vim.keymap.set('n', 'qD', function() cmp.setup.buffer { enabled = false } end, {
 require("mason").setup()
 
 local servers = { 'emmet_ls', 'gopls', 'vimls', 'clangd', 'tsserver', 'html', 'pyright',
-  'rust_analyzer', 'sumneko_lua', 'bashls', 'jdtls', 'cssls' }
+  'rust_analyzer', 'lua_ls', 'bashls', 'jdtls', 'cssls' }
 local null_ls_tools = { 'eslint_d', 'prettierd' }
 
 require("mason-lspconfig").setup {

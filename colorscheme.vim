@@ -45,7 +45,12 @@ function! s:sonokai_custom() abort
   call sonokai#highlight('LighterGreyItalic', l:lighter_grey_color, l:palette.none, 'italic')
 
   " call sonokai#highlight('NvimTreeNormal', l:palette.fg, l:palette.black, 'NONE')
-  call sonokai#highlight('DiffText', l:palette.bg0, l:palette.orange, 'bold')
+
+  " Make diff for modified lines show as orange
+  let l:lighter_diff_yellow = ['#735e35', '56']
+  call sonokai#highlight('DiffChange', l:palette.none, l:palette.diff_yellow)
+  " call sonokai#highlight('DiffText', l:palette.bg0, l:palette.orange)
+  call sonokai#highlight('DiffText', l:palette.none, l:lighter_diff_yellow)
 
   " Don't show text in foreground of diff deleted (it's always dashes, which is useless)
   call sonokai#highlight('DiffDelete', l:palette.diff_red, l:palette.diff_red)
