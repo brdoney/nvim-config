@@ -31,6 +31,17 @@ require('nvim-treesitter.configs').setup {
     enable = true,
   }
 }
+
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- Start at 99 so everything isn't folded up at the start
+vim.opt.foldlevel = 99
+vim.opt.foldminlines = 3
+vim.opt.foldnestmax = 10
+-- Remove folds since treesitter will regenerate them each time anyway
+-- (and sessions will preserve manual folding from past otherwise)
+vim.opt.sessionoptions = "blank,buffers,curdir,help,tabpages,winsize,terminal"
+
 -- }}}
 
 -- Gitsigns -- Disabled {{{
@@ -459,31 +470,34 @@ end })
 -- }}}
 
 -- Autolist {{{
-local autolist_group = vim.api.nvim_create_augroup("autolist", {})
+local autolist_startup = function()
+  local autolist = require("autolist")
+  autolist.setup()
+  autolist.create_mapping_hook("i", "<CR>", autolist.new)
+  autolist.create_mapping_hook("i", "<Tab>", autolist.indent)
+  autolist.create_mapping_hook("i", "<S-Tab>", autolist.indent, "<C-D>")
+  autolist.create_mapping_hook("n", "o", autolist.new)
+  autolist.create_mapping_hook("n", "O", autolist.new_before)
+  autolist.create_mapping_hook("n", ">>", autolist.indent)
+  autolist.create_mapping_hook("n", "<<", autolist.indent)
+  autolist.create_mapping_hook("n", "<C-r>", autolist.force_recalculate)
+  autolist.create_mapping_hook("n", "<leader>x", autolist.invert_entry, "")
+  -- vim.api.nvim_create_autocmd("TextChanged", {
+  --   pattern = "*",
+  --   callback = function()
+  --     vim.cmd.normal({ autolist.force_recalculate(nil, nil), bang = false })
+  --   end
+  -- })
+end
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "markdown", "text" },
-  group = autolist_group,
-  callback = function()
-    local autolist = require("autolist")
-    autolist.setup()
-    autolist.create_mapping_hook("i", "<CR>", autolist.new)
-    autolist.create_mapping_hook("i", "<Tab>", autolist.indent)
-    autolist.create_mapping_hook("i", "<S-Tab>", autolist.indent, "<C-D>")
-    autolist.create_mapping_hook("n", "o", autolist.new)
-    autolist.create_mapping_hook("n", "O", autolist.new_before)
-    autolist.create_mapping_hook("n", ">>", autolist.indent)
-    autolist.create_mapping_hook("n", "<<", autolist.indent)
-    autolist.create_mapping_hook("n", "<C-r>", autolist.force_recalculate)
-    autolist.create_mapping_hook("n", "<leader>x", autolist.invert_entry, "")
-    -- vim.api.nvim_create_autocmd("TextChanged", {
-    --   pattern = "*",
-    --   callback = function()
-    --     vim.cmd.normal({ autolist.force_recalculate(nil, nil), bang = false })
-    --   end
-    -- })
-  end
-})
+vim.keymap.set('n', '<leader>l', autolist_startup, { desc = 'Nabla popup' })
+
+-- local autolist_group = vim.api.nvim_create_augroup("autolist", {})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "markdown", "text" },
+--   group = autolist_group,
+--   callback = autolist_startup
+-- })
 -- }}}
 
 -- Nabla.nvim {{{
