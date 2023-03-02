@@ -31,5 +31,11 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- I and A shortcuts for visible lines
-vim.keymap.set("n", "gA", "g$a", {desc = "Insert at end of visible line"})
-vim.keymap.set("n", "gI", "g^i", {desc = "Insert at start of visible line"})
+vim.keymap.set("n", "gA", "g$a", { desc = "Insert at end of visible line" })
+vim.keymap.set("n", "gI", "g^i", { desc = "Insert at start of visible line" })
+
+-- Better foldtext
+vim.opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) ]]
+vim.opt.fillchars = "fold: "
+
+vim.opt.mousescroll = "ver:3,hor:3"

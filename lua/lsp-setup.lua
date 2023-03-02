@@ -36,6 +36,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('v', '<leader>qa', vim.lsp.buf.code_action, opts('Range code action'))
 
   vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts('Format buffer'))
+  vim.keymap.set('v', '<leader>f', vim.lsp.buf.format, opts('Format buffer'))
 
   vim.keymap.set('n', '<leader>qd', vim.diagnostic.disable, opts('Disable diagnostics'))
 
@@ -562,6 +563,12 @@ require('telescope').setup {
   }
 }
 vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files, { desc = "File search" })
+vim.keymap.set('n', '<leader>sa',
+  function() require('telescope.builtin').find_files({ no_ignore = true }) end,
+  { desc = "File search without gitignore" })
+vim.keymap.set('n', '<leader>sh',
+  function() require('telescope.builtin').find_files({ no_ignore = true, hidden = true }) end,
+  { desc = "File search hidden files" })
 vim.keymap.set('n', '<leader>ss', require('telescope.builtin').live_grep, { desc = "Live grep" })
 
 local pickers = require("telescope.pickers")

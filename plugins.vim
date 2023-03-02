@@ -375,17 +375,22 @@ let g:firenvim_config = { 'localSettings': { '.*': { 'takeover': 'never', 'cmdli
 if exists('g:started_by_firenvim')
   " Runs when firenvim starts
 
-  " Don't actually do anything
+  " Don't actually do anything (maybe they will in future?)
   set laststatus=0
   set showtabline=0
-  " This will work instead
-  autocmd BufRead,BufNewFile * set laststatus=0 showtabline=0 
 
   set guifont=LigaMenlo\ Nerd\ Font:h18
   set nonumber
   set wrap
 
-  au BufEnter github.com_*.txt,gitlab.com_*.txt set filetype=markdown
+  augroup firenvim_changes
+    " This will work instead to change laststatus and tabline
+    autocmd BufRead,BufNewFile * set laststatus=0 showtabline=0 
+
+    autocmd BufEnter github.com_*.txt,gitlab.com_*.txt set filetype=markdown
+
+    autocmd FileType text,markdown set spell
+  augroup END
 endif
 " }}}
 
