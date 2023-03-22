@@ -1,4 +1,4 @@
-" vim: set fdm=marker fmr={{{,}}}:
+" vim: set fdm=marker fmr={{{,}}} fdl=0:
 
 " Plugin directory for vim-plug
 call plug#begin('~/.vim/plugged')
@@ -165,6 +165,12 @@ Plug 'mechatroner/rainbow_csv'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-completion'
 Plug 'kristijanhusak/vim-dadbod-ui'
+
+" Resize mode using natural directions
+Plug 'mrjones2014/smart-splits.nvim'
+
+" Toggleterm
+" Plug 'akinsho/toggleterm.nvim'
 
 call plug#end()
 

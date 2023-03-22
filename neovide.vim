@@ -1,4 +1,4 @@
-" vim: set fdm=marker fmr={{{,}}}:
+" vim: set fdm=marker fmr={{{,}}} fdl=0:
 
 set guifont=LigaMenlo\ Nerd\ Font:h13
 

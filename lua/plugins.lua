@@ -1,5 +1,9 @@
+-- vim: set fdm=marker fmr={{{,}}} fdl=0:
+
 -- Scope.nvim {{{
+
 require("scope").setup()
+
 -- }}}
 
 -- TreeSitter {{{
@@ -148,7 +152,7 @@ require 'nvim-tree'.setup {
   }
 }
 
-vim.keymap.set('n', '<leader>e', require('nvim-tree').toggle, { desc = "Toggle NvimTree" })
+vim.keymap.set('n', '<leader>e', ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })
 -- vim.keymap.set('n', '<leader>ef', require('nvim-tree').find_file, { desc = "Show open file in NvimTree" })
 
 -- Integrate with barbar so tabs start after tree
@@ -569,4 +573,7 @@ vim.api.nvim_create_autocmd("FileType", {
 require('cmp').setup.buffer({ sources = { { name = 'vim-dadbod-completion' } } })
 -- }}}
 
--- vim: set fdm=marker fmr={{{,}}}:
+-- smart-splits.nvim {{{
+require("smart-splits").setup()
+vim.keymap.set("n", "<C-w>r", require('smart-splits').start_resize_mode, { desc = "Start buffer resize mode" });
+-- }}}

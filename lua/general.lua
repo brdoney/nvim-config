@@ -38,4 +38,5 @@ vim.keymap.set("n", "gI", "g^i", { desc = "Insert at start of visible line" })
 vim.opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) ]]
 vim.opt.fillchars = "fold: "
 
+-- Make vertical and horizontal scrolling the same amount
 vim.opt.mousescroll = "ver:3,hor:3"

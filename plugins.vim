@@ -1,4 +1,4 @@
-" vim: set fdm=marker fmr={{{,}}}:
+" vim: set fdm=marker fmr={{{,}}} fdl=0:
 
 " FZF {{{
 " Keybindings terminal (conflicts with FZF, so special handling is needed)
@@ -171,7 +171,7 @@ let g:startify_session_before_save = [
 let g:startify_fortune_use_unicode = 1
 " }}}
 
-" AsyncRun {{{
+" AsyncRun and vim-terminal-help {{{
 " Open terminal after x lines of output
 let g:asyncrun_open = 10
 " let g:asynctasks_term_pos = 'bottom'
@@ -185,12 +185,13 @@ let g:asynctasks_term_reuse = 1
 " let g:asynctasks_term_listed = 0
 let g:terminal_cwd = 2  " Start terminal at project root
 let g:terminal_height = 18  " Start terinal with 14 rows
-let g:terminal_kill = 1  " Kill terminal when exiting vim
+let g:terminal_kill = "term"  " Kill terminal when exiting vim
 let g:terminal_list = 0  " Hide the terminal buffer in buffer list (tabs)
 
-noremap <silent> <leader>r :AsyncTask file-run<cr>
-noremap <silent> <leader>b :AsyncTask file-build<cr>
-noremap <silent> <leader>T :AsyncTask test<cr>
+nnoremap <silent> <leader>r :AsyncTask file-run<cr>
+nnoremap <silent> <leader>b :AsyncTask file-build<cr>
+nnoremap <silent> <leader>T :AsyncTask test<cr>
+nnoremap <silent> <leader>R :H !!<CR>:H<CR>
 " }}}
 
 " WhichKey {{{
