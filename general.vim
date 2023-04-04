@@ -116,7 +116,8 @@ nmap <C-S-Up> <C-Up>
 " Easier esc in terminal
 " tnoremap <Esc> <C-\><C-n>
 " tnoremap <C-w> <C-\><C-n>
-tnoremap <C-w> <C-\><C-n><C-w>
+" tnoremap <C-w> <C-\><C-n><C-w>
+tnoremap <Esc> <C-\><C-n>
 
 " Make Y behave like any other capital letter
 nnoremap Y y$

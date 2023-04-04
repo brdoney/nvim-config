@@ -619,7 +619,7 @@ local sessionpicker = function(opts)
 end
 
 -- to execute the function
-vim.keymap.set('n', '<leader>Pp', sessionpicker, { desc = 'Session picker' })
+vim.keymap.set('n', '<leader>PP', sessionpicker, { desc = 'Session picker' })
 -- }}}
 
 -- Dressing {{{
