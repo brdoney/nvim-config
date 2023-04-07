@@ -40,26 +40,26 @@
 " map <silent> <leader>cbp :bp<CR>
 " map <silent> <leader>cbn :bn<CR>
 " NOTE: If barbar's option dict isn't created yet, create it
-let bufferline = get(g:, 'bufferline', {})
-let bufferline.tabpages = v:true
-
-let g:bufferline.icon_close_tab_modified = ''
+" let bufferline = get(g:, 'bufferline', {})
+" let bufferline.tabpages = v:true
+"
+" let g:bufferline.icon_close_tab_modified = ''
 
 " nnoremap <silent> <Left> :BufferPrevious<CR>
 " nnoremap <silent> <Right> :BufferNext<CR>
 " nnoremap <silent> <S-Down> :BufferClose<CR>
-nnoremap <silent> <leader>p :BufferPick<CR>
-nnoremap <silent> <leader>[ :BufferPrevious<CR>
-nnoremap <silent> <leader>] :BufferNext<CR>
-nnoremap <silent> <leader>{ :BufferMovePrevious<CR>
-nnoremap <silent> <leader>} :BufferMoveNext<CR>
-nnoremap <silent> <leader>\ :BufferClose<CR>
+" nnoremap <silent> <leader>p :BufferPick<CR>
+" nnoremap <silent> <leader>[ :BufferPrevious<CR>
+" nnoremap <silent> <leader>] :BufferNext<CR>
+" nnoremap <silent> <leader>{ :BufferMovePrevious<CR>
+" nnoremap <silent> <leader>} :BufferMoveNext<CR>
+" nnoremap <silent> <leader>\ :BufferClose<CR>
 
 " Close current tab
-nnoremap <silent> <leader>tt :tabnew<CR>
-nnoremap <silent> <leader>t[ :tabprevious<CR>
-nnoremap <silent> <leader>t] :tabnext<CR>
-nnoremap <silent> <leader>\| :tabclose<CR>
+" nnoremap <silent> <leader>tt :tabnew<CR>
+" nnoremap <silent> <leader>t[ :tabprevious<CR>
+" nnoremap <silent> <leader>t] :tabnext<CR>
+" nnoremap <silent> <leader>\| :tabclose<CR>
 " nnoremap <silent> <leader>| :BufferClose!<CR>
 " }}}
 
@@ -172,26 +172,29 @@ let g:startify_fortune_use_unicode = 1
 " }}}
 
 " AsyncRun and vim-terminal-help {{{
-" Open terminal after x lines of output
-let g:asyncrun_open = 10
-" let g:asynctasks_term_pos = 'bottom'
-let g:asynctasks_term_pos = 'termhelp'  " Use the term-help plugin
-let g:asynctasks_term_rows = 10
-let g:asyncrun_mode = 'term'
+function! s:my_runner(opts)
+  execute "1TermExec cmd='" .. a:opts.cmd .. "'"
+endfunction
+let g:asyncrun_runner = get(g:, 'asyncrun_runner', {})
+let g:asyncrun_runner.send_toggleterm = function('s:my_runner')
+
+let g:asynctasks_term_pos = 'send_toggleterm'  " Use the term-help plugin
 let g:asyncrun_save = 2  " Save all files on run
-let g:asyncrun_stdin = 1
-let g:asynctasks_term_reuse = 1
-" let g:asynctasks_term_hidden = 1
-" let g:asynctasks_term_listed = 0
-let g:terminal_cwd = 2  " Start terminal at project root
-let g:terminal_height = 18  " Start terinal with 14 rows
-let g:terminal_kill = "term"  " Kill terminal when exiting vim
-let g:terminal_list = 0  " Hide the terminal buffer in buffer list (tabs)
+
+" From vim-terminal-help
+function! Terminal_view(mode)
+  if a:mode == 0
+    let w:__terminal_view__ = winsaveview()
+  elseif exists('w:__terminal_view__')
+    call winrestview(w:__terminal_view__)
+    unlet w:__terminal_view__
+  endif
+endfunc
 
 nnoremap <silent> <leader>r :AsyncTask file-run<cr>
 nnoremap <silent> <leader>b :AsyncTask file-build<cr>
 nnoremap <silent> <leader>T :AsyncTask test<cr>
-nnoremap <silent> <leader>R :H !!<CR>:H<CR>
+" nnoremap <silent> <leader>R :H !!<CR>:H<CR>
 " }}}
 
 " WhichKey {{{

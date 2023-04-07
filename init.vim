@@ -49,7 +49,9 @@ Plug 'akinsho/git-conflict.nvim'
 
 " Command-line tools
 " VSCode-like terminal (toggle, AsyncRun support, and more)
-Plug 'skywind3000/vim-terminal-help'
+" Plug 'skywind3000/vim-terminal-help'
+" Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+Plug '~/Developer/Vim/toggleterm.nvim/'
 
 " Keybindings
 " Plug 'liuchengxu/vim-which-key'
@@ -134,7 +136,6 @@ Plug 'nvim-telescope/telescope.nvim'
 " Running code
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
-Plug 'skywind3000/asyncrun.extra'  " For terminal-help support
 " Plug 'vim-test/vim-test'
 
 " Markdown
@@ -168,9 +169,6 @@ Plug 'kristijanhusak/vim-dadbod-ui'
 
 " Resize mode using natural directions
 Plug 'mrjones2014/smart-splits.nvim'
-
-" Toggleterm
-" Plug 'akinsho/toggleterm.nvim'
 
 call plug#end()
 

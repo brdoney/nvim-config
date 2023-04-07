@@ -40,7 +40,6 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 -- Start at 99 so everything isn't folded up at the start
 vim.opt.foldlevel = 99
-vim.opt.foldminlines = 3
 vim.opt.foldnestmax = 10
 -- Remove folds since treesitter will regenerate them each time anyway
 -- (and sessions will preserve manual folding from past otherwise)
@@ -96,14 +95,13 @@ end
 require 'nvim-tree'.setup {
   disable_netrw       = true,
   hijack_netrw        = true,
-  ignore_ft_on_setup  = { 'startify' },
   hijack_directories  = {
     enable = true,
     auto_open = true,
   },
   open_on_tab         = false,
   hijack_cursor       = true,
-  update_cwd          = true,
+  sync_root_with_cwd  = true,
   diagnostics         = {
     enable = true,
     show_on_dirs = true,
@@ -151,6 +149,22 @@ require 'nvim-tree'.setup {
     }
   }
 }
+
+local function open_nvim_tree(data)
+  -- buffer is a directory
+  local directory = vim.fn.isdirectory(data.file) == 1
+
+  if not directory then
+    return
+  end
+
+  -- change to the directory
+  vim.cmd.cd(data.file)
+
+  -- open the tree
+  require("nvim-tree.api").tree.open()
+end
+vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
 vim.keymap.set('n', '<leader>e', ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })
 -- vim.keymap.set('n', '<leader>ef', require('nvim-tree').find_file, { desc = "Show open file in NvimTree" })
@@ -576,4 +590,66 @@ require('cmp').setup.buffer({ sources = { { name = 'vim-dadbod-completion' } } }
 -- smart-splits.nvim {{{
 require("smart-splits").setup()
 vim.keymap.set("n", "<C-w>r", require('smart-splits').start_resize_mode, { desc = "Start buffer resize mode" });
+-- }}}
+
+-- toggleterm {{{
+require("toggleterm").setup({
+  size = function(term)
+    if term.direction == "horizontal" then
+      return math.floor(vim.o.lines * 0.3)
+    elseif term.direction == "vertical" then
+      return math.floor(vim.o.columns * 0.3)
+    end
+  end,
+  open_mapping = [[<M-=>]],
+  persist_size = false,
+  shade_terminals = false,
+  highlights = {
+    -- Same as Telescope
+    FloatBorder = { link = "Grey" }
+  },
+  float_opts = {
+    border = 'curved',
+    -- Width and height match Telescope's
+    width = function()
+      return math.floor(vim.o.columns * 0.8)
+    end,
+    height = function()
+      return math.floor(vim.o.lines * 0.9)
+    end,
+  }
+})
+-- nnoremap <silent> <leader>R :H !!<CR>:H<CR>
+vim.keymap.set("n", "<leader>R", ':TermExec cmd="!!"<CR>:TermExec cmd=""<CR>', { desc = "Repeat last command",
+  silent = true })
+-- }}}
+
+-- Barbar {{{
+require("barbar").setup({
+  insert_at_end = true,
+  icons = {
+    modified = {
+      button = ""
+    }
+  }
+})
+
+local function barbarmap(key, command, desc)
+  local opts = { silent = true, noremap = true, desc = desc }
+  vim.keymap.set("n", key, command, opts)
+end
+
+-- Barbar operations
+barbarmap("<leader>p", ":BufferPick<CR>", "Pick buffer")
+barbarmap("<leader>[", ":BufferPrevious<CR>", "Previous buffer")
+barbarmap("<leader>]", ":BufferNext<CR>", "Next buffer")
+barbarmap("<leader>{", ":BufferMovePrevious<CR>", "Move buffer left")
+barbarmap("<leader>}", ":BufferMoveNext<CR>", "Move buffer right")
+barbarmap("<leader>\\", ":BufferClose<CR>", "Close buffer")
+
+-- Tabpage operations
+barbarmap("<leader>tt", ":tabnew<CR>", "Open new tab")
+barbarmap("<leader>t[", ":tabprevious<CR>", "Previous tab")
+barbarmap("<leader>t]", ":tabnext<CR>", "Next tab")
+barbarmap("<leader>|", ":tabclose<CR>", "Close tab")
 -- }}}
