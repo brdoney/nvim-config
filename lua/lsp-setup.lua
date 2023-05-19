@@ -139,13 +139,17 @@ local types = require('cmp.types')
 local feedkeys = require('cmp.utils.feedkeys')
 local keymap = require('cmp.utils.keymap')
 
-local has_words_before = function()
+local function has_words_before()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local feedkey = function(key, mode)
+local function feedkey(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
+local function isempty(s)
+  return s == nil or s == ""
 end
 
 cmp.setup({
@@ -186,7 +190,8 @@ cmp.setup({
       -- Get rid of empty leading space on clangd
       -- (it reserves empty space for dot char do signify imports)
       -- From https://stackoverflow.com/a/48328232/7162675
-      if kind.abbr:byte(1) <= 32 then
+      -- Ideally there should always be an abbr, but vim-language-server somtimes doesn't follow this (e.g. `hostname()`)
+      if not isempty(kind.abbr) and kind.abbr:byte(1) <= 32 then
         kind.abbr = kind.abbr:sub(2)
       end
 
@@ -207,7 +212,7 @@ cmp.setup({
     ['<C-b>'] = function(fallback)
       -- Not currently important, but just in case I end up using <C-b> for bolding
       if cmp.visible() then
-        cmp.mapping.scroll_docs(-4)
+        cmp.scroll_docs(-4)
       else
         fallback()
       end

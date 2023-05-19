@@ -29,3 +29,7 @@ end)
 dir_setup("*/CSGenome/csg/*", function()
   null_ls.disable("flake8")
 end)
+
+dir_setup("*/CSGenome/ML-rewrite/*", function()
+  null_ls.disable("flake8")
+end)
