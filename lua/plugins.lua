@@ -164,6 +164,7 @@ local function open_nvim_tree(data)
   -- open the tree
   require("nvim-tree.api").tree.open()
 end
+
 vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
 vim.keymap.set('n', '<leader>e', ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })
@@ -652,4 +653,17 @@ barbarmap("<leader>tt", ":tabnew<CR>", "Open new tab")
 barbarmap("<leader>t[", ":tabprevious<CR>", "Previous tab")
 barbarmap("<leader>t]", ":tabnext<CR>", "Next tab")
 barbarmap("<leader>|", ":tabclose<CR>", "Close tab")
+-- }}}
+
+-- IndentBlankline {{{
+-- Fix for https://github.com/lukas-reineke/indent-blankline.nvim/issues/489
+local indentblanklinegrp = vim.api.nvim_create_augroup('IndentBlankLineFix', {})
+vim.api.nvim_create_autocmd('WinScrolled', {
+  group = indentblanklinegrp,
+  callback = function()
+    if vim.v.event.all.leftcol ~= 0 then
+      vim.cmd('silent! IndentBlanklineRefresh')
+    end
+  end,
+})
 -- }}}

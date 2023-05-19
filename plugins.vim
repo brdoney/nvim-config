@@ -138,9 +138,17 @@ function s:research()
     \ ]
 endfunction
 
-let g:startify_lists = [
+" if hostname()
+if match(hostname(), "BrdMPro.local") >= 0
+  let s:brdmpro_lists = [
       \ { 'type': function('s:courses'),  'header': ['   Courses']},
       \ { 'type': function('s:research'),  'header': ['   CSGenome']},
+      \ ]
+else
+  let s:brdmpro_lists = []
+endif
+
+let g:startify_lists = s:brdmpro_lists + [
       \ { 'type': 'sessions',  'header': ['   Sessions']       },
       \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
       \ { 'type': 'files',     'header': ['   MRU']            },
