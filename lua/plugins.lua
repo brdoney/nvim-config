@@ -69,7 +69,9 @@ local map = setmetatable({}, {
   __index = function(_, mode)
     return setmetatable({}, {
       __newindex = function(_, lhs, tbl)
-        if tbl == nil then vim.api.nvim_del_keymap(mode, lhs); return end
+        if tbl == nil then
+          vim.api.nvim_del_keymap(mode, lhs); return
+        end
         local rhs = table.remove(tbl, 1)
         local opts = {}
         for _, v in ipairs(tbl) do
@@ -92,17 +94,83 @@ end
 -- }}}
 
 -- NvimTree {{{
+local function nvim_tree_on_attach(bufnr)
+  local api = require('nvim-tree.api')
+
+  local function opts(desc)
+    return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  -- Mappings from the default keybindings
+  vim.keymap.set('n', '<C-]>', api.tree.change_root_to_node, opts('CD'))
+  vim.keymap.set('n', '<C-e>', api.node.open.replace_tree_buffer, opts('Open: In Place'))
+  vim.keymap.set('n', '<C-r>', api.fs.rename_sub, opts('Rename: Omit Filename'))
+  vim.keymap.set('n', '<C-t>', api.node.open.tab, opts('Open: New Tab'))
+  vim.keymap.set('n', '<C-v>', api.node.open.vertical, opts('Open: Vertical Split'))
+  vim.keymap.set('n', '<C-x>', api.node.open.horizontal, opts('Open: Horizontal Split'))
+  vim.keymap.set('n', '<BS>', api.node.navigate.parent_close, opts('Close Directory'))
+  vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
+  vim.keymap.set('n', '<Tab>', api.node.open.preview, opts('Open Preview'))
+  vim.keymap.set('n', '>', api.node.navigate.sibling.next, opts('Next Sibling'))
+  vim.keymap.set('n', '<', api.node.navigate.sibling.prev, opts('Previous Sibling'))
+  vim.keymap.set('n', '.', api.node.run.cmd, opts('Run Command'))
+  vim.keymap.set('n', '-', api.tree.change_root_to_parent, opts('Up'))
+  vim.keymap.set('n', 'a', api.fs.create, opts('Create'))
+  vim.keymap.set('n', 'bmv', api.marks.bulk.move, opts('Move Bookmarked'))
+  vim.keymap.set('n', 'B', api.tree.toggle_no_buffer_filter, opts('Toggle No Buffer'))
+  vim.keymap.set('n', 'c', api.fs.copy.node, opts('Copy'))
+  vim.keymap.set('n', 'C', api.tree.toggle_git_clean_filter, opts('Toggle Git Clean'))
+  vim.keymap.set('n', '[c', api.node.navigate.git.prev, opts('Prev Git'))
+  vim.keymap.set('n', ']c', api.node.navigate.git.next, opts('Next Git'))
+  vim.keymap.set('n', 'd', api.fs.remove, opts('Delete'))
+  vim.keymap.set('n', 'D', api.fs.trash, opts('Trash'))
+  vim.keymap.set('n', 'E', api.tree.expand_all, opts('Expand All'))
+  vim.keymap.set('n', 'e', api.fs.rename_basename, opts('Rename: Basename'))
+  vim.keymap.set('n', ']e', api.node.navigate.diagnostics.next, opts('Next Diagnostic'))
+  vim.keymap.set('n', '[e', api.node.navigate.diagnostics.prev, opts('Prev Diagnostic'))
+  vim.keymap.set('n', 'F', api.live_filter.clear, opts('Clean Filter'))
+  vim.keymap.set('n', 'f', api.live_filter.start, opts('Filter'))
+  vim.keymap.set('n', 'g?', api.tree.toggle_help, opts('Help'))
+  vim.keymap.set('n', 'gy', api.fs.copy.absolute_path, opts('Copy Absolute Path'))
+  vim.keymap.set('n', 'H', api.tree.toggle_hidden_filter, opts('Toggle Dotfiles'))
+  vim.keymap.set('n', 'J', api.node.navigate.sibling.last, opts('Last Sibling'))
+  vim.keymap.set('n', 'K', api.node.navigate.sibling.first, opts('First Sibling'))
+  vim.keymap.set('n', 'm', api.marks.toggle, opts('Toggle Bookmark'))
+  vim.keymap.set('n', 'o', api.node.open.edit, opts('Open'))
+  vim.keymap.set('n', 'O', api.node.open.no_window_picker, opts('Open: No Window Picker'))
+  vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
+  vim.keymap.set('n', 'P', api.node.navigate.parent, opts('Parent Directory'))
+  vim.keymap.set('n', 'q', api.tree.close, opts('Close'))
+  vim.keymap.set('n', 'r', api.fs.rename, opts('Rename'))
+  vim.keymap.set('n', 'R', api.tree.reload, opts('Refresh'))
+  vim.keymap.set('n', 's', api.node.run.system, opts('Run System'))
+  vim.keymap.set('n', 'S', api.tree.search_node, opts('Search'))
+  vim.keymap.set('n', 'U', api.tree.toggle_custom_filter, opts('Toggle Hidden'))
+  vim.keymap.set('n', 'W', api.tree.collapse_all, opts('Collapse'))
+  vim.keymap.set('n', 'x', api.fs.cut, opts('Cut'))
+  vim.keymap.set('n', 'y', api.fs.copy.filename, opts('Copy Name'))
+  vim.keymap.set('n', 'Y', api.fs.copy.relative_path, opts('Copy Relative Path'))
+  vim.keymap.set('n', '<2-LeftMouse>', api.node.open.edit, opts('Open'))
+  vim.keymap.set('n', '<2-RightMouse>', api.tree.change_root_to_node, opts('CD'))
+
+  -- Mappings migrated from view.mappings.list
+  --
+  -- You will need to insert "your code goes here" for any mappings with a custom action_cb
+  vim.keymap.set('n', 'K', api.node.show_info_popup, opts('Info'))
+  vim.keymap.set('n', 'G', api.tree.toggle_gitignore_filter, opts('Toggle Git Ignore'))
+end
+
 require 'nvim-tree'.setup {
-  disable_netrw       = true,
-  hijack_netrw        = true,
-  hijack_directories  = {
+  disable_netrw = true,
+  hijack_netrw = true,
+  hijack_directories = {
     enable = true,
     auto_open = true,
   },
-  open_on_tab         = false,
-  hijack_cursor       = true,
-  sync_root_with_cwd  = true,
-  diagnostics         = {
+  open_on_tab = false,
+  hijack_cursor = true,
+  sync_root_with_cwd = true,
+  diagnostics = {
     enable = true,
     show_on_dirs = true,
     icons = { error = " ", warning = " ", hint = " ", info = " " }
@@ -112,28 +180,20 @@ require 'nvim-tree'.setup {
     update_cwd  = false,
     ignore_list = {}
   },
-  system_open         = {
+  system_open = {
     cmd  = nil,
     args = {}
   },
-  actions             = {
+  actions = {
     open_file = {
       resize_window = true
     }
   },
-  view                = {
+  view = {
     width = 30,
     side = 'left',
-    mappings = {
-      custom_only = false,
-      list = {
-        { key = "K", action = "toggle_file_info" },
-        -- Unbind <C-k>
-        { key = "<C-k>", action = "" }
-      }
-    }
   },
-  renderer            = {
+  renderer = {
     indent_markers = {
       enable = true
     },
@@ -147,7 +207,8 @@ require 'nvim-tree'.setup {
         }
       }
     }
-  }
+  },
+  on_attach = nvim_tree_on_attach
 }
 
 local function open_nvim_tree(data)
@@ -195,22 +256,22 @@ local wk = require("which-key")
 
 wk.setup {
   plugins = {
-    marks = true, -- shows a list of your marks on ' and `
-    registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+    marks = true,       -- shows a list of your marks on ' and `
+    registers = true,   -- shows your registers on " in NORMAL or <C-r> in INSERT mode
     spelling = {
-      enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+      enabled = true,   -- enabling this will show WhichKey when pressing z= to select spelling suggestions
       suggestions = 20, -- how many suggestions should be shown in the list?
     },
     -- the presets plugin, adds help for a bunch of default keybindings in Neovim
     -- No actual key bindings are created
     presets = {
-      operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
-      motions = true, -- adds help for motions
+      operators = true,    -- adds help for operators like d, y, ... and registers them for motion / text object completion
+      motions = true,      -- adds help for motions
       text_objects = true, -- help for text objects triggered after entering an operator
-      windows = true, -- default bindings on <c-w>
-      nav = true, -- misc bindings to work with windows
-      z = true, -- bindings for folds, spelling and others prefixed with z
-      g = true, -- bindings for prefixed with g
+      windows = true,      -- default bindings on <c-w>
+      nav = true,          -- misc bindings to work with windows
+      z = true,            -- bindings for folds, spelling and others prefixed with z
+      g = true,            -- bindings for prefixed with g
     },
   },
   -- add operators that will trigger motion and text object completion
@@ -226,29 +287,29 @@ wk.setup {
   icons = {
     breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
     separator = "➜", -- symbol used between a key and it's label
-    group = "+", -- symbol prepended to a group
+    group = "+",      -- symbol prepended to a group
   },
   popup_mappings = {
     scroll_down = '<c-d>', -- binding to scroll down inside the popup
-    scroll_up = '<c-u>', -- binding to scroll up inside the popup
+    scroll_up = '<c-u>',   -- binding to scroll up inside the popup
   },
   window = {
-    border = "single", -- none, single, double, shadow
-    position = "bottom", -- bottom, top
-    margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
+    border = "single",        -- none, single, double, shadow
+    position = "bottom",      -- bottom, top
+    margin = { 1, 0, 1, 0 },  -- extra window margin [top, right, bottom, left]
     padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
     winblend = 0
   },
   layout = {
-    height = { min = 4, max = 25 }, -- min and max height of the columns
-    width = { min = 20, max = 50 }, -- min and max width of the columns
-    spacing = 3, -- spacing between columns
-    align = "center", -- align columns left, center or right
+    height = { min = 4, max = 25 },                                             -- min and max height of the columns
+    width = { min = 20, max = 50 },                                             -- min and max width of the columns
+    spacing = 3,                                                                -- spacing between columns
+    align = "center",                                                           -- align columns left, center or right
   },
-  ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
+  ignore_missing = false,                                                       -- enable this to hide mappings for which you didn't specify a label
   hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
-  show_help = true, -- show help message on the command line when the popup is visible
-  triggers = "auto", -- automatically setup triggers
+  show_help = true,                                                             -- show help message on the command line when the popup is visible
+  triggers = "auto",                                                            -- automatically setup triggers
   -- triggers = {"<leader>"} -- or specify a list manually
   triggers_blacklist = {
     -- list of mode / prefixes that should never be hooked by WhichKey
@@ -319,7 +380,7 @@ web.setup {
   -- };
   -- globally enable default icons (default to false)
   -- will get overriden by `get_icons` option
-  default = true;
+  default = true,
 }
 -- }}}
 
@@ -470,11 +531,15 @@ vim.keymap.set('n', 'ga', '<Plug>(EasyAlign)', { remap = true, desc = 'Easy alig
 vim.keymap.set('x', 'ga', '<Plug>(EasyAlign)', { remap = true, desc = 'Easy align' })
 
 local eagroup = vim.api.nvim_create_augroup('EasyAlignMappings', {})
-vim.api.nvim_create_autocmd('FileType', { pattern = 'markdown', group = eagroup, callback = function()
-  -- vim.keymap.set('n', '<leader>f', ':%EasyAlign*<Bar><Enter>', { desc = 'Format tables' })
-  vim.keymap.set('x', '<leader>f', ':EasyAlign*<Bar><Enter>gv', { desc = 'Format tables' })
-  vim.wo.wrap = true
-end })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  group = eagroup,
+  callback = function()
+    -- vim.keymap.set('n', '<leader>f', ':%EasyAlign*<Bar><Enter>', { desc = 'Format tables' })
+    vim.keymap.set('x', '<leader>f', ':EasyAlign*<Bar><Enter>gv', { desc = 'Format tables' })
+    vim.wo.wrap = true
+  end
+})
 -- }}}
 
 -- Distant -- disabled b/c not working {{{
@@ -543,7 +608,8 @@ require('bqf').setup({
 require('git-conflict').setup({
   default_mappings = false,
   disable_diagnostics = true,
-  highlights = { -- They must have background color, otherwise the default color will be used
+  highlights = {
+    -- They must have background color, otherwise the default color will be used
     incoming = 'DiffDelete',
     current = 'DiffAdd',
   }
@@ -621,8 +687,10 @@ require("toggleterm").setup({
   }
 })
 -- nnoremap <silent> <leader>R :H !!<CR>:H<CR>
-vim.keymap.set("n", "<leader>R", ':TermExec cmd="!!"<CR>:TermExec cmd=""<CR>', { desc = "Repeat last command",
-  silent = true })
+vim.keymap.set("n", "<leader>R", ':TermExec cmd="!!"<CR>:TermExec cmd=""<CR>', {
+  desc = "Repeat last command",
+  silent = true
+})
 -- }}}
 
 -- Barbar {{{
