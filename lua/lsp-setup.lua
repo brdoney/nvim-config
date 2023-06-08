@@ -1,8 +1,10 @@
 -- vim: set fdm=marker fmr={{{,}}} fdl=0:
 
+local M = {}
+
 -- Keybindings: {{{
 ---@diagnostic disable-next-line: unused-local
-local on_attach = function(client, bufnr)
+M.lsp_on_attach = function(client, bufnr)
   --Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -351,10 +353,12 @@ local border = "single"
 
 -- Add nvim-cmp information
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
+M.capabilities = capabilities
 
 for _, server in ipairs(servers) do
-
-  if server == 'rust_analyzer' then
+  if server == 'jdtls' then
+    -- Skip b/c configuerd in after/ftplugin/java.lua
+  elseif server == 'rust_analyzer' then
     -- rust-tools.nvim {{{
     require('rust-tools').setup({
       tools = {
@@ -369,14 +373,14 @@ for _, server in ipairs(servers) do
         }
       },
       server = {
-        on_attach = on_attach,
+        on_attach = M.lsp_on_attach,
         capabilities = capabilities,
       }
     })
     -- }}}
   else
     local opts = {
-      on_attach = on_attach,
+      on_attach = M.lsp_on_attach,
       capabilities = capabilities,
     }
 
@@ -428,6 +432,7 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.s
 
 -- From https://github.com/neovim/neovim/pull/14878 ; don't focus the quickfix window
 local orig_ref_handler = vim.lsp.handlers["textDocument/references"]
+---@diagnostic disable-next-line: duplicate-set-field
 vim.lsp.handlers["textDocument/references"] = function(...)
   orig_ref_handler(...)
   vim.cmd [[ wincmd p ]]
@@ -710,3 +715,5 @@ require "fidget".setup({
 })
 
 -- }}}
+
+return M

@@ -248,8 +248,8 @@ nnoremap <leader>hh <Plug>(GitGutterPreviewHunk)
 " IndentBlankline {{{
 let g:indentLine_char = '│'
 let g:indent_blankline_use_treesitter = v:true
-let g:indent_blankline_filetype_exclude = ['help', 'text', 'startify', 'NvimTree']
-let g:indent_blankline_buftype_exclude = ['terminal']
+let g:indent_blankline_filetype_exclude = [ "lspinfo", "packer", "checkhealth", "help", "man", "text", "startify", "NvimTree", "mason" ]                                                                         
+let g:indent_blankline_buftype_exclude = [ "terminal", "nofile", "quickfix", "prompt" ]         
 " let g:indent_blankline_show_current_context = v:true
 let g:indent_blankline_show_trailing_blankline_indent = v:false
 nnoremap <silent> <leader>i :IndentBlanklineRefresh<CR>

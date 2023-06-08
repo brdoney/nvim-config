@@ -3,9 +3,6 @@
 " Plugin directory for vim-plug
 call plug#begin('~/.vim/plugged')
 
-" Speed up startup
-Plug 'lewis6991/impatient.nvim'
-
 " Scope to make buffers window-specific
 Plug 'tiagovla/scope.nvim'
 
@@ -111,6 +108,7 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 
 " Non-spec LSP additions
 Plug 'simrat39/rust-tools.nvim'
+Plug 'mfussenegger/nvim-jdtls'
 
 " Native LSP completion
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -172,7 +170,8 @@ Plug 'mrjones2014/smart-splits.nvim'
 
 call plug#end()
 
-lua require('impatient')
+" Speed up loading of lua modules (like what impatient.nvim did)
+lua vim.loader.enable()
 
 " Pull configuration from every file (the names explain the contents of each
 " file pretty well sooo...)
