@@ -62,6 +62,9 @@ function! s:sonokai_custom() abort
   " Show hint text (e.g. Rust type hints) as grey
   highlight! link CocHintSign CocCodeLens
 
+  " Show lightbulb sign as yellow
+  highlight! link LightBulbSign LspDiagnosticsSignWarning
+
   " Treesitter {{{
   " For things like null
   highlight! link @const.builtin Purple
@@ -212,6 +215,10 @@ function! s:sonokai_custom() abort
   " call sonokai#highlight('BufferTabpageFill', l:palette.bg0, l:palette.bg0)
   " call sonokai#highlight('BufferTabpageFill', l:palette.bg2, l:palette.bg2)
   " }}}
+
+  if has("nvim-0.10.0")
+    call sonokai#highlight('LspInlayHint', l:palette.grey, l:palette.bg1, 'NONE')
+  endif
 endfunction
 
 augroup SonokaiCustom

@@ -2,7 +2,7 @@
 
 local M = {}
 
--- Keybindings: {{{
+-- On attach/keybindings: {{{
 ---@diagnostic disable-next-line: unused-local
 M.lsp_on_attach = function(client, bufnr)
   --Enable completion triggered by <c-x><c-o>
@@ -27,15 +27,14 @@ M.lsp_on_attach = function(client, bufnr)
   -- vim.keymap.set('n', '[g', function() require('trouble').previous({ skip_groups = true, jump = true }) end, opts('Go to previous diagnostic'))
   vim.keymap.set('n', ']g', vim.diagnostic.goto_next, opts('Go to next diagnostic'))
   -- vim.keymap.set('n', ']g', function() require('trouble').next({ skip_groups = true, jump = true }) end, opts('Go to next diagnostic'))
-  vim.keymap.set('n', '<leader>g', require('trouble').toggle, opts('Toggle trouble'))
 
   vim.keymap.set('n', '<leader>qwa', vim.lsp.buf.add_workspace_folder, opts('Add workspace folder'))
   vim.keymap.set('n', '<leader>qwr', vim.lsp.buf.remove_workspace_folder, opts('Remove workspace folder'))
   vim.keymap.set('n', '<leader>qwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
     opts('List workspace folders'))
   vim.keymap.set('n', '<leader>qr', vim.lsp.buf.rename, opts('Rename symbol'))
-  vim.keymap.set('n', '<leader>qa', vim.lsp.buf.code_action, opts('Code action'))
-  vim.keymap.set('v', '<leader>qa', vim.lsp.buf.code_action, opts('Range code action'))
+  vim.keymap.set({ 'n', 'v' }, '<leader>qa', vim.lsp.buf.code_action, opts('Code action'))
+  vim.keymap.set('n', '<leader>qc', vim.lsp.codelens.run, opts('Code lens'))
 
   vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts('Format buffer'))
   vim.keymap.set('v', '<leader>f', vim.lsp.buf.format, opts('Format buffer'))
@@ -50,6 +49,21 @@ M.lsp_on_attach = function(client, bufnr)
   -- Allow nvim's Lua API completion+docs to be set up with a keypress
   if vim.bo.filetype == 'c' or vim.bo.filetype == 'cpp' then
     vim.keymap.set('n', '<leader>qh', ':ClangdSwitchSourceHeader<CR>', opts('Switch header/source'))
+  end
+
+  -- Set up code lenses
+  if client.server_capabilities.codeLensProvider then
+    -- Refresh code lenses
+    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+      group = vim.api.nvim_create_augroup("codelens", {}),
+      callback = vim.lsp.codelens.refresh,
+      buffer = bufnr,
+    })
+  end
+
+  -- Enable inlay hints
+  if vim.fn.has("nvim-0.10.0") and client.server_capabilities.inlayHintProvider then
+    vim.lsp.inlay_hint(bufnr, true)
   end
 end
 -- }}}
@@ -279,7 +293,8 @@ cmp.setup({
       compare.length,
       compare.order,
     }
-  }, sources = cmp.config.sources({
+  },
+  sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'nvim_lsp_signature_help' },
     { name = 'vsnip' },
@@ -364,6 +379,8 @@ for _, server in ipairs(servers) do
       tools = {
         hover_with_actions = false,
         inlay_hints = {
+          -- Disabled for now
+          auto = false,
           parameter_hints_prefix = '<- ',
           other_hints_prefix = '» ',
           right_align = true
@@ -389,32 +406,6 @@ for _, server in ipairs(servers) do
       opts = vim.tbl_deep_extend("force", {
         cmd = { "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp" },
         filetypes = { "swift", "objective-c", "objective-cpp" }
-      }, opts)
-    elseif server == 'jdtls' then
-      -- Still doesn't work for some reason
-      local root_files = {
-        -- Single-module projects
-        {
-          'build.xml', -- Ant
-          'pom.xml', -- Maven
-          'settings.gradle', -- Gradle
-          'settings.gradle.kts', -- Gradle
-        },
-        -- Multi-module projects
-        { 'build.gradle', 'build.gradle.kts' },
-      }
-
-      opts = vim.tbl_deep_extend("force", {
-        root_dir = function(fname)
-          for _, patterns in ipairs(root_files) do
-            local root = require('lspconfig.util').root_pattern(unpack(patterns))(fname)
-            if root then
-              return root
-            end
-          end
-
-          return vim.fn.getcwd()
-        end
       }, opts)
     end
 
@@ -457,7 +448,7 @@ _G.CloseFloatingWindows = function()
   local closed_windows = {}
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     local config = vim.api.nvim_win_get_config(win)
-    if config.relative ~= "" then -- is_floating_window?
+    if config.relative ~= "" then        -- is_floating_window?
       vim.api.nvim_win_close(win, false) -- do not force
       table.insert(closed_windows, win)
     end
@@ -528,16 +519,20 @@ null_ls.setup({
     null_ls.builtins.formatting.prettierd,
 
     -- Python
-    null_ls.builtins.diagnostics.flake8.with({ method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-      extra_args = { "--max-line-length=88", "--extend-ignore=E203" } }),
-    null_ls.builtins.diagnostics.mypy.with({ method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+    null_ls.builtins.diagnostics.flake8.with({
+      method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+      extra_args = { "--max-line-length=88", "--extend-ignore=E203" }
+    }),
+    null_ls.builtins.diagnostics.mypy.with({
+      method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
       ---@diagnostic disable-next-line: unused-local
       extra_args = function(params)
         if vim.fn.isdirectory(params.cwd .. "/.venv/") == 1 then
           return { "--python-executable", ".venv/bin/python" }
         end
         return {}
-      end }),
+      end
+    }),
     -- null_ls.builtins.formatting.autopep8
     null_ls.builtins.formatting.black,
 
@@ -679,14 +674,19 @@ require('dressing').setup({
 
 -- Lightbulb {{{
 require('nvim-lightbulb').setup({
-  autocmd = { enabled = true }
+  autocmd = { enabled = true },
+  sign = {
+    enabled = true,
+    text = "",
+    hl = "LightBulbSign",
+  },
 })
-vim.fn.sign_define('LightBulbSign', { text = "", texthl = "LspDiagnosticsSignWarning" })
 -- }}}
 
 -- Trouble {{{
 require("trouble").setup({})
 
+vim.keymap.set('n', '<leader>g', require('trouble').toggle, { desc = 'Toggle trouble' })
 -- }}}
 
 -- Fidget {{{

@@ -60,7 +60,7 @@ Plug 'sainnhe/sonokai'
 " Plug 'folke/tokyonight.nvim'  " Nice theme, but only supports LSP and NvimTree
 " Kinda slow and not as good as TreeSitter, but support more languages
 "Plug 'sheerun/vim-polyglot'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/playground'  " For debugging themes
 
 " Comments
@@ -69,7 +69,7 @@ Plug 'numToStr/Comment.nvim'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
 " Multi-cursor editing
-Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'mg979/vim-visual-multi', { 'branch': 'master' }
 
 " Pairs and surround
 Plug 'windwp/nvim-autopairs'
@@ -99,7 +99,7 @@ Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
 Plug 'onsails/lspkind.nvim'
 Plug 'stevearc/dressing.nvim'
 Plug 'kosayoda/nvim-lightbulb'
-Plug 'j-hui/fidget.nvim'
+Plug 'j-hui/fidget.nvim', { 'tag': 'legacy'}
 Plug 'folke/trouble.nvim'
 
 " Support non-LSP sources (i.e. for formatting)
