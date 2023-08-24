@@ -121,12 +121,7 @@ let g:VM_leader = '<Space><Space>'
 " Startify {{{
 function s:courses()
   return [
-    \ { 'line': 'CS 5754 Virtual Environments', 'cmd': 'SLoad virtualenvs'},
-    \ { 'line': 'CS 5544 Compiler Optimisations', 'cmd': 'SLoad compileropts'},
-    \ { 'line': 'CS 5614 Big Data Engineering', 'cmd': 'SLoad bigdata'},
     \ { 'line': 'CS 5944 Graduate Seminar', 'cmd': 'SLoad gradseminar'},
-    \ { 'line': 'CS 5024 Ethics and Professionalism', 'cmd': 'SLoad cs5024notes'},
-    \ { 'line': 'Research', 'cmd': 'SLoad csg-notes'},
     \ ]
 endfunction
 
@@ -240,8 +235,8 @@ let g:gitgutter_sign_added              = '┃'
 let g:gitgutter_sign_modified           = '┃'
 let g:gitgutter_sign_removed            = '┃'
 let g:gitgutter_sign_removed_first_line = '╹'
-let g:gitgutter_sign_removed_above_and_below = '║'
-let g:gitgutter_sign_modified_removed   = '║'
+let g:gitgutter_sign_removed_above_and_below = '┇ '
+let g:gitgutter_sign_modified_removed   = '┇'
 nnoremap <leader>hh <Plug>(GitGutterPreviewHunk)
 " }}}
 

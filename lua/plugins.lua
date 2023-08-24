@@ -157,7 +157,7 @@ local function nvim_tree_on_attach(bufnr)
   --
   -- You will need to insert "your code goes here" for any mappings with a custom action_cb
   vim.keymap.set('n', 'K', api.node.show_info_popup, opts('Info'))
-  vim.keymap.set('n', 'G', api.tree.toggle_gitignore_filter, opts('Toggle Git Ignore'))
+  vim.keymap.set('n', 'I', api.tree.toggle_gitignore_filter, opts('Toggle Git Ignore'))
 end
 
 require 'nvim-tree'.setup {
@@ -228,7 +228,7 @@ end
 
 vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
-vim.keymap.set('n', '<leader>e', ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree" })
+vim.keymap.set('n', '<leader>e', ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree", silent = true })
 -- vim.keymap.set('n', '<leader>ef', require('nvim-tree').find_file, { desc = "Show open file in NvimTree" })
 
 -- Integrate with barbar so tabs start after tree
@@ -721,7 +721,14 @@ barbarmap("<leader>\\", ":BufferClose<CR>", "Close buffer")
 barbarmap("<leader>tt", ":tabnew<CR>", "Open new tab")
 barbarmap("<leader>t[", ":tabprevious<CR>", "Previous tab")
 barbarmap("<leader>t]", ":tabnext<CR>", "Next tab")
-barbarmap("<leader>|", ":tabclose<CR>", "Close tab")
+barbarmap("<leader>|", function()
+  -- ":tabclose<CR>"
+  vim.cmd.tabclose()
+  -- Reload nvim tree for git updates
+  require('nvim-tree.api').tree.reload()
+  -- Refresh gitgutter for updates
+  vim.cmd("GitGutterAll")
+end, "Close tab")
 -- }}}
 
 -- IndentBlankline {{{
