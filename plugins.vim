@@ -127,17 +127,14 @@ endfunction
 
 function s:research()
   return [
-    \ { 'line': 'Notes', 'cmd': 'SLoad csg-notes'},
-    \ { 'line': 'Backend', 'cmd': 'SLoad csgserver'},
-    \ { 'line': 'Frontend', 'cmd': 'SLoad csgfrontend'},
+    \ { 'line': 'Thesis', 'cmd': 'SLoad thesis'},
     \ ]
 endfunction
 
-" if hostname()
 if match(hostname(), "BrdMPro.local") >= 0
   let s:brdmpro_lists = [
       \ { 'type': function('s:courses'),  'header': ['   Courses']},
-      \ { 'type': function('s:research'),  'header': ['   CSGenome']},
+      \ { 'type': function('s:research'),  'header': ['   Research']},
       \ ]
 else
   let s:brdmpro_lists = []
@@ -294,6 +291,7 @@ function! OpenFugitive()
 endfunction
 
 nnoremap <silent> <leader>G :call OpenFugitive()<CR>
+nnoremap <leader>hp :G push<CR>
 " }}}
 
 " MarkdownPreview -- Disabled {{{
