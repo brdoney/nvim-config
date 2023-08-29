@@ -36,139 +36,12 @@
 " }}}
 " }}}
 
-" Barbar {{{
-" map <silent> <leader>cbp :bp<CR>
-" map <silent> <leader>cbn :bn<CR>
-" NOTE: If barbar's option dict isn't created yet, create it
-" let bufferline = get(g:, 'bufferline', {})
-" let bufferline.tabpages = v:true
-"
-" let g:bufferline.icon_close_tab_modified = ''
-
-" nnoremap <silent> <Left> :BufferPrevious<CR>
-" nnoremap <silent> <Right> :BufferNext<CR>
-" nnoremap <silent> <S-Down> :BufferClose<CR>
-" nnoremap <silent> <leader>p :BufferPick<CR>
-" nnoremap <silent> <leader>[ :BufferPrevious<CR>
-" nnoremap <silent> <leader>] :BufferNext<CR>
-" nnoremap <silent> <leader>{ :BufferMovePrevious<CR>
-" nnoremap <silent> <leader>} :BufferMoveNext<CR>
-" nnoremap <silent> <leader>\ :BufferClose<CR>
-
-" Close current tab
-" nnoremap <silent> <leader>tt :tabnew<CR>
-" nnoremap <silent> <leader>t[ :tabprevious<CR>
-" nnoremap <silent> <leader>t] :tabnext<CR>
-" nnoremap <silent> <leader>\| :tabclose<CR>
-" nnoremap <silent> <leader>| :BufferClose!<CR>
-" }}}
-
 " Visual-Multi {{{
 let g:VM_mouse_mappings   = 1
 let g:VM_maps = {}
 let g:VM_maps["Undo"]     = 'u'
 let g:VM_maps["Redo"]     = '<C-r>'
 let g:VM_leader = '<Space><Space>'
-" }}}
-
-" NERDTree -- Disabled {{{
-" Show hidden files in tree
-" let NERDTreeShowHidden=1
-" " Hide the help label when starting the tree
-" let NERDTreeMinimalUI=1
-" " Show shortened name for directories with only one child
-" let NERDTreeCascadeSingleChildDir=1
-" " Autoexpand directories with only one child (useful for Java)
-" let NERDTreeCascadeOpenSingleChildDir=1
-
-" nnoremap <silent> <leader>e :NERDTreeToggle<CR>
-" }}}
-
-" NERDCommenter -- Disabled {{{
-" Map Ctrl+/ to comment
-" nnoremap <C-_> <Plug>NERDCommenterToggle
-" xnoremap <C-_> <Plug>NERDCommenterToggle
-" 
-" function! InsertModeComment()
-"   " echomsg '"'..getline('.')..'"'
-"   if getline('.') =~ '^\s*$'
-"     " echomsg 'Empty'
-"     " execute "normal \<Plug>NERDCommenterInsert"
-"     call feedkeys("\<Plug>NERDCommenterInsert")
-"   else
-"     " echomsg 'Not Empty'
-"     " call feedkeys("\<Plug>NERDCommenterToggle")
-"     execute "normal \<Plug>NERDCommenterToggle"
-"   endif
-" endfunc
-" " x<BS> to keep autoindent from removing spaces on <C-o> for empty lines
-" " Have to use <C-o> and call b/c <expr> can't modify buffer (just return text to modify),
-" " which NERDCommenterToggle does
-" inoremap <silent> <C-_> x<BS><C-o>:call InsertModeComment()<CR>
-" " inoremap <C-_> <Plug>NERDCommenterInsert
-" 
-" " Add spaces after comment delimiters by default
-" let g:NERDSpaceDelims = 1
-" " Allow commenting and inverting empty lines (useful when commenting a region)
-" let g:NERDCommentEmptyLines = 1
-" " Align line-wise comment delimiters flush left instead of following code indentation
-" let g:NERDDefaultAlign = 'left'
-" " Python's default delimeter includes a space, which messed w/ SpaceDelims, so
-" " change it here (it will still result in a space b/c of SpaceDelims)
-" let g:NERDCustomDelimiters = {'python': {'left': '#'}}
-" }}}
-
-" Startify {{{
-function s:courses()
-  return [
-    \ { 'line': 'CS 5944 Graduate Seminar', 'cmd': 'SLoad gradseminar'},
-    \ ]
-endfunction
-
-function s:research()
-  return [
-    \ { 'line': 'Thesis', 'cmd': 'SLoad thesis'},
-    \ ]
-endfunction
-
-if match(hostname(), "BrdMPro.local") >= 0
-  let s:brdmpro_lists = [
-      \ { 'type': function('s:courses'),  'header': ['   Courses']},
-      \ { 'type': function('s:research'),  'header': ['   Research']},
-      \ ]
-else
-  let s:brdmpro_lists = []
-endif
-
-let g:startify_lists = s:brdmpro_lists + [
-      \ { 'type': 'sessions',  'header': ['   Sessions']       },
-      \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-      \ { 'type': 'files',     'header': ['   MRU']            },
-      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-      \ { 'type': 'commands',  'header': ['   Commands']       },
-      \ ]
-
-" Autoload Session.vim when found in a directory
-let g:startify_session_autoload = 1
-" Automatically save sessions when exiting editor
-let g:startify_session_persistence = 1
-" Sort sessions by modification time instead of alphabetically
-let g:startify_session_sort = 1
-" Close NERDTree before saving session because saving with it causes errors on
-" session open
-" let g:startify_session_before_save = [ 'silent! tabdo NERDTreeClose', 'silent! tabdo call TerminalClose()', 'silent! tabdo call CloseFugitiveIfOpen()' ]
-let g:startify_session_before_save = [
-\ 'silent! tabdo cclose',
-\ 'silent! tabdo NvimTreeClose',
-\ 'silent! tabdo call TerminalClose()',
-\ 'silent! tabdo call CloseFugitiveIfOpen()',
-\ 'silent! tabdo lua require("incline").disable()',
-\ 'silent! tabdo TroubleClose',
-\ 'silent! tabdo lua require("fidget").close()',
-\ 'silent! tabdo CloseFloatingWindows'
-\ ]
-" Just to make cowsay look pretty
-let g:startify_fortune_use_unicode = 1
 " }}}
 
 " AsyncRun and vim-terminal-help {{{
@@ -195,35 +68,6 @@ nnoremap <silent> <leader>r :AsyncTask file-run<cr>
 nnoremap <silent> <leader>b :AsyncTask file-build<cr>
 nnoremap <silent> <leader>T :AsyncTask test<cr>
 " nnoremap <silent> <leader>R :H !!<CR>:H<CR>
-" }}}
-
-" WhichKey {{{
-" call which_key#register('<Space>', "g:which_key_map")
-" nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
-" vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
-set timeoutlen=500
-" let g:which_key_map = {
-"       \ 'r': 'run',
-"       \ 'b': 'build',
-"       \ 'f': 'format',
-"       \ }
-" let g:which_key_map.c = { 'name' : '+comment' }
-" let g:which_key_map.s = { 'name' : '+search'}
-" let g:which_key_map.h = { 'name' : '+git' }
-" let g:which_key_map.t = { 'name' : '+test' }
-" let g:which_key_map.q = { 'name' : '+coc' }
-" let g:which_key_map.q.l = { 'name' : '+list' }
-" let g:which_key_map.m = { 'name' : '+minimap' }
-" let g:which_key_map[' '] = { 'name' : '+multi' }
-" }}}
-
-" Minimap -- Disabled {{{
-" map <leader>mt :MinimapToggle<CR>
-" map <leader>mr :MinimapRefresh<CR>
-" }}}
-
-" Devicons {{{
-let g:WebDevIconsOS = 'Darwin'
 " }}}
 
 " Gitgutter {{{
@@ -297,26 +141,6 @@ nnoremap <leader>hp :G push<CR>
 " MarkdownPreview -- Disabled {{{
 " Don't close preview when changing away from the buffer
 let g:mkdp_auto_close = 0
-" }}}
-
-" Goyo and Limelight {{{
-let g:goyo_height = "100%"
-" let g:goyo_width = 90
-" Toggle Limelight and Goyo on keypress
-nnoremap <silent> <leader>z :Goyo<CR>
-" nmap <silent> <leader>l :Limelight!!<CR>
-" }}}
-
-" Bullets.vim -- Disabled {{{
-" let g:bullets_enabled_file_types = ['markdown']
-" " Don't add extra padding to align bullets
-" let g:bullets_pad_right = 0
-" " Don't have different items for each outline level
-" let g:bullets_outline_levels = []
-" " Disable default bindings, since they conflict with COC.nvim
-" " This might be easier later, see https://github.com/dkarter/bullets.vim/issues/74
-" let g:bullets_set_mappings = 0
-" " See ./ftplugin/markdown_mappings.vim for more
 " }}}
 
 " Surround.vim {{{

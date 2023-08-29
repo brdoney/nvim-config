@@ -3,40 +3,6 @@
 " Plugin directory for vim-plug
 call plug#begin('~/.vim/plugged')
 
-" Scope to make buffers window-specific
-Plug 'tiagovla/scope.nvim'
-
-" Distant for remote editing
-" Plug 'chipsenkbeil/distant.nvim'
-
-" Profiling
-" Plug 'dstein64/vim-startuptime'
-
-" Status and tablines
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'romgrk/barbar.nvim'
-Plug 'b0o/incline.nvim'
-
-" Colored icons in a ton of stuff
-Plug 'ryanoasis/vim-devicons'
-Plug 'kyazdani42/nvim-web-devicons'  " Depends on vim-devicons
-
-" Explorer
-Plug 'kyazdani42/nvim-tree.lua'
-
-" Indent highlights
-Plug 'lukas-reineke/indent-blankline.nvim'
-
-" Misc UI
-Plug 'mhinz/vim-startify'
-Plug 'junegunn/goyo.vim'  " Basic zen mode
-" Plug 'junegunn/limelight.vim'  " Dim everything other than the current section
-" Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }  " Colors in the sign column
-" let g:Hexokinase_highlighters = ['backgroundfull']
-Plug 'petertriho/nvim-scrollbar'  " Scrollbar which shows diagnostics and such
-Plug 'kevinhwang91/nvim-bqf'  " Improvements to the quickfix window
-
 " Git
 Plug 'airblade/vim-gitgutter'
 " Plug 'nvim-lua/plenary.nvim'  " For gitsigns below
@@ -45,23 +11,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'akinsho/git-conflict.nvim', { 'tag': '*' }
 
 " Command-line tools
-" VSCode-like terminal (toggle, AsyncRun support, and more)
-" Plug 'skywind3000/vim-terminal-help'
 " Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug '~/Developer/Vim/toggleterm.nvim/'
 
 " Keybindings
-" Plug 'liuchengxu/vim-which-key'
-Plug 'folke/which-key.nvim'
 Plug 'wellle/targets.vim'
 
 " Syntax highlighting
 Plug 'sainnhe/sonokai'
-" Plug 'folke/tokyonight.nvim'  " Nice theme, but only supports LSP and NvimTree
-" Kinda slow and not as good as TreeSitter, but support more languages
-"Plug 'sheerun/vim-polyglot'
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
-Plug 'nvim-treesitter/playground'  " For debugging themes
 
 " Comments
 " Plug 'scrooloose/nerdcommenter'
@@ -76,15 +33,6 @@ Plug 'windwp/nvim-autopairs'
 Plug 'tpope/vim-surround'
 " Plug 'alvan/vim-closetag'  " Doesn't autorename tags, just closes them
 Plug 'windwp/nvim-ts-autotag'  " Auto-closes and auto-renames tags
-
-" COC.nvim {{{
-" Plug '/usr/local/opt/fzf'
-" Plug 'junegunn/fzf.vim'
-
-" (external LSP support based on VSCode extensions)
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'antoinemadec/coc-fzf'
-" }}}
 
 " Native LSP {{{
 
@@ -137,23 +85,15 @@ Plug 'skywind3000/asyncrun.vim'
 " Plug 'vim-test/vim-test'
 
 " Markdown
-" Plug 'dkarter/bullets.vim', { 'for': 'markdown' }
-Plug 'gaoDean/autolist.nvim'
-Plug 'jbyuki/nabla.nvim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 " Auto-detect tabs/spaces
 Plug 'tpope/vim-sleuth'  " Auto detects file tabs/spaces
 
-" Weird file types that don't have LSP support
-Plug 'vim-scripts/applescript.vim'
-Plug 'rhysd/vim-llvm'
-
 " Aligning text
 Plug 'junegunn/vim-easy-align'
 
 " External integrations
-Plug 'editorconfig/editorconfig-vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }  " Nvim in the browser
 Plug 'edkolev/tmuxline.vim'
 
@@ -178,12 +118,11 @@ lua vim.loader.enable()
 source $HOME/.config/nvim/general.vim
 lua require("general")
 source $HOME/.config/nvim/colorscheme.vim
-source $HOME/.config/nvim/statusline.vim
 source $HOME/.config/nvim/neovide.vim
 
 " Load vim-and lua-based plugins
 source $HOME/.config/nvim/plugins.vim
-lua require("plugins")
+lua require("lua-plugins")
 
 " LSP setup (either CoC or native)
 " source $HOME/.config/nvim/coc-setup.vim
@@ -191,4 +130,6 @@ lua require("lsp-setup")
 
 " Project-specific configurations
 lua require("projects")
+
+lua require("new-init")
 
