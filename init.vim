@@ -3,13 +3,6 @@
 " Plugin directory for vim-plug
 call plug#begin('~/.vim/plugged')
 
-" Git
-Plug 'airblade/vim-gitgutter'
-" Plug 'nvim-lua/plenary.nvim'  " For gitsigns below
-" Plug 'lewis6991/gitsigns.nvim'  " Lua gitgutter with blame messages
-Plug 'tpope/vim-fugitive'
-Plug 'akinsho/git-conflict.nvim', { 'tag': '*' }
-
 " Command-line tools
 " Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug '~/Developer/Vim/toggleterm.nvim/'

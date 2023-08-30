@@ -1,41 +1,5 @@
 " vim: set fdm=marker fmr={{{,}}} fdl=0:
 
-" FZF {{{
-" Keybindings terminal (conflicts with FZF, so special handling is needed)
-" tnoremap <Esc> <C-\><C-n>
-" tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
-
-" Normal FZF searches
-" nmap <silent> <C-p> :Files<CR>
-" nmap <silent> <leader>sg :GFiles<CR>
-" nmap <silent> <leader>sG :GFiles?<CR>
-" nmap <silent> <leader>sl :Lines<CR>
-" nmap <silent> <leader>sL :BLines<CR>
-" nmap <silent> <leader>sb :Buffers<CR>
-" nmap <silent> <leader>sf :Filetypes<CR>
-" nmap <silent> <leader>sm :Marks<CR>
-" nmap <silent> <leader>sh :History:<CR>
-
-" Search for a specific thing in every file in the current directory
-" nmap <leader>sr :Rg 
-
-" Session Picker {{{
-" function! s:session_handler(lines)
-"   call startify#session_load(0, a:lines[1])
-" endfunction
-" 
-" function! s:fzf_sessions()
-"   let dir = substitute(expand(startify#get_session_path()), '/*$', '/', '')
-"   let wrapped = fzf#wrap('sessions', { 'source': startify#session_list(''), 'dir': dir }, 0)
-"   let wrapped['sink*'] = function('s:session_handler')
-"   return fzf#run(wrapped)
-" endfunction
-" 
-" command! Sessions call <SID>fzf_sessions()
-" nmap <silent> <leader>ss :Sessions<CR>
-" }}}
-" }}}
-
 " Visual-Multi {{{
 let g:VM_mouse_mappings   = 1
 let g:VM_maps = {}
@@ -70,17 +34,6 @@ nnoremap <silent> <leader>T :AsyncTask test<cr>
 " nnoremap <silent> <leader>R :H !!<CR>:H<CR>
 " }}}
 
-" Gitgutter {{{
-" g:gitgutter_highlight_linenrs  switch this when going into diff
-let g:gitgutter_sign_added              = '┃'
-let g:gitgutter_sign_modified           = '┃'
-let g:gitgutter_sign_removed            = '┃'
-let g:gitgutter_sign_removed_first_line = '╹'
-let g:gitgutter_sign_removed_above_and_below = '┇ '
-let g:gitgutter_sign_modified_removed   = '┇'
-nnoremap <leader>hh <Plug>(GitGutterPreviewHunk)
-" }}}
-
 " IndentBlankline {{{
 let g:indentLine_char = '│'
 let g:indent_blankline_use_treesitter = v:true
@@ -91,54 +44,7 @@ let g:indent_blankline_show_trailing_blankline_indent = v:false
 nnoremap <silent> <leader>i :IndentBlanklineRefresh<CR>
 " }}}
 
-" EditorConfig {{{
-" Required to work with fugitive
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
-" }}}
-
-" Fugitive {{{
-" let g:fugitive_buf = 0
-" let g:fugitive_win = 0
-" function! FugitiveToggle(width)
-"   if win_gotoid(g:fugitive_win)
-"     " Window is already visible, so close it
-"     quit
-"   else
-"     " Fugitive summary is not open, so create it
-"     topleft Gvsplit :
-"     exec "vertical resize " . a:width
-"     let g:fugitive_buf = bufnr("")
-"     setlocal nobuflisted
-" 
-"     " Disable everything except sign column (gives a little padding)
-"     set wrap
-"     set nonumber
-"     set norelativenumber
-"     " set signcolumn=no
-" 
-"     " Update the window id for closing later
-"     let g:fugitive_win = win_getid()
-"   endif
-" endfunction
-" 
-" function! CloseFugitiveIfOpen()
-"   if win_gotoid(g:fugitive_win)
-"     quit
-"   endif
-" endfunction
-" noremap <silent> <leader>G :call FugitiveToggle(31)<CR>
-
-function! OpenFugitive()
-  tab G
-  set winheight=10
-  set winminheight=10
-endfunction
-
-nnoremap <silent> <leader>G :call OpenFugitive()<CR>
-nnoremap <leader>hp :G push<CR>
-" }}}
-
-" MarkdownPreview -- Disabled {{{
+" MarkdownPreview {{{
 " Don't close preview when changing away from the buffer
 let g:mkdp_auto_close = 0
 " }}}
@@ -221,13 +127,6 @@ if exists('g:started_by_firenvim')
     autocmd FileType text,markdown set spell
   augroup END
 endif
-" }}}
-
-" Terminal-help {{{
-let g:terminal_pos="botright"
-" let g:terminal_edit="tab drop"
-" Open at current working directory instead of project root (which will find .git/)
-let g:terminal_cwd=0
 " }}}
 
 " vsnip {{{

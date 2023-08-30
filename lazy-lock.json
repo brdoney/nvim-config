@@ -1,5 +1,6 @@
 {
   "barbar.nvim": { "branch": "master", "commit": "8cca17ea0ced3ba564e5da972a25600edafe7d7b" },
+  "git-conflict.nvim": { "branch": "main", "commit": "d084646ef4c40e24eb9cac3eed1f1c8bd140431c" },
   "goyo.vim": { "branch": "master", "commit": "fa0263d456dd43f5926484d1c4c7022dfcb21ba9" },
   "incline.nvim": { "branch": "main", "commit": "c135bd7b4855dfb787f8e98caaf0a73679555be1" },
   "indent-blankline.nvim": { "branch": "master", "commit": "9637670896b68805430e2f72cf5d16be5b97a22a" },
@@ -15,6 +16,8 @@
   "scope.nvim": { "branch": "main", "commit": "b783c77175a3026d19152fd938a5cc066c2f6676" },
   "vim-airline": { "branch": "master", "commit": "e6bb8427dc2d2dc3583ed1bf5ff6a9682c854d32" },
   "vim-airline-themes": { "branch": "master", "commit": "dd81554c2231e438f6d0e8056ea38fd0e80ac02a" },
+  "vim-fugitive": { "branch": "master", "commit": "572c8510123cbde02e8a1dafcd376c98e1e13f43" },
+  "vim-gitgutter": { "branch": "main", "commit": "5f525476f3ade40e60aa295a8a2a01c0935b0d61" },
   "vim-startify": { "branch": "master", "commit": "81e36c352a8deea54df5ec1e2f4348685569bed2" },
   "which-key.nvim": { "branch": "main", "commit": "7ccf476ebe0445a741b64e36c78a682c1c6118b7" }
 }
