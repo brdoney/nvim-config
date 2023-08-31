@@ -35,5 +35,38 @@ return {
     end
   },
   -- Auto-closes and auto-renames tags
-  'windwp/nvim-ts-autotag'
+  'windwp/nvim-ts-autotag',
+  {
+    -- Multi-cursor editing
+    'mg979/vim-visual-multi',
+    branch = 'master',
+    init = function()
+      -- Enable the experimental undo and redo in visual mode (just for actions done in visual mode)
+      vim.g.VM_maps   = { Undo = 'u', Redo = '<C-r>' }
+      vim.g.VM_leader = '<Space><Space>'
+    end
+  },
+  -- Auto-detect tabs/spaces
+  'tpope/vim-sleuth',
+  {
+    -- Aligning text to specific characters (like formatting tables in markdown)
+    'junegunn/vim-easy-align',
+    config = function()
+      local eagroup = vim.api.nvim_create_augroup('EasyAlignMappings', {})
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'markdown',
+        group = eagroup,
+        callback = function()
+          -- vim.keymap.set('n', '<leader>f', ':%EasyAlign*<Bar><Enter>', { desc = 'Format tables' })
+          vim.keymap.set('x', '<leader>f', ':EasyAlign*<Bar><Enter>gv', { desc = 'Format tables' })
+          vim.wo.wrap = true
+        end
+      })
+    end,
+    keys = {
+      { 'n', 'ga', '<Plug>(EasyAlign)', { remap = true, desc = 'Easy align' } },
+      { 'x', 'ga', '<Plug>(EasyAlign)', { remap = true, desc = 'Easy align' } }
+    },
+    cmd = "EasyAlign"
+  }
 }

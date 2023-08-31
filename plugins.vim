@@ -1,13 +1,5 @@
 " vim: set fdm=marker fmr={{{,}}} fdl=0:
 
-" Visual-Multi {{{
-let g:VM_mouse_mappings   = 1
-let g:VM_maps = {}
-let g:VM_maps["Undo"]     = 'u'
-let g:VM_maps["Redo"]     = '<C-r>'
-let g:VM_leader = '<Space><Space>'
-" }}}
-
 " AsyncRun and vim-terminal-help {{{
 function! s:my_runner(opts)
   execute "1TermExec cmd='" .. a:opts.cmd .. "'"

@@ -3,10 +3,6 @@
 " Plugin directory for vim-plug
 call plug#begin('~/.vim/plugged')
 
-" Command-line tools
-" Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
-Plug '~/Developer/Vim/toggleterm.nvim/'
-
 " Syntax highlighting
 Plug 'sainnhe/sonokai'
 
@@ -15,8 +11,6 @@ Plug 'sainnhe/sonokai'
 Plug 'numToStr/Comment.nvim'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
-" Multi-cursor editing
-Plug 'mg979/vim-visual-multi', { 'branch': 'master' }
 
 " Native LSP {{{
 
@@ -70,12 +64,6 @@ Plug 'skywind3000/asyncrun.vim'
 
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-
-" Auto-detect tabs/spaces
-Plug 'tpope/vim-sleuth'  " Auto detects file tabs/spaces
-
-" Aligning text
-Plug 'junegunn/vim-easy-align'
 
 " Rainbow CSV and querying
 Plug 'mechatroner/rainbow_csv'
