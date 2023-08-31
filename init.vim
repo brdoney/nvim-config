@@ -6,11 +6,6 @@ call plug#begin('~/.vim/plugged')
 " Syntax highlighting
 Plug 'sainnhe/sonokai'
 
-" Comments
-" Plug 'scrooloose/nerdcommenter'
-Plug 'numToStr/Comment.nvim'
-Plug 'JoosepAlviste/nvim-ts-context-commentstring'
-
 " Native LSP {{{
 
 " Native LSP support

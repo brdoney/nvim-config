@@ -1,0 +1,62 @@
+return {
+  {
+    'numToStr/Comment.nvim',
+    dependencies = {
+      { 'JoosepAlviste/nvim-ts-context-commentstring', dependencies = "nvim-treesitter/nvim-treesitter" }
+    },
+    -- Technically there are more keymappings, but I don't use them soooo....
+    keys = "<C-_>",
+    config = function()
+      require("Comment").setup({
+        -- Integrate with nvim-ts-context-commentstring
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      })
+
+      vim.keymap.set('n', '<C-_>', require("Comment.api").toggle.linewise.current, { desc = 'Toggle comment' })
+      -- vim.keymap.set('i', '<C-_>', function()
+      --   require("Comment.api").toggle.linewise.current()
+      --   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>A", true, false, true), "m", true)
+      -- end, { desc = 'Toggle comment' })
+
+      -- Modeled after insert mode command under NERDCommenter
+      local comapi = require("Comment.api")
+      local function imode_comment()
+        local curr_line = vim.api.nvim_get_current_line()
+        -- vim.pretty_print(curr_line)
+        if curr_line ~= nil and curr_line:match('^%s*$') then
+          -- Empty
+          local input = vim.api.nvim_replace_termcodes("x<Esc>gccA<BS>", true, true, true)
+          vim.api.nvim_feedkeys(input, "m", true)
+        else
+          -- Not empty
+          local pos = vim.api.nvim_win_get_cursor(0)
+          local prevlen = curr_line:len()
+
+          comapi.toggle.linewise.current()
+
+          curr_line = vim.api.nvim_get_current_line()
+          local newlen = curr_line:len()
+
+          if curr_line ~= nil and curr_line:match('^%s*$') then
+            -- It's empty, so re-indent using `S`
+            vim.cmd.stopinsert()
+            vim.api.nvim_feedkeys("S", "m", false)
+          else
+            -- It's not empty, so just use I to get back to the beginning
+            local diff = prevlen - newlen
+
+            -- vim.api.nvim_win_set_cursor(0, {row - diff, col})
+            pos[2] = pos[2] - diff
+            vim.api.nvim_win_set_cursor(0, pos)
+          end
+        end
+      end
+      -- vim.keymap.set('i', '<C-_>', '<Esc>gcA', { remap = true, desc = 'Toggle comment' })
+      vim.keymap.set('i', '<C-_>', imode_comment, { remap = true, desc = 'Toggle comment' })
+
+      -- Stay in visual mode after the toggle
+      vim.keymap.set('v', '<C-_>', 'gcgv', { remap = true, desc = 'Toggle comment' })
+    end
+  }
+
+}
