@@ -56,11 +56,6 @@ Plug 'nvim-telescope/telescope.nvim'
 
 " }}}
 
-" Running code
-Plug 'skywind3000/asynctasks.vim'
-Plug 'skywind3000/asyncrun.vim'
-" Plug 'vim-test/vim-test'
-
 call plug#end()
 
 " Speed up loading of lua modules (like what impatient.nvim did)
@@ -77,8 +72,7 @@ if exists('g:neovide')
   source $HOME/.config/nvim/neovide.vim
 endif
 
-" Load vim-and lua-based plugins
-source $HOME/.config/nvim/plugins.vim
+" Load lua-based plugins
 lua require("lua-plugins")
 
 " LSP setup (either CoC or native)

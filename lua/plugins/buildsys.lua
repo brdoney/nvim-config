@@ -36,4 +36,33 @@ return {
       })
     end,
   },
+  {
+    -- Run code based on a defined task system (like code runner in VSCode)
+    'skywind3000/asyncrun.vim',
+    dependencies = 'skywind3000/asynctasks.vim',
+    init = function()
+      local function toggleterm_runner(opts)
+        vim.cmd("1TermExec cmd='" .. opts.cmd .. "'")
+      end
+
+      -- Register our custom toggleterm plugin
+      if vim.g.asyncrun_runner == nil then
+        vim.g.asyncrun_runner = { send_toggleterm = toggleterm_runner }
+      else
+        vim.g.asyncrun_runner.send_toggleterm = toggleterm_runner
+      end
+
+      -- Use our custom toggleterm plugin for running tasks
+      vim.g.asynctasks_term_pos = 'send_toggleterm'
+
+      -- Save all files on run
+      vim.g.asyncrun_save = 2
+    end,
+    keys = {
+      { "<leader>r", ":AsyncTask run<cr>",   silent = true, desc = "Run", },
+      { "<leader>b", ":AsyncTask build<cr>", silent = true, desc = "Build" },
+      { "<leader>T", ":AsyncTask test<cr>",  silent = true, desc = "Test" }
+    },
+    cmd = "AsyncTask"
+  }
 }

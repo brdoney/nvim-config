@@ -664,4 +664,8 @@ require "fidget".setup({
 
 -- }}}
 
+-- vsnip {{{
+vim.g.vsnip_snippet_dir = "/Users/brendan-doney/Library/Application Support/Code/User/snippets"
+-- }}}
+
 return M

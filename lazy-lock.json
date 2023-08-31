@@ -1,4 +1,6 @@
 {
+  "asyncrun.vim": { "branch": "master", "commit": "42385d54b8546c163b946fd50eed2103ef7993c9" },
+  "asynctasks.vim": { "branch": "master", "commit": "8bd5e987c84ed6a16b9fd4ca96ed54f05bb45662" },
   "barbar.nvim": { "branch": "master", "commit": "8cca17ea0ced3ba564e5da972a25600edafe7d7b" },
   "firenvim": { "branch": "master", "commit": "138424db463e6c0e862a05166a4ccc781cd7c19d" },
   "git-conflict.nvim": { "branch": "main", "commit": "d084646ef4c40e24eb9cac3eed1f1c8bd140431c" },
