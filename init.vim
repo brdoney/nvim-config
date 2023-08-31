@@ -7,9 +7,6 @@ call plug#begin('~/.vim/plugged')
 " Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug '~/Developer/Vim/toggleterm.nvim/'
 
-" Keybindings
-Plug 'wellle/targets.vim'
-
 " Syntax highlighting
 Plug 'sainnhe/sonokai'
 
@@ -20,12 +17,6 @@ Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
 " Multi-cursor editing
 Plug 'mg979/vim-visual-multi', { 'branch': 'master' }
-
-" Pairs and surround
-Plug 'windwp/nvim-autopairs'
-Plug 'tpope/vim-surround'
-" Plug 'alvan/vim-closetag'  " Doesn't autorename tags, just closes them
-Plug 'windwp/nvim-ts-autotag'  " Auto-closes and auto-renames tags
 
 " Native LSP {{{
 

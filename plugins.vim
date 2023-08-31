@@ -61,11 +61,6 @@ nnoremap <silent> <leader>wb <Plug>YsurroundiW*<Plug>YsurroundiW*
 vnoremap <silent> <leader>wb <Plug>VSurround*gv<Plug>VSurround*
 " }}}
 
-" Targets.vim {{{
-" Use n and N for next and previous instead of n and l
-let g:targets_nl = 'nN'
-" }}}
-
 " vim-closetag {{{
  " filenames like *.xml, *.html, *.xhtml, ...
 " These are the file extensions where this plugin is enabled.

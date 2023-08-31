@@ -457,16 +457,6 @@ _G.CloseFloatingWindows = function()
 end
 -- }}}
 
--- Nvim-autopairs {{{
-require('nvim-autopairs').setup {
-  enable_check_bracket_line = false
-}
-
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ tex = false }))
-
--- }}}
-
 -- null-ls.nvim {{{
 local null_ls = require("null-ls")
 null_ls.setup({
