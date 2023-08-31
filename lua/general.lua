@@ -40,3 +40,21 @@ vim.opt.fillchars = "fold: "
 
 -- Make vertical and horizontal scrolling the same amount
 vim.opt.mousescroll = "ver:3,hor:3"
+
+-- Set the indenting level to 2 spaces for the following file types.
+local two_files = { 'markdown', 'typescript', 'javascript', 'jsx', 'tsx', 'css', 'html', 'ruby', 'elixir',
+  'kotlin', 'vim', 'plantuml', 'c', 'cpp' }
+local sleuth_group = vim.api.nvim_create_augroup('sleuth_settigs', {})
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = two_files,
+  group = sleuth_group,
+  callback = function()
+    vim.bo.tabstop = 2
+    vim.bo.shiftwidth = 2
+  end
+})
+
+-- Defaults for all files, unless overriden with `autocmd` like above or by sleuth
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
