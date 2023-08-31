@@ -238,7 +238,16 @@ return {
           end
         end,
       })
-    end
+      -- Set manual refresh for when things get funky
+      vim.keymap.set("n", "<leader>i", ":IndentBlankLineRefresh<CR>", { silent = true, desc = "Refresh indents" })
+    end,
+    opts = {
+      use_treesitter = true,
+      char = '│',
+      filetype_exclude = { "lspinfo", "packer", "checkhealth", "help", "man", "text", "startify", "NvimTree", "mason" },
+      buftype_exclude = { "terminal", "nofile", "quickfix", "prompt" },
+      show_trailing_blankline_indent = false,
+    }
   },
   {
     "nvim-treesitter/nvim-treesitter",

@@ -34,31 +34,9 @@ nnoremap <silent> <leader>T :AsyncTask test<cr>
 " nnoremap <silent> <leader>R :H !!<CR>:H<CR>
 " }}}
 
-" IndentBlankline {{{
-let g:indentLine_char = '│'
-let g:indent_blankline_use_treesitter = v:true
-let g:indent_blankline_filetype_exclude = [ "lspinfo", "packer", "checkhealth", "help", "man", "text", "startify", "NvimTree", "mason" ]                                                                         
-let g:indent_blankline_buftype_exclude = [ "terminal", "nofile", "quickfix", "prompt" ]         
-" let g:indent_blankline_show_current_context = v:true
-let g:indent_blankline_show_trailing_blankline_indent = v:false
-nnoremap <silent> <leader>i :IndentBlanklineRefresh<CR>
-" }}}
-
 " MarkdownPreview {{{
 " Don't close preview when changing away from the buffer
 let g:mkdp_auto_close = 0
-" }}}
-
-" Surround.vim {{{
-" Bold and italics for markdown
-let g:surround_{char2nr('i')} = "*\r*"
-let g:surround_{char2nr('I')} = "**\r**"
-
-" Markdown word formatting
-nnoremap <silent> <leader>wi <Plug>YsurroundiW*
-vnoremap <silent> <leader>wi <Plug>VSurround*
-nnoremap <silent> <leader>wb <Plug>YsurroundiW*<Plug>YsurroundiW*
-vnoremap <silent> <leader>wb <Plug>VSurround*gv<Plug>VSurround*
 " }}}
 
 " vim-closetag {{{
@@ -96,32 +74,6 @@ let g:closetag_shortcut = '>'
 
 " Add > at current position without closing the current tag, default is ''
 let g:closetag_close_shortcut = '<leader>>' 
-" }}}
-
-" Firenvim {{{
-" Never turn on by default and use neovim's cmdline instead of the custom one
-let g:firenvim_config = { 'localSettings': { '.*': { 'takeover': 'never', 'cmdline': 'neovim' } } }
-
-if exists('g:started_by_firenvim')
-  " Runs when firenvim starts
-
-  " Don't actually do anything (maybe they will in future?)
-  set laststatus=0
-  set showtabline=0
-
-  set guifont=LigaMenlo\ Nerd\ Font:h18
-  set nonumber
-  set wrap
-
-  augroup firenvim_changes
-    " This will work instead to change laststatus and tabline
-    autocmd BufRead,BufNewFile * set laststatus=0 showtabline=0 
-
-    autocmd BufEnter github.com_*.txt,gitlab.com_*.txt set filetype=markdown
-
-    autocmd FileType text,markdown set spell
-  augroup END
-endif
 " }}}
 
 " vsnip {{{

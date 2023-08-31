@@ -77,17 +77,8 @@ Plug 'tpope/vim-sleuth'  " Auto detects file tabs/spaces
 " Aligning text
 Plug 'junegunn/vim-easy-align'
 
-" External integrations
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }  " Nvim in the browser
-Plug 'edkolev/tmuxline.vim'
-
 " Rainbow CSV and querying
 Plug 'mechatroner/rainbow_csv'
-
-" Database explorer
-Plug 'tpope/vim-dadbod'
-Plug 'kristijanhusak/vim-dadbod-completion'
-Plug 'kristijanhusak/vim-dadbod-ui'
 
 " Resize mode using natural directions
 Plug 'mrjones2014/smart-splits.nvim'
@@ -102,7 +93,11 @@ lua vim.loader.enable()
 source $HOME/.config/nvim/general.vim
 lua require("general")
 source $HOME/.config/nvim/colorscheme.vim
-source $HOME/.config/nvim/neovide.vim
+
+" Only use neovide settings if we're in neovide
+if exists('g:neovide')
+  source $HOME/.config/nvim/neovide.vim
+endif
 
 " Load vim-and lua-based plugins
 source $HOME/.config/nvim/plugins.vim
@@ -116,4 +111,3 @@ lua require("lsp-setup")
 lua require("projects")
 
 lua require("new-init")
-

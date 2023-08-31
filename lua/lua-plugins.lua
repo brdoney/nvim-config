@@ -126,26 +126,6 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 -- }}}
 
--- vim-dadbod {{{
-vim.g.db_ui_save_location = vim.fn.stdpath "config" .. require("plenary.path").path.sep .. "db_ui"
-
-local function db_completion()
-  require("cmp").setup.buffer { sources = { { name = "vim-dadbod-completion" } } }
-end
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = {
-    "sql",
-    "mysql",
-    "plsql",
-  },
-  callback = function()
-    vim.schedule(db_completion)
-  end,
-})
-require('cmp').setup.buffer({ sources = { { name = 'vim-dadbod-completion' } } })
--- }}}
-
 -- smart-splits.nvim {{{
 require("smart-splits").setup()
 vim.keymap.set("n", "<C-w>r", require('smart-splits').start_resize_mode, { desc = "Start buffer resize mode" });
