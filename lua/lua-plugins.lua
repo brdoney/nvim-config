@@ -109,8 +109,3 @@ end
 vim.keymap.set('n', '<leader>Po', pickFile, { desc = 'Folder picker' })
 vim.keymap.set('n', '<leader>Pq', ":SClose<CR>", { desc = 'Close sessions' })
 -- }}}
-
--- smart-splits.nvim {{{
-require("smart-splits").setup()
-vim.keymap.set("n", "<C-w>r", require('smart-splits').start_resize_mode, { desc = "Start buffer resize mode" });
--- }}}

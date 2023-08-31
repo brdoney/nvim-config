@@ -332,5 +332,16 @@ return {
     end,
     -- Toggle Goyo on keypress
     keys = { "<leader>z", ":Goyo<CR>", silent = true, desc = "Toggle Goyo", }
+  },
+  -- Rainbow CSV and querying
+  { 'mechatroner/rainbow_csv', ft = { "csv", "tsv", "csv_semicolon", "csv_whitespace", "csv_pipe" } },
+  {
+    -- Resize mode using natural directions
+    'mrjones2014/smart-splits.nvim',
+    keys = { "<C-w>r", },
+    config = function(_, opts)
+      require('smart-splits').setup(opts)
+      vim.keymap.set("n", "<C-w>r", require('smart-splits').start_resize_mode, { desc = "Start buffer resize mode" });
+    end
   }
 }

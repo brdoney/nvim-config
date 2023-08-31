@@ -11,7 +11,6 @@ Plug 'sainnhe/sonokai'
 Plug 'numToStr/Comment.nvim'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
-
 " Native LSP {{{
 
 " Native LSP support
@@ -61,15 +60,6 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 " Plug 'vim-test/vim-test'
-
-" Markdown
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-
-" Rainbow CSV and querying
-Plug 'mechatroner/rainbow_csv'
-
-" Resize mode using natural directions
-Plug 'mrjones2014/smart-splits.nvim'
 
 call plug#end()
 
