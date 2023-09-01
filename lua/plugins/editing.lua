@@ -64,8 +64,8 @@ return {
       })
     end,
     keys = {
-      { 'n', 'ga', '<Plug>(EasyAlign)', { remap = true, desc = 'Easy align' } },
-      { 'x', 'ga', '<Plug>(EasyAlign)', { remap = true, desc = 'Easy align' } }
+      { 'ga', '<Plug>(EasyAlign)', mode = 'n', { remap = true, desc = 'Easy align' } },
+      { 'ga', '<Plug>(EasyAlign)', mode = 'x', { remap = true, desc = 'Easy align' } }
     },
     cmd = "EasyAlign"
   }

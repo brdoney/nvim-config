@@ -5,25 +5,6 @@
 if has("termguicolors")
   set termguicolors
 endif
-" The configuration options should be placed before `colorscheme sonokai`.
-let g:sonokai_style = "maia"
-" let g:sonokai_style = "machine"
-" Enable italics
-let g:sonokai_enable_italic = 1
-" Show more markers for lines with diagnostics
-" let g:sonokai_diagnostic_line_highlight = 1
-let g:sonokai_diagnostic_text_highlight = 1
-" Make the sign column the same background as normal text
-let g:sonokai_sign_column_background = 'none'
-" Normally, colour is based on the type of diagonstic (hint, into, error, etc.)
-let g:sonokai_diagnostic_virtual_text = 'grey'
-" Make autocomplete green instead of blue
-let g:sonokai_menu_selection_background = 'green'
-" Don't show the end of buffer `~`s
-let g:sonokai_show_eob = 0
-
-" Disable terminal colors
-let g:sonokai_disable_terminal_colors = 1
 
 function! s:sonokai_custom() abort
   " Link a highlight group to a predefined highlight group.
@@ -225,6 +206,4 @@ augroup SonokaiCustom
   autocmd!
   autocmd ColorScheme sonokai call s:sonokai_custom()
 augroup ENDl
-
-colorscheme sonokai
 

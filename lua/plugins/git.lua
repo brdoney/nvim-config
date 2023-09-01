@@ -9,7 +9,7 @@ return {
       vim.g.gitgutter_sign_removed_first_line      = '╹'
       vim.g.gitgutter_sign_removed_above_and_below = '┇'
       vim.g.gitgutter_sign_modified_removed        = '┇'
-      vim.keymap.set("n", "<leader>hh", "<Plug>(GitGutterPreviewHunk")
+      vim.keymap.set("n", "<leader>hh", "<Plug>(GitGutterPreviewHunk)")
     end
   },
   {

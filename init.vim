@@ -3,11 +3,6 @@
 " Plugin directory for vim-plug
 call plug#begin('~/.vim/plugged')
 
-" Syntax highlighting
-Plug 'sainnhe/sonokai'
-
-" Native LSP {{{
-
 " Native LSP support
 Plug 'neovim/nvim-lspconfig'
 " Plug 'williamboman/nvim-lsp-installer' -- migrated to mason.nvim
@@ -47,9 +42,7 @@ Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
 " Telescope
-Plug 'nvim-telescope/telescope.nvim'
-
-" }}}
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' }
 
 call plug#end()
 
