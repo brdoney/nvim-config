@@ -458,166 +458,36 @@ end
 -- }}}
 
 -- null-ls.nvim {{{
-local null_ls = require("null-ls")
-null_ls.setup({
-  sources = {
-    -- Javascript
-    null_ls.builtins.code_actions.eslint_d,
-    null_ls.builtins.diagnostics.eslint_d.with({ method = null_ls.methods.DIAGNOSTICS_ON_SAVE }),
-    null_ls.builtins.formatting.prettierd,
-
-    -- Python
-    null_ls.builtins.diagnostics.flake8.with({
-      method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-      extra_args = { "--max-line-length=88", "--extend-ignore=E203" }
-    }),
-    null_ls.builtins.diagnostics.mypy.with({
-      method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-      ---@diagnostic disable-next-line: unused-local
-      extra_args = function(params)
-        if vim.fn.isdirectory(params.cwd .. "/.venv/") == 1 then
-          return { "--python-executable", ".venv/bin/python" }
-        end
-        return {}
-      end
-    }),
-    -- null_ls.builtins.formatting.autopep8
-    null_ls.builtins.formatting.black,
-
-    -- Swift
-    null_ls.builtins.formatting.swiftformat
-  },
-})
--- }}}
-
--- Telescope {{{
-require('telescope').setup {
-  defaults = {
-    scroll_strategy = "limit",
-    -- path_display = "tail",
-    set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
-    sorting_strategy = "ascending",
-
-    layout_config = {
-      horizontal = {
-        prompt_position = 'top'
-      },
-      vertical = {
-        mirror = true,
-        prompt_position = 'top'
-      },
-    },
-    dynamic_preview_title = true,
-    mappings = {
-      i = {
-        ["<esc>"] = require('telescope.actions').close
-      }
-    },
-  }
-}
-vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files, { desc = "File search" })
-vim.keymap.set('n', '<leader>sa',
-  function() require('telescope.builtin').find_files({ no_ignore = true }) end,
-  { desc = "File search without gitignore" })
-vim.keymap.set('n', '<leader>sh',
-  function() require('telescope.builtin').find_files({ no_ignore = true, hidden = true }) end,
-  { desc = "File search hidden files" })
-vim.keymap.set('n', '<leader>ss', require('telescope.builtin').live_grep, { desc = "Live grep" })
-
-local pickers = require("telescope.pickers")
-local finders = require("telescope.finders")
-local conf = require("telescope.config").values
-local actions = require("telescope.actions")
-local action_state = require("telescope.actions.state")
-
--- Telescope picker that lists sessions in descending order of access (most recenly used first)
-local sessionpicker = function(opts)
-  opts = opts or {}
-
-  -- Use for unsorted (but startify-leveraging) items
-  -- local sessions = vim.api.nvim_call_function('startify#session_list', {''})
-
-  -- Use for
-  local sessiondir = vim.fn.stdpath('data') .. '/session'
-  if vim.g.startify_session_dir ~= nil then
-    sessiondir = vim.g.startify_session_dir
-  end
-
-  local sessions_exa = vim.fn.system("exa -rs accessed " .. sessiondir)
-  local sessions = {}
-  for s in sessions_exa:gmatch('[^\n]+') do
-    -- Have to filter '__LAST__ -> ...' string from output
-    if s:match('__LAST__') == nil then
-      table.insert(sessions, s)
-    end
-  end
-
-  pickers.new(opts, {
-    prompt_title = "Session Picker",
-    finder = finders.new_table {
-      results = sessions
-    },
-    sorter = conf.generic_sorter(opts),
-    ---@diagnostic disable-next-line: unused-local
-    attach_mappings = function(prompt_bufnr, _map)
-      actions.select_default:replace(function()
-        actions.close(prompt_bufnr)
-        local selection = action_state.get_selected_entry()
-        vim.cmd('SLoad ' .. selection[1])
-        -- print(selection[1])
-      end)
-      return true
-    end,
-  }):find()
-end
-
--- to execute the function
-vim.keymap.set('n', '<leader>PP', sessionpicker, { desc = 'Session picker' })
--- }}}
-
--- Dressing {{{
-require('dressing').setup({
-  input = {
-    default_prompt = "> ",
-    anchor = "NW",
-    border = border,
-  },
-  select = {
-    -- backend = { "builtin", "telescope", "fzf_lua", "fzf", "nui" },
-
-    -- telescope = require('telescope.themes').get_cursor({ borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" } }),
-    telescope = require('telescope.themes').get_cursor({
-      borderchars = {
-        { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
-        prompt = { '─', '│', ' ', '│', '┌', '┐', '│', '│' },
-        results = { '─', '│', '─', '│', '├', '┤', '┘', '└' },
-        preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
-      },
-      winblend = 10,
-      initial_mode = "normal"
-    }),
-
-    -- Not actually used b/c it looks ugly, but just in case the backend
-    -- is changed later
-    builtin = {
-      anchor = "NW",
-      border = border,
-      relative = "cursor",
-    },
-
-    format_item_override = {
-      codeaction = function(action_tuple)
-        local title = action_tuple[2].title:gsub("\r\n", "\\r\\n")
-        local client = vim.lsp.get_client_by_id(action_tuple[1])
-
-        -- for index, data in ipairs(action_tuple) do
-        --   print(string.format("%d %s", index, vim.inspect(data)))
-        -- end
-        return string.format(" %s %s ", title:gsub("\n", "\\n"), client.name)
-      end,
-    }
-  }
-})
+-- local null_ls = require("null-ls")
+-- null_ls.setup({
+--   sources = {
+--     -- Javascript
+--     null_ls.builtins.code_actions.eslint_d,
+--     null_ls.builtins.diagnostics.eslint_d.with({ method = null_ls.methods.DIAGNOSTICS_ON_SAVE }),
+--     null_ls.builtins.formatting.prettierd,
+--
+--     -- Python
+--     null_ls.builtins.diagnostics.flake8.with({
+--       method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+--       extra_args = { "--max-line-length=88", "--extend-ignore=E203" }
+--     }),
+--     null_ls.builtins.diagnostics.mypy.with({
+--       method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+--       ---@diagnostic disable-next-line: unused-local
+--       extra_args = function(params)
+--         if vim.fn.isdirectory(params.cwd .. "/.venv/") == 1 then
+--           return { "--python-executable", ".venv/bin/python" }
+--         end
+--         return {}
+--       end
+--     }),
+--     -- null_ls.builtins.formatting.autopep8
+--     null_ls.builtins.formatting.black,
+--
+--     -- Swift
+--     null_ls.builtins.formatting.swiftformat
+--   },
+-- })
 -- }}}
 
 -- Lightbulb {{{

@@ -2,7 +2,7 @@ return {
   {
     'numToStr/Comment.nvim',
     dependencies = {
-      { 'JoosepAlviste/nvim-ts-context-commentstring', dependencies = "nvim-treesitter/nvim-treesitter" }
+      { 'JoosepAlviste/nvim-ts-context-commentstring', dependencies = { "nvim-treesitter/nvim-treesitter" } }
     },
     -- Technically there are more keymappings, but I don't use them soooo....
     keys = "<C-_>",

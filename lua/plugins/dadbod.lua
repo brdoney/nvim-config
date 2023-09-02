@@ -1,6 +1,6 @@
 return {
   {
-  -- Database explorer
+    -- Database explorer
     'tpope/vim-dadbod',
     ft = { "sql", "mysql", "plsql" },
     init = function()
@@ -10,13 +10,13 @@ return {
   {
     -- UI for dadbod, similar to the sqlite VSCode extension
     'kristijanhusak/vim-dadbod-ui',
-    dependencies = 'tpope/vim-dadbod',
+    dependencies = { 'tpope/vim-dadbod' },
     ft = { "sql", "mysql", "plsql" }
   },
   {
     -- cmp completion support for SQL tables, columns, etc.
     'kristijanhusak/vim-dadbod-completion',
-    dependencies = 'tpope/vim-dadbod',
+    dependencies = { 'tpope/vim-dadbod' },
     ft = { "sql", "mysql", "plsql" },
     config = function()
       local function db_completion()

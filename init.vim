@@ -41,9 +41,6 @@ Plug 'folke/neodev.nvim'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
-" Telescope
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' }
-
 call plug#end()
 
 " Speed up loading of lua modules (like what impatient.nvim did)

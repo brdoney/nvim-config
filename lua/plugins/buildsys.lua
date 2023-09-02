@@ -39,7 +39,7 @@ return {
   {
     -- Run code based on a defined task system (like code runner in VSCode)
     'skywind3000/asyncrun.vim',
-    dependencies = 'skywind3000/asynctasks.vim',
+    dependencies = { 'skywind3000/asynctasks.vim' },
     init = function()
       local function toggleterm_runner(opts)
         vim.cmd("1TermExec cmd='" .. opts.cmd .. "'")

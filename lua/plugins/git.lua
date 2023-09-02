@@ -35,7 +35,7 @@ return {
     -- Isn't super great b/c it's kinda buggy and doesn't highlight conflicts
     -- unless they're entirely on screen - should try conflict-markers.vim
     'akinsho/git-conflict.nvim',
-    tag = '*',
+    version = '*',
     opts = {
       default_mappings = false,
       disable_diagnostics = true,
