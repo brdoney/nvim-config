@@ -20,16 +20,14 @@ local function remap_file(from_ft, to_ft)
   end
 end
 
-local null_ls = require("null-ls")
-
 dir_setup("*/CSGenome/website/*", function()
   remap_file("javascript", "javascriptreact")
 end)
 
 dir_setup("*/CSGenome/csg/*", function()
-  null_ls.disable("flake8")
+  require("null-ls").disable("flake8")
 end)
 
 dir_setup("*/CSGenome/ML-rewrite/*", function()
-  null_ls.disable("flake8")
+  require("null-ls").disable("flake8")
 end)

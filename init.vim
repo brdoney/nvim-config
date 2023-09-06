@@ -3,6 +3,9 @@
 " Plugin directory for vim-plug
 call plug#begin('~/.vim/plugged')
 
+" For various plugins
+Plug 'nvim-lua/plenary.nvim'
+
 " Native LSP support
 Plug 'neovim/nvim-lspconfig'
 " Plug 'williamboman/nvim-lsp-installer' -- migrated to mason.nvim
@@ -16,10 +19,6 @@ Plug 'stevearc/dressing.nvim'
 Plug 'kosayoda/nvim-lightbulb'
 Plug 'j-hui/fidget.nvim', { 'tag': 'legacy'}
 Plug 'folke/trouble.nvim'
-
-" Support non-LSP sources (i.e. for formatting)
-Plug 'nvim-lua/plenary.nvim'
-Plug 'jose-elias-alvarez/null-ls.nvim'
 
 " Non-spec LSP additions
 Plug 'simrat39/rust-tools.nvim'

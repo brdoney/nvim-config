@@ -54,4 +54,41 @@ return {
       })
     end
   },
+  {
+    -- Support non-LSP sources (i.e. for formatting)
+    'jose-elias-alvarez/null-ls.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local null_ls = require("null-ls")
+      null_ls.setup({
+        sources = {
+          -- Javascript
+          null_ls.builtins.code_actions.eslint_d,
+          null_ls.builtins.diagnostics.eslint_d.with({ method = null_ls.methods.DIAGNOSTICS_ON_SAVE }),
+          null_ls.builtins.formatting.prettierd,
+
+          -- Python
+          null_ls.builtins.diagnostics.flake8.with({
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+            extra_args = { "--max-line-length=88", "--extend-ignore=E203" }
+          }),
+          null_ls.builtins.diagnostics.mypy.with({
+            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+            ---@diagnostic disable-next-line: unused-local
+            extra_args = function(params)
+              if vim.fn.isdirectory(params.cwd .. "/.venv/") == 1 then
+                return { "--python-executable", ".venv/bin/python" }
+              end
+              return {}
+            end
+          }),
+          -- null_ls.builtins.formatting.autopep8
+          null_ls.builtins.formatting.black,
+
+          -- Swift
+          null_ls.builtins.formatting.swiftformat
+        },
+      })
+    end
+  }
 }
