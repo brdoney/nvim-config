@@ -2,7 +2,7 @@
 
 local jdtls_ok, jdtls = pcall(require, "jdtls")
 if not jdtls_ok then
-  vim.notify "JDTLS not found, install with `:LspInstall jdtls`"
+  vim.notify "JDTLS not found, install with Mason"
   return
 end
 

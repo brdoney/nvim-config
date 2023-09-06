@@ -68,21 +68,8 @@ M.lsp_on_attach = function(client, bufnr)
 end
 -- }}}
 
--- Mason {{{
-require("mason").setup()
-
 local servers = { 'emmet_ls', 'gopls', 'vimls', 'clangd', 'tsserver', 'html', 'pyright',
   'rust_analyzer', 'lua_ls', 'bashls', 'jdtls', 'cssls' }
-local null_ls_tools = { 'eslint_d', 'prettierd' }
-
-require("mason-lspconfig").setup {
-  ensure_installed = servers
-}
-
-require('mason-tool-installer').setup {
-  ensure_installed = null_ls_tools
-}
--- }}}
 
 -- Neodev - needs to be before LSP startup {{{
 require("neodev").setup({})

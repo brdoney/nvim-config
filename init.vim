@@ -5,10 +5,6 @@ call plug#begin('~/.vim/plugged')
 
 " Native LSP support
 Plug 'neovim/nvim-lspconfig'
-" Plug 'williamboman/nvim-lsp-installer' -- migrated to mason.nvim
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
 
 " Non-spec LSP additions
 Plug 'simrat39/rust-tools.nvim'

@@ -135,4 +135,46 @@ return {
     'folke/trouble.nvim',
     keys = { { '<leader>g', function() require('trouble').toggle() end, desc = 'Toggle trouble' } }
   },
+  {
+    'williamboman/mason.nvim',
+    opts = {}
+  },
+  {
+    'williamboman/mason-lspconfig.nvim',
+    dependencies = 'williamboman/mason.nvim',
+    opts = {
+      ensure_installed = {
+        -- HTML/CSS/JS/TS
+        'emmet_ls',
+        'html',
+        'cssls',
+        'tsserver',
+        -- Go
+        'gopls',
+        -- C/C++
+        'clangd',
+        -- Python
+        'pyright',
+        -- Rust
+        'rust_analyzer',
+        -- BASH
+        'bashls',
+        -- Vim
+        'vimls',
+        -- Lua
+        'lua_ls',
+      }
+    }
+  },
+  {
+    'WhoIsSethDaniel/mason-tool-installer.nvim',
+    dependencies = 'williamboman/mason.nvim',
+    opts = {
+      ensure_installed = {
+        -- JS/TS
+        'eslint_d', 'prettierd'
+      }
+    }
+  }
+
 }
