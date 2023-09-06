@@ -90,5 +90,49 @@ return {
         },
       })
     end
-  }
+  },
+  {
+    -- Show a lightbulb in the gutter when there's code actions
+    'kosayoda/nvim-lightbulb',
+    opts = {
+      autocmd = { enabled = true },
+      sign = {
+        enabled = true,
+        text = "",
+        hl = "LightBulbSign",
+      },
+    }
+  },
+  {
+    'j-hui/fidget.nvim',
+    -- Use legacy tag until rewrite is done
+    tag = 'legacy',
+    opts = {
+      text = {
+        spinner = "square_corners"
+      },
+      fmt = {
+        task = function(task_name, message, percentage)
+          -- Hide all code-actions until we can specific sources from null-ls
+          -- https://github.com/j-hui/fidget.nvim/issues/99
+          -- https://github.com/j-hui/fidget.nvim/issues/112
+          -- Still shows spinner for null-ls (even when there are no items besides the hidden code-actions)
+          -- and still show any non-code-action items for null-ls
+          if task_name == "code_action" then
+            return false
+          end
+          return string.format(
+            "%s%s [%s]",
+            message,
+            percentage and string.format(" (%s%%)", percentage) or "",
+            task_name
+          )
+        end,
+      }
+    }
+  },
+  {
+    'folke/trouble.nvim',
+    keys = { { '<leader>g', function() require('trouble').toggle() end, desc = 'Toggle trouble' } }
+  },
 }

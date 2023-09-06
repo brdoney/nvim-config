@@ -30,6 +30,8 @@ return {
   { "tiagovla/scope.nvim" },
   {
     'mhinz/vim-startify',
+    -- One above normal priority, so it loads before barbar
+    priority = 51,
     init = function()
       local function courses()
         return { { line = 'CS 5944 Graduate Seminar', cmd = 'SLoad gradseminar' } }
