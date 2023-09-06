@@ -14,7 +14,6 @@ Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
 
 " Native LSP visual enchancements
-Plug 'onsails/lspkind.nvim'
 Plug 'stevearc/dressing.nvim'
 Plug 'kosayoda/nvim-lightbulb'
 Plug 'j-hui/fidget.nvim', { 'tag': 'legacy'}
@@ -24,21 +23,8 @@ Plug 'folke/trouble.nvim'
 Plug 'simrat39/rust-tools.nvim'
 Plug 'mfussenegger/nvim-jdtls'
 
-" Native LSP completion
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'lukas-reineke/cmp-under-comparator'  " For putting dunder methods lower in list in Python
-Plug 'hrsh7th/nvim-cmp'
-
 " For nvim Lua API
 Plug 'folke/neodev.nvim'
-
-" Snippets
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'hrsh7th/vim-vsnip'
 
 call plug#end()
 
