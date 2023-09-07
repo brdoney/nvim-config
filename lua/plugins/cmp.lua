@@ -31,6 +31,7 @@ return {
   {
     -- Snippet engine (used by cmp)
     'hrsh7th/vim-vsnip',
+    event = 'VeryLazy',
     init = function()
       vim.g.vsnip_snippet_dir = "/Users/brendan-doney/Library/Application Support/Code/User/snippets"
     end
@@ -38,6 +39,7 @@ return {
   {
     -- LSP symbols (depended on by nvim-cmp)
     'onsails/lspkind.nvim',
+    event = 'VeryLazy',
     opts = {
       mode = "symbol_text",
       -- Basically just codicons preset with a couple tweaks
@@ -91,6 +93,7 @@ return {
       -- For putting dunder methods lower in list in Python
       'lukas-reineke/cmp-under-comparator',
     },
+    event = 'VeryLazy',
     config = function()
       local cmp = require('cmp')
       local compare = require('cmp.config.compare')

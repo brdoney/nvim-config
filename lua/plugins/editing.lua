@@ -2,6 +2,7 @@ return {
   {
     -- Adds extra targets, like vi|
     'wellle/targets.vim',
+    event = "VeryLazy",
     init = function()
       -- Use n and N for next and previous instead of n and l
       vim.g.targets_nl = 'nN'
@@ -9,6 +10,7 @@ return {
   },
   {
     'windwp/nvim-autopairs',
+    event = "VeryLazy",
     opts = {
       enable_check_bracket_line = false
     },
@@ -22,6 +24,7 @@ return {
   -- Surround with things using keyboard shortcuts
   {
     'tpope/vim-surround',
+    event = "VeryLazy",
     init = function()
       -- Bold and italics for markdown
       vim.g['surround_' .. vim.fn.char2nr('i')] = "*\r*"
@@ -34,12 +37,15 @@ return {
       vim.keymap.set('v', '<leader>wb', '<Plug>VsurroundiWI', { silent = true, desc = 'Bold' })
     end
   },
-  -- Auto-closes and auto-renames tags
-  'windwp/nvim-ts-autotag',
+  {
+    -- Auto-closes and auto-renames tags
+    'windwp/nvim-ts-autotag',
+    ft = { "html", "javascript", "typescript", "jsx", "tsx", "vue", "svelte" }
+  },
   {
     -- Multi-cursor editing
     'mg979/vim-visual-multi',
-    branch = 'master',
+    event = "VeryLazy",
     init = function()
       -- Enable the experimental undo and redo in visual mode (just for actions done in visual mode)
       vim.g.VM_maps   = { Undo = 'u', Redo = '<C-r>' }

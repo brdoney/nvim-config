@@ -2,6 +2,7 @@ return {
   {
     -- Shows git status icons in the gutter
     'airblade/vim-gitgutter',
+    event = 'VeryLazy',
     init = function()
       vim.g.gitgutter_sign_added                   = '┃'
       vim.g.gitgutter_sign_modified                = '┃'
@@ -15,6 +16,7 @@ return {
   {
     -- Vim fugitive does literally everything git related
     'tpope/vim-fugitive',
+    event = 'VeryLazy',
     keys = {
       {
         "<leader>G",
@@ -36,6 +38,7 @@ return {
     -- unless they're entirely on screen - should try conflict-markers.vim
     'akinsho/git-conflict.nvim',
     version = '*',
+    event = 'VeryLazy',
     opts = {
       default_mappings = false,
       disable_diagnostics = true,

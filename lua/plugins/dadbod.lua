@@ -4,7 +4,7 @@ return {
     'tpope/vim-dadbod',
     ft = { "sql", "mysql", "plsql" },
     init = function()
-      vim.g.db_ui_save_location = vim.fn.stdpath "config" .. require("plenary.path").path.sep .. "db_ui"
+      vim.g.db_ui_save_location = vim.fn.stdpath("config") .. "/db_ui"
     end
   },
   {

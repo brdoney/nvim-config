@@ -30,8 +30,6 @@ return {
   { "tiagovla/scope.nvim" },
   {
     'mhinz/vim-startify',
-    -- One above normal priority, so it loads before barbar
-    priority = 51,
     init = function()
       local function courses()
         return { { line = 'CS 5944 Graduate Seminar', cmd = 'SLoad gradseminar' } }
@@ -268,7 +266,7 @@ return {
         end,
       })
       -- Set manual refresh for when things get funky
-      vim.keymap.set("n", "<leader>i", ":IndentBlankLineRefresh<CR>", { silent = true, desc = "Refresh indents" })
+      vim.keymap.set("n", "<leader>i", ":IndentBlanklineRefresh<CR>", { silent = true, desc = "Refresh indents" })
     end,
     opts = {
       use_treesitter = true,
@@ -311,13 +309,6 @@ return {
       -- (and sessions will preserve manual folding from past otherwise)
       vim.opt.sessionoptions = "blank,buffers,curdir,help,tabpages,winsize,terminal"
     end
-  },
-  {
-    -- For debugging themes
-    'nvim-treesitter/playground',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter'
-    }
   },
   {
     -- Scrollbar which shows diagnostics and such

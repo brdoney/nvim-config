@@ -71,6 +71,7 @@ return {
     -- Native LSP support
     'neovim/nvim-lspconfig',
     dependencies = 'hrsh7th/cmp-nvim-lsp',
+    event = "VeryLazy",
     config = function()
       for _, server in ipairs(servers) do
         if server == 'jdtls' then
@@ -145,7 +146,7 @@ return {
   {
     'stevearc/dressing.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim' },
-    event = 'BufWinEnter',
+    event = 'VeryLazy',
     config = function()
       require("dressing").setup({
         input = {
@@ -199,6 +200,7 @@ return {
     -- Support non-LSP sources (i.e. for formatting)
     'jose-elias-alvarez/null-ls.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
+    event = "VeryLazy",
     config = function()
       local null_ls = require("null-ls")
       null_ls.setup({
@@ -235,6 +237,7 @@ return {
   {
     -- Show a lightbulb in the gutter when there's code actions
     'kosayoda/nvim-lightbulb',
+    event = 'LspAttach',
     opts = {
       autocmd = { enabled = true },
       sign = {
@@ -248,6 +251,7 @@ return {
     'j-hui/fidget.nvim',
     -- Use legacy tag until rewrite is done
     tag = 'legacy',
+    event = 'LspAttach',
     opts = {
       text = {
         spinner = "square_corners"
@@ -274,15 +278,18 @@ return {
   },
   {
     'folke/trouble.nvim',
+    event = 'LspAttach',
     keys = { { '<leader>g', function() require('trouble').toggle() end, desc = 'Toggle trouble' } }
   },
   {
     'williamboman/mason.nvim',
+    event = "VeryLazy",
     opts = {}
   },
   {
     'williamboman/mason-lspconfig.nvim',
     dependencies = 'williamboman/mason.nvim',
+    event = "VeryLazy",
     opts = {
       ensure_installed = servers
     }
@@ -290,6 +297,7 @@ return {
   {
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     dependencies = 'williamboman/mason.nvim',
+    event = "VeryLazy",
     opts = {
       ensure_installed = tools
     }

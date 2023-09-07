@@ -172,6 +172,8 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-tree.lua",
-    }
+    },
+    event = "LspAttach",
+    opts = {},
   }
 }

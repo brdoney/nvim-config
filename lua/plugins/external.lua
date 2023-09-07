@@ -1,5 +1,8 @@
 return {
-  'edkolev/tmuxline.vim',
+  {
+    'edkolev/tmuxline.vim',
+    event = "VeryLazy"
+  },
   {
     'glacambre/firenvim',
 
