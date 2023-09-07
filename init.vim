@@ -1,20 +1,5 @@
 " vim: set fdm=marker fmr={{{,}}} fdl=0:
 
-" Plugin directory for vim-plug
-call plug#begin('~/.vim/plugged')
-
-" Native LSP support
-Plug 'neovim/nvim-lspconfig'
-
-" Non-spec LSP additions
-Plug 'simrat39/rust-tools.nvim'
-Plug 'mfussenegger/nvim-jdtls'
-
-" For nvim Lua API
-Plug 'folke/neodev.nvim'
-
-call plug#end()
-
 " Speed up loading of lua modules (like what impatient.nvim did)
 lua vim.loader.enable()
 
@@ -34,7 +19,6 @@ lua require("lua-plugins")
 
 " LSP setup (either CoC or native)
 " source $HOME/.config/nvim/coc-setup.vim
-lua require("lsp-setup")
 
 " Project-specific configurations
 lua require("projects")

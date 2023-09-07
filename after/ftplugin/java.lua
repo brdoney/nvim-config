@@ -47,8 +47,8 @@ local config = {
     "-data", workspace_dir,
   },
 
-  on_attach = require("lsp-setup").lsp_on_attach,
-  capabilities = require("lsp-setup").capabilities,
+  on_attach = require('lsp-utils').lsp_on_attach,
+  capabilities = require('lsp-utils').capabilities,
   root_dir = root_dir,
 
   -- Here you can configure eclipse.jdt.ls specific settings
@@ -138,7 +138,7 @@ local config = {
   init_options = {
     bundles = {},
     extendedClientCapabilities = {
-        progressReportProvider = false,
+      progressReportProvider = false,
     },
   },
 }
