@@ -5,7 +5,9 @@ return {
       { 'JoosepAlviste/nvim-ts-context-commentstring', dependencies = { "nvim-treesitter/nvim-treesitter" } }
     },
     -- Technically there are more keymappings, but I don't use them soooo....
-    keys = "<C-_>",
+    -- Doesn't actually trigger unless you do <C-v><C-_> in insert mode for some reason
+    -- keys = "<C-_>",
+    event = "VeryLazy",
     config = function()
       require("Comment").setup({
         -- Integrate with nvim-ts-context-commentstring
