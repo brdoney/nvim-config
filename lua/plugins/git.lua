@@ -28,7 +28,7 @@ return {
         desc = "Open Fugitive"
       },
       {
-        "<leader>hp", ":G push<CR>", desc = "Git push"
+        "<leader>hp", "<cmd>G push<CR>", desc = "Git push"
       }
     }
   },

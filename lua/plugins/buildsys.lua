@@ -60,9 +60,9 @@ return {
       vim.g.asyncrun_save = 2
     end,
     keys = {
-      { "<leader>r", ":AsyncTask run<cr>",   silent = true, desc = "Run", },
-      { "<leader>b", ":AsyncTask build<cr>", silent = true, desc = "Build" },
-      { "<leader>T", ":AsyncTask test<cr>",  silent = true, desc = "Test" }
+      { "<leader>r", "<cmd>AsyncTask run<cr>",  silent = true, desc = "Run" },
+      { "<leader>b", "cmd>AsyncTask build<cr>", silent = true, desc = "Build" },
+      { "<leader>T", "cmd>AsyncTask test<cr>",  silent = true, desc = "Test" }
     },
     cmd = "AsyncTask"
   }

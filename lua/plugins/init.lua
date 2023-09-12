@@ -351,7 +351,8 @@ return {
       -- vim.g.goyo_width = 90
     end,
     -- Toggle Goyo on keypress
-    keys = { "<leader>z", ":Goyo<CR>", silent = true, desc = "Toggle Goyo", }
+    keys = { "<leader>z", "<cmd>Goyo<CR>", silent = true, desc = "Toggle Goyo", },
+    cmd = "Goyo"
   },
   -- Rainbow CSV and querying
   { 'mechatroner/rainbow_csv', ft = { "csv", "tsv", "csv_semicolon", "csv_whitespace", "csv_pipe" } },
