@@ -30,6 +30,7 @@ return {
   { "tiagovla/scope.nvim" },
   {
     'mhinz/vim-startify',
+    cond = not vim.g.started_by_firenvim,
     init = function()
       local function courses()
         return { { line = 'CS 5944 Graduate Seminar', cmd = 'SLoad gradseminar' } }
@@ -89,6 +90,7 @@ return {
   },
   {
     'vim-airline/vim-airline',
+    cond = not vim.g.started_by_firenvim,
     dependencies = { 'vim-airline/vim-airline-themes' },
     init = function()
       -- From vim-airline-themes
@@ -96,6 +98,16 @@ return {
       -- Use powerline in airline
       vim.g.airline_powerline_fonts = 1
       vim.g.airline_stl_path_style = 'short'
+    end,
+    config = function()
+      vim.api.nvim_exec2([[
+        function! SleuthPlugin(...)
+          " Prepend sleuth info to section x (right before the file type)
+          let w:airline_section_x = get(w:, 'airline_section_x', g:airline_section_x)
+          let w:airline_section_x = '%{SleuthIndicator()}' . g:airline_symbols.space . w:airline_section_x
+        endfunction
+        call airline#add_statusline_func('SleuthPlugin')
+      ]], {})
     end
   },
   {

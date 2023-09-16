@@ -19,6 +19,10 @@ return {
     config = function()
       -- Runs when firenvim starts the neovim instance it saves
 
+      -- Text editing shortcuts (taken from neovide config)
+      vim.keymap.set("i", "<M-BS>", "<C-W>")
+      vim.keymap.set("i", "<D-BS>", "<C-U>")
+
       vim.opt.guifont = { "LigaMenlo Nerd Font", "h18" }
       vim.opt.number = false
 

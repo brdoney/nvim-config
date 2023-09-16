@@ -149,13 +149,6 @@ nnoremap <silent> <leader>qp :<C-u>CocFzfListResume<CR>
 
 " Status in command line {{{
 
-function! SleuthPlugin(...)
-  " Prepend sleuth info to section x (right before the file type)
-  let w:airline_section_x = get(w:, 'airline_section_x', g:airline_section_x)
-  let w:airline_section_x = '%{SleuthIndicator()}' . g:airline_symbols.space . w:airline_section_x
-endfunction
-call airline#add_statusline_func('SleuthPlugin')
-
 function! RemoveCocStatus(...)
   let spc = g:airline_symbols.space
   " Useful for Rust, which floods airline with stuff b/c of coc-rust-analyzer
