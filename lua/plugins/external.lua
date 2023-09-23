@@ -28,7 +28,7 @@ return {
 
       local firenvim_group = vim.api.nvim_create_augroup('firenvim_settings', {})
       vim.api.nvim_create_autocmd('BufEnter', {
-        pattern = { 'github.com_*.txt', 'gitlab.com_*.txt' },
+        pattern = { 'github.com_*.txt', 'gitlab.com_*.txt', 'git.cs.vt.edu_*.txt', '*.hotcrp.com_*.txt' },
         group = firenvim_group,
         callback = function()
           vim.bo.filetype = 'markdown'
@@ -40,14 +40,6 @@ return {
         callback = function()
           vim.wo.spell = true
           vim.opt.wrap = true
-        end
-      })
-      vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-        group = firenvim_group,
-        callback = function()
-          -- This is overriden elsewhere in my config and lazy nvim runs this pretty early, so it's easiest to just set this here now
-          vim.opt.laststatus = 0
-          vim.opt.showtabline = 0
         end
       })
     end
