@@ -67,3 +67,12 @@ SRAM
 filesystem
 inode
 inodes
+CUDA
+cuBLAS
+OpenBLAS
+autograder
+LRU
+LRFU
+linearizability
+Linearizable
+linearizable

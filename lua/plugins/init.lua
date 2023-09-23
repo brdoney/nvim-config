@@ -112,6 +112,7 @@ return {
   },
   {
     'romgrk/barbar.nvim',
+    cond = not vim.g.started_by_firenvim,
     dependencies = {
       'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
     },
@@ -363,7 +364,7 @@ return {
       -- vim.g.goyo_width = 90
     end,
     -- Toggle Goyo on keypress
-    keys = { "<leader>z", "<cmd>Goyo<CR>", silent = true, desc = "Toggle Goyo", },
+    keys = { { "<leader>z", "<cmd>Goyo<CR>", silent = true, desc = "Toggle Goyo", } },
     cmd = "Goyo"
   },
   -- Rainbow CSV and querying

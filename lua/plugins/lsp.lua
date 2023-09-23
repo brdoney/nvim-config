@@ -211,18 +211,21 @@ return {
           null_ls.builtins.formatting.prettierd,
 
           -- Python
-          null_ls.builtins.diagnostics.flake8.with({
-            method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-            extra_args = { "--max-line-length=88", "--extend-ignore=E203" }
-          }),
+          null_ls.builtins.diagnostics.ruff,
+          -- null_ls.builtins.diagnostics.flake8.with({
+          --   method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
+          --   extra_args = { "--max-line-length=88", "--extend-ignore=E203" }
+          -- }),
+          --
+          -- Use dmypy -- alternatives in https://github.com/jose-elias-alvarez/null-ls.nvim/issues/831
           null_ls.builtins.diagnostics.mypy.with({
+            command = 'dmypy',
             method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-            ---@diagnostic disable-next-line: unused-local
-            extra_args = function(params)
-              if vim.fn.isdirectory(params.cwd .. "/.venv/") == 1 then
-                return { "--python-executable", ".venv/bin/python" }
-              end
-              return {}
+            -- Use the virtual environment version if available so it sees all the project's types
+            prefer_local = ".venv/bin",
+            prepend_extra_args = true,
+            extra_args = function()
+              return { "run", "--timeout", "500", "--" }
             end
           }),
           -- null_ls.builtins.formatting.autopep8
@@ -301,6 +304,16 @@ return {
     opts = {
       ensure_installed = tools
     }
+  },
+  {
+    -- Neogen for generating Javadoc, JSDoc, Docstrings, etc.
+    "danymat/neogen",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    opts = {
+      snippet_engine = "vsnip"
+    },
+    keys = {
+      { "<leader>qn", function() require("neogen").generate() end, silent = true, desc = "Neogen" }
+    }
   }
-
 }
