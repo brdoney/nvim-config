@@ -1,5 +1,8 @@
 local border = "single"
 
+-- To set up autocmd for LspAttach
+require("lsp-utils")
+
 local servers = {
   -- HTML/CSS/JS/TS
   'emmet_ls',
@@ -44,28 +47,26 @@ return {
     -- Non-spec LSP additions for Rust
     'simrat39/rust-tools.nvim',
     dependencies = 'hrsh7th/cmp-nvim-lsp',
-    ft = 'rust',
-    config = function()
-      require("rust-tools").setup({
-        tools = {
-          hover_with_actions = false,
-          inlay_hints = {
-            -- Disabled for now
-            auto = false,
-            parameter_hints_prefix = '<- ',
-            other_hints_prefix = '» ',
-            right_align = true
-          },
-          hover_actions = {
-            border = border
-          }
+    -- Doesn't seem to work for some reason
+    -- ft = 'rust',
+    opts = {
+      tools = {
+        hover_with_actions = false,
+        inlay_hints = {
+          -- Disabled for now
+          auto = false,
+          parameter_hints_prefix = '<- ',
+          other_hints_prefix = '» ',
+          right_align = true
         },
-        server = {
-          on_attach = require('lsp-utils').lsp_on_attach,
-          capabilities = require('lsp-utils').capabilities,
+        hover_actions = {
+          border = border
         }
-      })
-    end
+      },
+      server = {
+        capabilities = require('lsp-utils').capabilities,
+      }
+    }
   },
   {
     -- Native LSP support
@@ -79,7 +80,6 @@ return {
         elseif server == 'rust_analyzer' then
         else
           local opts = {
-            on_attach = require('lsp-utils').lsp_on_attach,
             capabilities = require('lsp-utils').capabilities,
           }
 
@@ -92,6 +92,7 @@ return {
             }, opts)
           end
 
+          print("setting up")
           require('lspconfig')[server].setup(opts)
         end
       end

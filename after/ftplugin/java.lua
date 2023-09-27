@@ -47,7 +47,6 @@ local config = {
     "-data", workspace_dir,
   },
 
-  on_attach = require('lsp-utils').lsp_on_attach,
   capabilities = require('lsp-utils').capabilities,
   root_dir = root_dir,
 
