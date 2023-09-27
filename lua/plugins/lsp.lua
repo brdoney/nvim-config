@@ -1,7 +1,5 @@
-local border = "single"
-
 -- To set up autocmd for LspAttach
-require("lsp-utils")
+local border = require("lsp-utils").border;
 
 local servers = {
   -- HTML/CSS/JS/TS
@@ -92,55 +90,8 @@ return {
             }, opts)
           end
 
-          print("setting up")
           require('lspconfig')[server].setup(opts)
         end
-      end
-
-      -- Put border around popups
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = border,
-      })
-      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = border,
-      })
-
-      -- From https://github.com/neovim/neovim/pull/14878 ; don't focus the quickfix window
-      local orig_ref_handler = vim.lsp.handlers["textDocument/references"]
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.lsp.handlers["textDocument/references"] = function(...)
-        orig_ref_handler(...)
-        vim.cmd [[ wincmd p ]]
-      end
-
-      -- Use custom icons in gutter
-      local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
-
-      -- Custom header for diagnostics
-      vim.diagnostic.config({
-        float = {
-          border = border,
-          header = { ' Diagnostics:' },
-        }
-      })
-
-      -- Floating windows (hover, diagnostics, etc.) mess with Startify sessions
-      -- The created command is called during startify shutdown
-      vim.cmd [[ command! CloseFloatingWindows lua _G.CloseFloatingWindows() ]]
-      _G.CloseFloatingWindows = function()
-        local closed_windows = {}
-        for _, win in ipairs(vim.api.nvim_list_wins()) do
-          local config = vim.api.nvim_win_get_config(win)
-          if config.relative ~= "" then        -- is_floating_window?
-            vim.api.nvim_win_close(win, false) -- do not force
-            table.insert(closed_windows, win)
-          end
-        end
-        print(string.format('Closed %d windows: %s', #closed_windows, vim.inspect(closed_windows)))
       end
     end
   },
