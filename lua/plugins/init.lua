@@ -27,7 +27,7 @@ return {
     end,
   },
   -- Scope to make buffers window-specific
-  { "tiagovla/scope.nvim" },
+  { "tiagovla/scope.nvim", opts = {} },
   {
     'mhinz/vim-startify',
     cond = not vim.g.started_by_firenvim,

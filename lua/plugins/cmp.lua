@@ -223,39 +223,39 @@ return {
         sorting = {
           priority_weight = 2,
           comparators = {
-            -- Put snippets below everything else
-            function(entry1, entry2)
-              local kind1 = entry1:get_kind()
-              kind1 = kind1 == types.lsp.CompletionItemKind.Text and 100 or kind1
-              local kind2 = entry2:get_kind()
-              kind2 = kind2 == types.lsp.CompletionItemKind.Text and 100 or kind2
-              if kind1 ~= kind2 then
-                if kind1 == types.lsp.CompletionItemKind.Snippet then
-                  return false
-                end
-                if kind2 == types.lsp.CompletionItemKind.Snippet then
-                  return true
-                end
-                local diff = kind1 - kind2
-                if diff < 0 then
-                  return true
-                elseif diff > 0 then
-                  return false
-                end
-              end
-            end,
-            -- Almost default values from here down
             compare.offset,
             compare.exact,
+            function(entry1, entry2)
+              ---@type table<integer, integer>
+              local modified_priority = {
+                -- Variables and methods should be weighed equally
+                [types.lsp.CompletionItemKind.Variable] = types.lsp.CompletionItemKind.Method,
+                [types.lsp.CompletionItemKind.Constant] = types.lsp.CompletionItemKind.Method,
+                [types.lsp.CompletionItemKind.Snippet] = 100, -- bottom
+                [types.lsp.CompletionItemKind.Keyword] = 0,   -- top
+                [types.lsp.CompletionItemKind.Text] = 100,    -- bottom
+              }
+              ---@param kind integer: kind of completion entry
+              local function modified_kind(kind)
+                return modified_priority[kind] or kind
+              end
+
+              local kind1 = modified_kind(entry1:get_kind())
+              kind1 = kind1 == types.lsp.CompletionItemKind.Text and 100 or kind1
+              local kind2 = modified_kind(entry2:get_kind())
+              kind2 = kind2 == types.lsp.CompletionItemKind.Text and 100 or kind2
+              if kind1 ~= kind2 then
+                return kind1 - kind2 < 0
+              end
+              -- Fall back to nil like original kind sort
+              return nil
+            end,
             -- compare.scopes,
             compare.score,
+            -- Put Python dunder functions lower
             require("cmp-under-comparator").under,
             compare.recently_used,
             compare.locality,
-            compare.kind,
-            compare.sort_text,
-            compare.length,
-            compare.order,
           }
         },
         sources = cmp.config.sources({
