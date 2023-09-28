@@ -376,6 +376,6 @@ return {
     -- Resize mode using natural directions
     'mrjones2014/smart-splits.nvim',
     opts = {},
-    keys = { { "<C-w>r", require('smart-splits').start_resize_mode, desc = "Start buffer resize mode" } }
+    keys = { { "<C-w>r", function() require('smart-splits').start_resize_mode() end, desc = "Start buffer resize mode" } }
   }
 }
