@@ -173,12 +173,18 @@ return {
           null_ls.builtins.diagnostics.mypy.with({
             command = 'dmypy',
             method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
-            -- Use the virtual environment version if available so it sees all the project's types
-            prefer_local = ".venv/bin",
             prepend_extra_args = true,
-            extra_args = function()
-              return { "run", "--timeout", "500", "--" }
-            end
+
+            extra_args = function(params)
+              local args = { "run", "--timeout", "500", "--" }
+              if vim.fn.isdirectory(params.cwd .. "/.venv/") == 1 then
+                -- Use the virtual environment version if available so it sees all the project's types
+                -- prefer_local = ".venv/bin" doesn't work because we don't want to have to install mypy in projects
+                table.insert(args, "--python-executable")
+                table.insert(args, ".venv/bin/python")
+              end
+              return args
+            end,
           }),
           -- null_ls.builtins.formatting.autopep8
           null_ls.builtins.formatting.black,
