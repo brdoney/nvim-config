@@ -239,7 +239,6 @@ return {
   },
   {
     'folke/trouble.nvim',
-    event = 'LspAttach',
     keys = { { '<leader>g', function() require('trouble').toggle() end, desc = 'Toggle trouble' } }
   },
   {

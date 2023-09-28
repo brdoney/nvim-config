@@ -38,11 +38,6 @@ return {
     end
   },
   {
-    -- Auto-closes and auto-renames tags
-    'windwp/nvim-ts-autotag',
-    ft = { "html", "javascript", "typescript", "jsx", "tsx", "vue", "svelte" }
-  },
-  {
     -- Multi-cursor editing
     'mg979/vim-visual-multi',
     event = "VeryLazy",

@@ -27,7 +27,7 @@ return {
     end,
   },
   -- Scope to make buffers window-specific
-  { "tiagovla/scope.nvim", opts = {} },
+  { "tiagovla/scope.nvim",     opts = {} },
   {
     'mhinz/vim-startify',
     cond = not vim.g.started_by_firenvim,
@@ -174,8 +174,7 @@ return {
         border = "single",        -- none, single, double, shadow
         padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
       },
-    }
-    ,
+    },
     config = function(_, opts)
       local wk = require("which-key")
       wk.setup(opts)
@@ -292,6 +291,10 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    dependencies = {
+      "windwp/nvim-ts-autotag",
+      "JoosepAlviste/nvim-ts-context-commentstring"
+    },
     config = function()
       require('nvim-treesitter.configs').setup {
         ensureInstalled = "all",
@@ -307,7 +310,7 @@ return {
           enable = true,
           enable_autocmd = false,
         },
-        -- From windwp/nvim-ts-autotag
+        -- From windwp/nvim-ts-autotag - auto-closes and auto-renames tags
         autotag = {
           enable = true,
         }
@@ -372,10 +375,7 @@ return {
   {
     -- Resize mode using natural directions
     'mrjones2014/smart-splits.nvim',
-    keys = { "<C-w>r", },
-    config = function(_, opts)
-      require('smart-splits').setup(opts)
-      vim.keymap.set("n", "<C-w>r", require('smart-splits').start_resize_mode, { desc = "Start buffer resize mode" });
-    end
+    opts = {},
+    keys = { { "<C-w>r", require('smart-splits').start_resize_mode, desc = "Start buffer resize mode" } }
   }
 }
