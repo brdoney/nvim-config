@@ -155,7 +155,7 @@ local function enhanced_float_handler(handler)
   end
 end
 
-if vim.fn.has('nvim-0.10.0') then
+if vim.fn.has('nvim-0.10.0') == 1 then
   -- Depends on treesitter markdown for floats, so only works in 0.10+
   vim.lsp.handlers['textDocument/hover'] = enhanced_float_handler(vim.lsp.handlers.hover)
   vim.lsp.handlers['textDocument/signatureHelp'] = enhanced_float_handler(vim.lsp.handlers.signature_help)
