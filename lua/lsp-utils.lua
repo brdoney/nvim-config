@@ -72,7 +72,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     -- Enable inlay hints
-    if vim.fn.has("nvim-0.10.0") and client.server_capabilities.inlayHintProvider then
+    if vim.lsp.inlay_hint ~= nil and client.server_capabilities.inlayHintProvider then
       vim.lsp.inlay_hint(bufnr, true)
     end
   end,
