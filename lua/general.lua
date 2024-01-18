@@ -50,7 +50,7 @@ vim.opt.mousescroll = "ver:3,hor:3"
 -- Set the indenting level to 2 spaces for the following file types.
 local two_files = { 'markdown', 'typescript', 'javascript', 'jsx', 'tsx', 'css', 'html', 'ruby', 'elixir',
   'kotlin', 'vim', 'plantuml', 'c', 'cpp' }
-local sleuth_group = vim.api.nvim_create_augroup('sleuth_settigs', {})
+local sleuth_group = vim.api.nvim_create_augroup('sleuth_settings', {})
 vim.api.nvim_create_autocmd('FileType', {
   pattern = two_files,
   group = sleuth_group,

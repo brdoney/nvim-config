@@ -79,7 +79,7 @@ return {
         'silent! tabdo NvimTreeClose',
         'silent! tabdo call TerminalClose()',
         'silent! tabdo call CloseFugitiveIfOpen()',
-        'silent! tabdo lua require("incline").disable()',
+        -- 'silent! tabdo lua require("incline").disable()',
         'silent! tabdo TroubleClose',
         'silent! tabdo lua require("fidget").close()',
         'silent! tabdo CloseFloatingWindows'
@@ -222,50 +222,51 @@ return {
     end
   },
   -- Only run when running base nvim (not in firenvim)
-  {
-    "b0o/incline.nvim",
-    cond = not vim.g.started_by_firenvim,
-    dependencies = {
-      'nvim-tree/nvim-web-devicons' -- for icons in tab
-    },
-    opts = {
-      render = function(props)
-        local bufname = vim.api.nvim_buf_get_name(props.buf)
-
-        local res, extension
-        if bufname ~= '' then
-          res = vim.fn.fnamemodify(bufname, ':t')
-          extension = vim.fn.matchstr(res, [[\v\.@<=\w+$]])
-        else
-          res = '[No Name]'
-          extension = ''
-        end
-
-        local icon, _ = require("nvim-web-devicons").get_icon(res, extension, { default = true })
-        res = icon .. ' ' .. res
-
-        if vim.api.nvim_buf_get_option(props.buf, 'modified') then
-          res = res .. ' '
-        end
-        return res
-      end,
-      window = {
-        margin = {
-          horizontal = {
-            left = 0,
-            right = 0
-          },
-          vertical = {
-            bottom = 0,
-            top = 1
-          }
-        }
-      },
-    }
-  },
+  -- {
+  --   "b0o/incline.nvim",
+  --   cond = not vim.g.started_by_firenvim,
+  --   dependencies = {
+  --     'nvim-tree/nvim-web-devicons' -- for icons in tab
+  --   },
+  --   opts = {
+  --     render = function(props)
+  --       local bufname = vim.api.nvim_buf_get_name(props.buf)
+  --
+  --       local res, extension
+  --       if bufname ~= '' then
+  --         res = vim.fn.fnamemodify(bufname, ':t')
+  --         extension = vim.fn.matchstr(res, [[\v\.@<=\w+$]])
+  --       else
+  --         res = '[No Name]'
+  --         extension = ''
+  --       end
+  --
+  --       local icon, _ = require("nvim-web-devicons").get_icon(res, extension, { default = true })
+  --       res = icon .. ' ' .. res
+  --
+  --       if vim.api.nvim_buf_get_option(props.buf, 'modified') then
+  --         res = res .. ' '
+  --       end
+  --       return res
+  --     end,
+  --     window = {
+  --       margin = {
+  --         horizontal = {
+  --           left = 0,
+  --           right = 0
+  --         },
+  --         vertical = {
+  --           bottom = 0,
+  --           top = 1
+  --         }
+  --       }
+  --     },
+  --   }
+  -- },
   {
     -- Indent highlights
     'lukas-reineke/indent-blankline.nvim',
+    main = "ibl",
     init = function()
       -- Fix for https://github.com/lukas-reineke/indent-blankline.nvim/issues/489
       local indentblanklinegrp = vim.api.nvim_create_augroup('IndentBlankLineFix', {})
@@ -273,28 +274,29 @@ return {
         group = indentblanklinegrp,
         callback = function()
           if vim.v.event.all.leftcol ~= 0 then
-            vim.cmd('silent! IndentBlanklineRefresh')
+            require("ibl").refresh()
           end
         end,
       })
       -- Set manual refresh for when things get funky
-      vim.keymap.set("n", "<leader>i", ":IndentBlanklineRefresh<CR>", { silent = true, desc = "Refresh indents" })
+      vim.keymap.set("n", "<leader>i", require("ibl").refresh, { silent = true, desc = "Refresh indents" })
     end,
     opts = {
-      use_treesitter = true,
-      char = '│',
-      filetype_exclude = { "lspinfo", "packer", "checkhealth", "help", "man", "text", "startify", "NvimTree", "mason" },
-      buftype_exclude = { "terminal", "nofile", "quickfix", "prompt" },
-      show_trailing_blankline_indent = false,
+      indent = { char = '│' },
+      scope = {
+        show_start = false,
+        show_end = false,
+      },
+      exclude = {
+        filetypes = { "lspinfo", "packer", "checkhealth", "help", "man", "text", "startify", "NvimTree", "mason" },
+        buftypes = { "terminal", "nofile", "quickfix", "prompt" }
+      }
     }
   },
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    dependencies = {
-      "windwp/nvim-ts-autotag",
-      "JoosepAlviste/nvim-ts-context-commentstring"
-    },
+    dependencies = { "windwp/nvim-ts-autotag" },
     config = function()
       require('nvim-treesitter.configs').setup {
         ensureInstalled = "all",
@@ -305,11 +307,11 @@ return {
         -- indent = {
         --   enable = false
         -- },
-        -- From JoosepAlviste/nvim-ts-context-commentstring
-        context_commentstring = {
-          enable = true,
-          enable_autocmd = false,
-        },
+        -- -- From JoosepAlviste/nvim-ts-context-commentstring
+        -- context_commentstring = {
+        --   enable = true,
+        --   enable_autocmd = false,
+        -- },
         -- From windwp/nvim-ts-autotag - auto-closes and auto-renames tags
         autotag = {
           enable = true,
@@ -325,6 +327,14 @@ return {
       -- (and sessions will preserve manual folding from past otherwise)
       vim.opt.sessionoptions = "blank,buffers,curdir,help,tabpages,winsize,terminal"
     end
+  },
+  {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    opts = { },
+    config = function()
+      vim.g.skip_ts_context_commentstring_module = true
+    end,
   },
   {
     -- Scrollbar which shows diagnostics and such

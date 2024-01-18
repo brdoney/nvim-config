@@ -73,14 +73,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     -- Enable inlay hints
     if vim.lsp.inlay_hint ~= nil and client.server_capabilities.inlayHintProvider then
-      vim.lsp.inlay_hint(bufnr, true)
+      vim.lsp.inlay_hint.enable(bufnr, true)
     end
   end,
 })
 
 
 -- From https://github.com/MariaSolOs/dotfiles/blob/bda5388e484497b8c88d9137c627c0f24ec295d7/.config/nvim/lua/lsp.lua
-local md_namespace = vim.api.nvim_create_namespace 'mariasolos/lsp_float'
+local md_namespace = vim.api.nvim_create_namespace('mariasolos/lsp_float')
 
 ---LSP handler that adds extra inline highlights, keymaps, and window options.
 ---Code inspired from `noice`.
