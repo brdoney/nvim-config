@@ -1,31 +1,3 @@
--- Custom lspkind symbols, before I had codicons
--- local symbol_map = {
---   Text = "",
---   Method = "",
---   Function = "",
---   Constructor = "",
---   Field = "",
---   Variable = "",
---   Class = "פּ",
---   Interface = "",
---   Module = "",
---   Property = "",
---   Unit = "塞",
---   Value = "",
---   Enum = "練",
---   Keyword = "",
---   Snippet = "",
---   Color = "",
---   File = "",
---   Reference = "",
---   Folder = "",
---   EnumMember = "",
---   Constant = "",
---   Struct = "פּ",
---   Event = "",
---   Operator = "",
---   TypeParameter = ""
--- }
 
 return {
   {
@@ -42,34 +14,7 @@ return {
     event = 'VeryLazy',
     opts = {
       mode = "symbol_text",
-      -- Basically just codicons preset with a couple tweaks
-      symbol_map = {
-        Text = "",
-        Method = "",
-        Function = "",
-        Constructor = "",
-        Field = "",
-        Variable = "",
-        Class = "",
-        Interface = "",
-        Module = "",
-        Property = "",
-        Unit = "",
-        Value = "",
-        Enum = "",
-        Keyword = "",
-        Snippet = "",
-        Color = "",
-        File = "",
-        Reference = "",
-        Folder = "",
-        EnumMember = "",
-        Constant = "",
-        Struct = "",
-        Event = "",
-        Operator = "",
-        TypeParameter = ""
-      }
+      symbol_map = require("symbols").symbol_map,
     },
     config = function(_, opts)
       -- Bc they don't use .setup() for some reason...

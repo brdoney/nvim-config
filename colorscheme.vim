@@ -46,6 +46,10 @@ function! s:sonokai_custom() abort
   " Show lightbulb sign as yellow
   highlight! link LightBulbSign LspDiagnosticsSignWarning
 
+  " Window bar for nvim-navic
+  highlight! link WinBar Normal
+  highlight! link WinBarNC NormalNC
+
   " Treesitter {{{
   " For things like null
   highlight! link @const.builtin Purple
@@ -69,6 +73,7 @@ function! s:sonokai_custom() abort
 
   " For XML tags (HTML/JSX/TSX)
   highlight! link @tag Red
+  highlight! link @tag.tsx Red
   highlight! link @tag.attribute Blue
   highlight! link @tag.delimiter Grey
 

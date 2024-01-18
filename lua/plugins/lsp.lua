@@ -150,7 +150,8 @@ return {
   },
   {
     -- Support non-LSP sources (i.e. for formatting)
-    'jose-elias-alvarez/null-ls.nvim',
+    'nvimtools/none-ls.nvim',
+    -- 'jose-elias-alvarez/null-ls.nvim', -- deprecated
     dependencies = { 'nvim-lua/plenary.nvim' },
     event = "VeryLazy",
     config = function()
@@ -272,5 +273,21 @@ return {
     keys = {
       { "<leader>qn", function() require("neogen").generate() end, silent = true, desc = "Neogen" }
     }
+  },
+  {
+    'SmiteshP/nvim-navic',
+    dependencies = 'SmiteshP/nvim-navic',
+    opts = {
+      icons = require('symbols').symbol_map_spaces,
+      separator = '  ',
+      -- separator = '',
+      lsp = {
+        auto_attach = true,
+      },
+      highlight = true,
+
+      -- Make it only work on CursorHold
+      -- lazy_update_context = true,
+    },
   }
 }
