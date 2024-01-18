@@ -64,3 +64,15 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.opt.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
+
+-- Open URL - used because netrw is disabled, so we can't rely on its `gx` mapping
+local function setGx(cmd)
+  vim.keymap.set('', 'gx', cmd, { desc = 'Open link', silent = true })
+end
+if vim.fn.has("mac") == 1 then
+  setGx('<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>')
+elseif vim.fn.has("unix") == 1 then
+  setGx('<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>')
+else
+  setGx('<Cmd>lua print("Error: gx is not supported on this OS!")<CR>')
+end

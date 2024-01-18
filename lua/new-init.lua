@@ -14,4 +14,12 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins")
 
+-- General settings
+require("general")
+
+-- Window bar setup
 require("winbar")
+
+-- Project-specific configurations
+require("projects")
+

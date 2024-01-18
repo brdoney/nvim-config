@@ -86,6 +86,30 @@ return {
       }
       -- Just to make cowsay look pretty
       vim.g.startify_fortune_use_unicode = 1
+
+      vim.keymap.set('n', '<leader>Pq', ":SClose<CR>", { desc = 'Close sessions' })
+
+      -- macOS file picker script
+      local function pickFile()
+        local output = vim.fn.system("~/Developer/Swift/NvimFilePicker/.build/release/NvimFilePicker")
+
+        -- Do nothing if it wasn't succesful
+        if vim.v.shell_error == 1 then
+          print(output)
+          return
+        end
+
+        -- Get rid of trailing new line
+        output = vim.trim(output)
+
+        -- Close the current session (if open) and open the folder
+        vim.cmd [[ SClose ]]
+        vim.cmd('e ' .. output)
+      end
+
+      if vim.fn.has("mac") == 1 then
+        vim.keymap.set('n', '<leader>Po', pickFile, { desc = 'Folder picker' })
+      end
     end
   },
   {
@@ -331,7 +355,7 @@ return {
   {
     'JoosepAlviste/nvim-ts-context-commentstring',
     dependencies = { "nvim-treesitter/nvim-treesitter" },
-    opts = { },
+    opts = {},
     config = function()
       vim.g.skip_ts_context_commentstring_module = true
     end,
