@@ -31,3 +31,9 @@ end)
 dir_setup("*/CSGenome/ML-rewrite/*", function()
   require("null-ls").disable("flake8")
 end)
+
+dir_setup("*/CS 6204/*", function()
+  vim.o.spell = true
+  vim.o.wrap = true
+end)
+

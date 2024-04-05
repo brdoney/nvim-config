@@ -33,7 +33,7 @@ return {
     cond = not vim.g.started_by_firenvim,
     init = function()
       local function courses()
-        return { { line = 'CS 5944 Graduate Seminar', cmd = 'SLoad gradseminar' } }
+        return { { line = 'CS 6204 Extensibility', cmd = 'SLoad cs6204' } }
       end
 
       local function research()
@@ -115,7 +115,7 @@ return {
   {
     'vim-airline/vim-airline',
     cond = not vim.g.started_by_firenvim,
-    dependencies = { 'vim-airline/vim-airline-themes' },
+    dependencies = { 'vim-airline/vim-airline-themes', 'airblade/vim-gitgutter' },
     init = function()
       -- From vim-airline-themes
       vim.g.airline_theme = "minimalist"
