@@ -65,11 +65,9 @@ function! s:sonokai_custom() abort
   " For `this` and more
   highlight! link @variable.builtin LighterGreyItalic
 
-  " For titles in markdown
-  highlight! link @text.title Yellow
-
-  " For # markers in markdown
-  highlight! link @punctuation.special Comment
+  " For - markers in markdown
+  " highlight! link @punctuation.special Comment
+  highlight! link @markup.list.markdown Comment
 
   " For XML tags (HTML/JSX/TSX)
   highlight! link @tag Red
@@ -80,7 +78,9 @@ function! s:sonokai_custom() abort
   " For function parameters
   highlight! link @parameter Orange
 
-  call sonokai#highlight('@text.literal', l:lighter_grey_color, l:palette.none)
+  " call sonokai#highlight('@text.literal', l:lighter_grey_color, l:palette.none)
+  call sonokai#highlight('@markup.raw.markdown_inline', l:lighter_grey_color, l:palette.none)
+  call sonokai#highlight('@markup.raw.delimiter.markdown_inline', l:lighter_grey_color, l:palette.none)
   " }}}
 
   " Terminal {{{

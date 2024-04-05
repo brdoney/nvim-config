@@ -109,8 +109,12 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
     -- Schedule so there's enough time for nobuflisted and other things to be processed for the current window
     vim.schedule(function()
       if not is_ignored_win() then
+        -- Right aligned file type
         vim.opt_local.winbar =
         "%{%v:lua.require'nvim-navic'.get_location()%} %= %{%v:lua.require'winbar'.get_filename()%}"
+        -- Left aligned file type (before breadcrumbs)
+        -- vim.opt_local.winbar =
+        -- "%{%v:lua.require'winbar'.get_filename()%}  %{%v:lua.require'nvim-navic'.get_location()%} "
       end
     end)
   end

@@ -1,7 +1,7 @@
 -- To set up autocmd for LspAttach
 local border = require("lsp-utils").border;
 
-local servers = {
+local mason_servers = {
   -- HTML/CSS/JS/TS
   'emmet_ls',
   'html',
@@ -25,6 +25,16 @@ local servers = {
   'lua_ls',
   -- Svelte
   'svelte'
+}
+
+---@diagnostic disable-next-line: deprecated
+table.unpack = table.unpack or unpack -- 5.1 compatibility
+
+local servers = {
+  -- Swift
+  'sourcekit',
+  -- Mason servers
+  table.unpack(mason_servers)
 }
 
 local tools = {
@@ -248,7 +258,7 @@ return {
     dependencies = 'williamboman/mason.nvim',
     event = "VeryLazy",
     opts = {
-      ensure_installed = servers
+      ensure_installed = mason_servers
     }
   },
   {
