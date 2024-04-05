@@ -65,21 +65,6 @@ local function nvim_tree_on_attach(bufnr)
   vim.keymap.set('n', 'I', api.tree.toggle_gitignore_filter, opts('Toggle Git Ignore'))
 end
 
-local function open_nvim_tree(data)
-  -- buffer is a directory
-  local directory = vim.fn.isdirectory(data.file) == 1
-
-  if not directory then
-    return
-  end
-
-  -- change to the directory
-  vim.cmd.cd(data.file)
-
-  -- open the tree
-  require("nvim-tree.api").tree.open()
-end
-
 -- Integrate with barbar so tabs start after tree
 -- local nvim_tree_events = require('nvim-tree.events')
 -- local bufferline_state = require('bufferline.state')
@@ -160,8 +145,6 @@ return {
     },
     config = function(_, opts)
       require("nvim-tree").setup(opts)
-
-      vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
       vim.keymap.set('n', '<leader>e', ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree", silent = true })
       -- vim.keymap.set('n', '<leader>ef', require('nvim-tree').find_file, { desc = "Show open file in NvimTree" })

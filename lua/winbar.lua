@@ -120,4 +120,12 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
   end
 })
 
+-- Specifically opt Nvim-tree out of winbar
+-- This is because, when hijacking, the open file looks like a blank file when the autocmd runs (i.e. not a "special" buftype yet and ft='' instead of ft='NvimTree' yet), which breaks our checks
+local api = require("nvim-tree.api")
+local Event = api.events.Event
+api.events.subscribe(Event.TreeOpen, function()
+  vim.opt_local.winbar = ""
+end)
+
 return M
