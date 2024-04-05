@@ -23,7 +23,8 @@ return {
         dynamic_preview_title = true,
         mappings = {
           i = {
-            ["<esc>"] = "close"
+            ["<esc>"] = "close",
+            ['<C-S-p>'] = require('telescope.actions.layout').toggle_preview
           }
         },
       }

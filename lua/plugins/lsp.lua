@@ -7,12 +7,14 @@ local servers = {
   'html',
   'cssls',
   'tsserver',
+  'eslint',
   -- Go
   'gopls',
   -- C/C++
   'clangd',
   -- Python
   'pyright',
+  'ruff_lsp',
   -- Rust
   'rust_analyzer',
   -- BASH
@@ -21,11 +23,17 @@ local servers = {
   'vimls',
   -- Lua
   'lua_ls',
+  -- Svelte
+  'svelte'
 }
 
 local tools = {
   -- JS/TS
-  'eslint_d', 'prettierd'
+  'prettierd',
+  -- Bash
+  'shfmt',
+  -- Python
+  'mypy'
 }
 
 return {
@@ -126,18 +134,6 @@ return {
             border = border,
             relative = "cursor",
           },
-
-          format_item_override = {
-            codeaction = function(action_tuple)
-              local title = action_tuple[2].title:gsub("\r\n", "\\r\\n")
-              local client = vim.lsp.get_client_by_id(action_tuple[1])
-
-              -- for index, data in ipairs(action_tuple) do
-              --   print(string.format("%d %s", index, vim.inspect(data)))
-              -- end
-              return string.format(" %s %s ", title:gsub("\n", "\\n"), client.name)
-            end,
-          }
         },
         override = function(conf)
           -- This is the config that will be passed to nvim_open_win.
@@ -159,12 +155,12 @@ return {
       null_ls.setup({
         sources = {
           -- Javascript
-          null_ls.builtins.code_actions.eslint_d,
-          null_ls.builtins.diagnostics.eslint_d.with({ method = null_ls.methods.DIAGNOSTICS_ON_SAVE }),
           null_ls.builtins.formatting.prettierd,
 
+          -- Bash
+          null_ls.builtins.formatting.shfmt,
+
           -- Python
-          null_ls.builtins.diagnostics.ruff,
           -- null_ls.builtins.diagnostics.flake8.with({
           --   method = null_ls.methods.DIAGNOSTICS_ON_SAVE,
           --   extra_args = { "--max-line-length=88", "--extend-ignore=E203" }
@@ -188,7 +184,7 @@ return {
             end,
           }),
           -- null_ls.builtins.formatting.autopep8
-          null_ls.builtins.formatting.black,
+          -- null_ls.builtins.formatting.black,
 
           -- Swift
           null_ls.builtins.formatting.swiftformat

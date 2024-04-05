@@ -63,11 +63,24 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     -- Set up code lenses
     if client.server_capabilities.codeLensProvider then
-      -- Refresh code lenses
-      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-        group = vim.api.nvim_create_augroup("codelens", {}),
-        callback = vim.lsp.codelens.refresh,
+      local codelens = vim.api.nvim_create_augroup("codelens", { clear = false })
+      local codelens_events = { "BufEnter", "CursorHold", "InsertLeave" }
+
+      local commands = vim.api.nvim_get_autocmds({
+        group = codelens,
         buffer = bufnr,
+        event = codelens_events,
+      })
+      if #commands > 0 then
+        -- We already registered code lens refresh for the buffer, don't do it twice
+        return
+      end
+
+      -- Refresh code lenses
+      vim.api.nvim_create_autocmd(codelens_events, {
+        group = codelens,
+        buffer = bufnr,
+        callback = vim.lsp.codelens.refresh,
       })
     end
 
