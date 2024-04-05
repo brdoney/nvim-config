@@ -1,3 +1,12 @@
+local function get_short_cwd()
+  return vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
+end
+
+local custom_nvimtree_lualine = {
+  sections = { lualine_c = { get_short_cwd } },
+  filetypes = { 'NvimTree' }
+}
+
 return {
   -- Syntax highlighting
   {
@@ -113,26 +122,50 @@ return {
     end
   },
   {
-    'vim-airline/vim-airline',
-    cond = not vim.g.started_by_firenvim,
-    dependencies = { 'vim-airline/vim-airline-themes', 'airblade/vim-gitgutter' },
-    init = function()
-      -- From vim-airline-themes
-      vim.g.airline_theme = "minimalist"
-      -- Use powerline in airline
-      vim.g.airline_powerline_fonts = 1
-      vim.g.airline_stl_path_style = 'short'
-    end,
-    config = function()
-      vim.api.nvim_exec2([[
-        function! SleuthPlugin(...)
-          " Prepend sleuth info to section x (right before the file type)
-          let w:airline_section_x = get(w:, 'airline_section_x', g:airline_section_x)
-          let w:airline_section_x = '%{SleuthIndicator()}' . g:airline_symbols.space . w:airline_section_x
-        endfunction
-        call airline#add_statusline_func('SleuthPlugin')
-      ]], {})
-    end
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    opts = {
+      options = {
+        -- theme = 'auto',
+        theme = require("minimalist"),
+        component_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
+      },
+      sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff' },
+        lualine_c = {
+          {
+            'filename',
+            path = 1, -- show relative path
+            symbols = {
+              modified = '',
+              readonly = '-',
+            }
+          },
+          'diagnostics'
+        },
+        lualine_x = { 'encoding', 'fileformat', 'filetype' },
+        lualine_y = { '%{SleuthIndicator()}' },
+        lualine_z = {
+          { 'location', padding = { left = 1, right = 0 } },
+          { 'progress', padding = { left = 0, right = 1 } }
+        },
+      },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { 'filename' },
+        lualine_x = { 'location' },
+        lualine_y = {},
+        lualine_z = {}
+      },
+      extensions = {
+        'fugitive',
+        'quickfix',
+        custom_nvimtree_lualine
+      }
+    }
   },
   {
     'romgrk/barbar.nvim',

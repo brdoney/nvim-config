@@ -40,6 +40,9 @@ function! s:sonokai_custom() abort
   highlight! link GitGutterChange OrangeSign
   highlight! link GitGutterChangeDelete OrangeSign
 
+  " Use orange for changes in lualine
+  highlight! link LuaLineDiffChange OrangeSign
+
   " Show hint text (e.g. Rust type hints) as grey
   highlight! link CocHintSign CocCodeLens
 

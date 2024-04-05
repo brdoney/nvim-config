@@ -1,9 +1,5 @@
 return {
   {
-    'edkolev/tmuxline.vim',
-    event = "VeryLazy"
-  },
-  {
     'glacambre/firenvim',
 
     -- Lazy load firenvim
