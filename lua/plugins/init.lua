@@ -7,6 +7,57 @@ local custom_nvimtree_lualine = {
   filetypes = { 'NvimTree' }
 }
 
+local wordcount_component = {
+  function()
+    local words = vim.fn.wordcount()['words']
+    return words .. ' words'
+  end,
+  cond = function()
+    local ft = vim.opt_local.filetype:get()
+    local count = {
+      latex = true,
+      tex = true,
+      text = true,
+      markdown = true,
+    }
+    return count[ft] ~= nil
+  end,
+}
+
+local sleuth_symbols = {
+  space = '󱁐 ',
+  tab = '󰌒 ',
+  -- space = 'Spaces: ',
+  -- tab = 'Tab Size: ',
+}
+
+-- Based on https://github.com/tpope/vim-sleuth/blob/1cc4557420f215d02c4d2645a748a816c220e99b/plugin/sleuth.vim#L640
+local function sleuth_component()
+  local sw = vim.bo.shiftwidth > 0 and vim.bo.shiftwidth or vim.bo.tabstop
+
+  -- Show shift/tab info
+  local ind
+  if vim.bo.expandtab then
+    ind = sleuth_symbols.space .. sw
+  elseif vim.bo.tabstop == sw then
+    ind = sleuth_symbols.tab .. vim.bo.tabstop
+  else
+    ind = sleuth_symbols.space .. sw .. ' ' .. sleuth_symbols.tab .. vim.bo.tabstop
+  end
+
+  -- Show text wrapping info
+  if vim.bo.textwidth > 0 then
+    ind = ind .. ' tw=' .. vim.bo.textwidth
+  end
+
+  -- Show end of line info
+  if not vim.bo.fixendofline and not vim.bo.endofline then
+    ind = ind .. ' noeol'
+  end
+
+  return ind
+end
+
 return {
   -- Syntax highlighting
   {
@@ -145,10 +196,10 @@ return {
           },
           'diagnostics'
         },
-        lualine_x = { 'encoding', 'fileformat', 'filetype' },
-        lualine_y = { '%{SleuthIndicator()}' },
+        lualine_x = { wordcount_component, 'encoding', 'fileformat', { 'filetype', colored = false } },
+        lualine_y = { sleuth_component },
         lualine_z = {
-          { 'location', padding = { left = 1, right = 0 } },
+          { 'location', padding = { left = 1, right = 1 } },
           { 'progress', padding = { left = 0, right = 1 } }
         },
       },
@@ -329,9 +380,9 @@ return {
       local indentblanklinegrp = vim.api.nvim_create_augroup('IndentBlankLineFix', {})
       vim.api.nvim_create_autocmd('WinScrolled', {
         group = indentblanklinegrp,
-        callback = function()
+        callback = function(args)
           if vim.v.event.all.leftcol ~= 0 then
-            require("ibl").refresh()
+            require("ibl").debounced_refresh(args.buf)
           end
         end,
       })
@@ -355,15 +406,17 @@ return {
     build = ":TSUpdate",
     dependencies = { "windwp/nvim-ts-autotag" },
     config = function()
-      require('nvim-treesitter.configs').setup {
-        ensureInstalled = "all",
+      -- There's a weird `module` missing issue, so just ignoring this for now
+      -- https://github.com/nvim-treesitter/nvim-treesitter/issues/5297
+      ---@diagnostic disable-next-line: missing-fields
+      require('nvim-treesitter.configs').setup({
+        ensure_installed = { "vim", "vimdoc", "lua", "c", "cpp", "make", "rust", "go", "diff", "bash", "html", "css", "javascript", "typescript", "tsx", "json", "svelte", "vue", "java", "markdown", "markdown_inline", "python", "sql", "csv" },
+        auto_install = true,
+        sync_install = false,
+        ignore_install = {},
         highlight = {
           enable = true,
         },
-        -- Add to enable indenting using treesitter
-        -- indent = {
-        --   enable = false
-        -- },
         -- -- From JoosepAlviste/nvim-ts-context-commentstring
         -- context_commentstring = {
         --   enable = true,
@@ -373,7 +426,7 @@ return {
         autotag = {
           enable = true,
         }
-      }
+      })
 
       vim.opt.foldmethod = "expr"
       vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
@@ -390,6 +443,7 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = {},
     config = function()
+      -- Skip backwards compatability to speed up loading
       vim.g.skip_ts_context_commentstring_module = true
     end,
   },
