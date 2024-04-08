@@ -1,3 +1,43 @@
+local installed = {
+  -- Vim
+  "vim",
+  "vimdoc",
+  "lua",
+  -- C/C++
+  "c",
+  "cpp",
+  "make",
+  -- Rust
+  "rust",
+  -- Go
+  "go",
+  -- Git
+  "diff",
+  "gitcommit",
+  "gitignore",
+  -- Shell
+  "bash",
+  -- Web-dev
+  "html",
+  "css",
+  "javascript",
+  "typescript",
+  "tsx",
+  "json",
+  "svelte",
+  "vue",
+  -- Java
+  "java",
+  -- Markdown
+  "markdown",
+  "markdown_inline",
+  -- Python
+  "python",
+  -- Data
+  "sql",
+  "csv"
+}
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -8,7 +48,7 @@ return {
       -- https://github.com/nvim-treesitter/nvim-treesitter/issues/5297
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup({
-        ensure_installed = { "vim", "vimdoc", "lua", "c", "cpp", "make", "rust", "go", "diff", "bash", "html", "css", "javascript", "typescript", "tsx", "json", "svelte", "vue", "java", "markdown", "markdown_inline", "python", "sql", "csv" },
+        ensure_installed = installed,
         auto_install = true,
         sync_install = false,
         ignore_install = {},
