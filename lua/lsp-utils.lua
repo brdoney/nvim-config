@@ -16,7 +16,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
     --Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
     -- Mappings.
     local function opts(description)
@@ -62,7 +62,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     -- Set up code lenses
-    if client.server_capabilities.codeLensProvider then
+    if client ~= nil and client.server_capabilities.codeLensProvider then
       local codelens = vim.api.nvim_create_augroup("codelens", { clear = false })
       local codelens_events = { "BufEnter", "CursorHold", "InsertLeave" }
 
@@ -85,7 +85,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     -- Enable inlay hints
-    if vim.lsp.inlay_hint ~= nil and client.server_capabilities.inlayHintProvider then
+    if vim.lsp.inlay_hint ~= nil and client ~= nil and client.server_capabilities.inlayHintProvider then
       vim.lsp.inlay_hint.enable(bufnr, true)
     end
   end,
@@ -203,18 +203,4 @@ vim.diagnostic.config({
   }
 })
 
--- Floating windows (hover, diagnostics, etc.) mess with Startify sessions
--- The created command is called during startify shutdown
-vim.cmd [[ command! CloseFloatingWindows lua _G.CloseFloatingWindows() ]]
-_G.CloseFloatingWindows = function()
-  local closed_windows = {}
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    local config = vim.api.nvim_win_get_config(win)
-    if config.relative ~= "" then        -- is_floating_window?
-      vim.api.nvim_win_close(win, false) -- do not force
-      table.insert(closed_windows, win)
-    end
-  end
-  print(string.format('Closed %d windows: %s', #closed_windows, vim.inspect(closed_windows)))
-end
 return M
