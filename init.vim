@@ -6,7 +6,6 @@ lua vim.loader.enable()
 " Pull configuration from every file (the names explain the contents of each
 " file pretty well sooo...)
 source $HOME/.config/nvim/general.vim
-source $HOME/.config/nvim/colorscheme.vim
 
 " Only use neovide settings if we're in neovide
 if exists('g:neovide')
