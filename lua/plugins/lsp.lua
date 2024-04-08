@@ -232,7 +232,8 @@ return {
     dependencies = 'williamboman/mason.nvim',
     event = "VeryLazy",
     opts = {
-      ensure_installed = mason_servers
+      ensure_installed = mason_servers,
+      automatic_installation = true,
     }
   },
   {
