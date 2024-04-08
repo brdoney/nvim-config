@@ -13,7 +13,7 @@ local mason_servers = {
   -- C/C++
   'clangd',
   -- Python
-  'pyright',
+  'basedpyright',
   'ruff_lsp',
   -- Rust
   'rust_analyzer',
