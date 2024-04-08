@@ -52,6 +52,8 @@ return {
       end, "Close tab")
     end,
     opts = {
+      auto_hide = 1,
+      focus_on_close = "previous",
       insert_at_end = true,
       icons = {
         button = "",
