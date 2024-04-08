@@ -89,7 +89,20 @@ return {
     end,
   },
   -- Scope to make buffers window-specific
-  { "tiagovla/scope.nvim",     opts = {} },
+  {
+    "tiagovla/scope.nvim",
+    opts = {
+      hooks = {
+        -- Barbar integration: preserve order while switching tabs
+        pre_tab_leave = function()
+          vim.api.nvim_exec_autocmds('User', { pattern = 'ScopeTabLeavePre' })
+        end,
+        post_tab_enter = function()
+          vim.api.nvim_exec_autocmds('User', { pattern = 'ScopeTabEnterPost' })
+        end,
+      },
+    }
+  },
   {
     'mhinz/vim-startify',
     cond = not vim.g.started_by_firenvim,
