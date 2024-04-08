@@ -98,7 +98,7 @@ local function sonokai_custom()
 
   -- Neovide Terminal {{{
   -- Running in Neovide GUI, so need to set terminal colors
-  if vim.fn.exists('g:neovide') == 1 then
+  if vim.g.neovide ~= nil then
     -- Black
     vim.g.terminal_color_0 = '#273136'
     vim.g.terminal_color_8 = '#6b7678'

@@ -1,3 +1,6 @@
+-- Speed up loading of lua modules (like what impatient.nvim did)
+vim.loader.enable()
+
 -- General settings
 require("general")
 
@@ -27,3 +30,7 @@ require("winbar")
 -- Project-specific configurations
 require("projects")
 
+-- Only use neovide settings if we're in neovide
+if vim.g.neovide ~= nil then
+  vim.cmd([[source $HOME/.config/nvim/neovide.vim]])
+end
