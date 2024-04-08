@@ -87,7 +87,7 @@ return {
   {
     -- Native LSP support
     'neovim/nvim-lspconfig',
-    dependencies = 'hrsh7th/cmp-nvim-lsp',
+    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'folke/neodev.nvim' },
     event = "VeryLazy",
     config = function()
       for _, server in ipairs(servers) do
