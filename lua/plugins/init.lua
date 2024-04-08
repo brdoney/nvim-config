@@ -27,8 +27,10 @@ local wordcount_component = {
 local sleuth_symbols = {
   space = '󱁐 ',
   tab = '󰌒 ',
+  textwidth = ' ',
   -- space = 'Spaces: ',
   -- tab = 'Tab Size: ',
+  -- textwidth = 'Wrap: '
 }
 
 -- Based on https://github.com/tpope/vim-sleuth/blob/1cc4557420f215d02c4d2645a748a816c220e99b/plugin/sleuth.vim#L640
@@ -47,7 +49,7 @@ local function sleuth_component()
 
   -- Show text wrapping info
   if vim.bo.textwidth > 0 then
-    ind = ind .. ' tw=' .. vim.bo.textwidth
+    ind = ind .. ' ' .. sleuth_symbols.textwidth .. vim.bo.textwidth
   end
 
   -- Show end of line info
