@@ -9,11 +9,11 @@ end
 
 local config = {
   ignore = {
-    buftypes = "special",
+    buftypes = { "special" },
     filetypes = {},
     floating_wins = true,
     unlisted_buffers = true,
-    wintypes = "special"
+    wintypes = { "special" }
   },
 }
 
@@ -25,11 +25,11 @@ end
 local function is_ignored_buf(bufnr)
   bufnr = bufnr or 0
   local ignore = config.ignore
-  if ignore.unlisted_buffers and not vim.api.nvim_buf_get_option(bufnr, 'buflisted') then
+  if ignore.unlisted_buffers and not vim.bo[bufnr].buflisted then
     return true
   end
   if ignore.buftypes then
-    local buftype = vim.api.nvim_buf_get_option(bufnr, 'buftype')
+    local buftype = vim.bo[bufnr].buftype
     if ignore.buftypes == 'special' and buftype ~= '' then
       return true
     elseif type(ignore.buftypes) == 'table' then
@@ -43,7 +43,7 @@ local function is_ignored_buf(bufnr)
     end
   end
   if ignore.filetypes then
-    local filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')
+    local filetype = vim.bo[bufnr].filetype
     if is_ignored_filetype(filetype) then
       return true
     end
@@ -95,7 +95,7 @@ M.get_filename = function()
   local icon, hl_group = require("nvim-web-devicons").get_icon(filename, extension, { default = true })
 
   -- Add circle if modified
-  if vim.api.nvim_buf_get_option(0, 'modified') then
+  if vim.bo.modified then
     filename = filename .. ' '
   end
 

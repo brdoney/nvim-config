@@ -10,10 +10,8 @@
 
 -- Will be disabled for firenvim
 if vim.g.started_by_firenvim then
-  vim.opt.laststatus = 0
-  vim.opt.showtabline = 0
-else
-  vim.opt.laststatus = 3
+  vim.o.laststatus = 0
+  vim.o.showtabline = 0
 end
 
 -- Persist undos across loads by saving to a file
