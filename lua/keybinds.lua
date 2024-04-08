@@ -1,0 +1,25 @@
+-- Easier esc in terminal
+-- tnoremap <Esc> <C-\><C-n>
+-- tnoremap <C-w> <C-\><C-n>
+-- tnoremap <C-w> <C-\><C-n><C-w>
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { silent = true })
+
+-- Make Y behave like any other capital letter
+vim.keymap.set("n", "Y", "y$", { silent = true })
+
+-- Navigate lines visually when lines are wrapped
+vim.keymap.set("n", "j", "gj", { silent = true })
+vim.keymap.set("n", "k", "gk", { silent = true })
+
+-- Add semicolon to end of line without messing up cursor position
+vim.keymap.set("n", "<leader>;", ":normal! mqA;<Esc>`q", { silent = true })
+
+vim.keymap.set("n", "]q", ":cn<CR>", { silent = true })
+vim.keymap.set("n", "[q", ":cp<CR>", { silent = true })
+vim.keymap.set("n", "]Q", ":cnf<CR>", { silent = true })
+vim.keymap.set("n", "[Q", ":cpf<CR>", { silent = true })
+vim.keymap.set("n", "<leader>qq", ":cclose<CR>", { silent = true })
+
+-- Maximise height/width of current window w/o using <C-w>_ or <C-w>| (awkward keybindings)
+vim.keymap.set("", "<leader>m", "<C-w>_", { silent = true })
+vim.keymap.set("", "<leader>M", "<C-w>|", { silent = true })

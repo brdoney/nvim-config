@@ -35,6 +35,7 @@ local function sonokai_custom()
 
   -- sonokai_hl('NvimTreeNormal', palette.fg, palette.black, 'NONE')
 
+  -- Git {{{
   -- Make diff for modified lines show as orange
   local lighter_diff_yellow = { '#735e35', '56' }
   sonokai_hl('DiffChange', palette.none, palette.diff_yellow)
@@ -60,6 +61,7 @@ local function sonokai_custom()
   -- Window bar for nvim-navic
   link("WinBar", "Normal")
   link("WinBarNC", "NormalNC")
+  --- }}}
 
   -- Treesitter {{{
   -- For things like null

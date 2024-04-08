@@ -1,3 +1,9 @@
+-- General settings
+require("general")
+
+-- General keybinds
+require("keybinds")
+
 -- Install lazy if it's not already installed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -14,9 +20,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins")
-
--- General settings
-require("general")
 
 -- Window bar setup
 require("winbar")
