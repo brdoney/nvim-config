@@ -33,6 +33,11 @@ local function sonokai_custom()
   sonokai_hl('LighterGrey', lighter_grey_color, palette.none, 'NONE')
   sonokai_hl('LighterGreyItalic', lighter_grey_color, palette.none, 'italic')
 
+  -- Disable italics on which key separator (default icon doesn't have italic character)
+  local hl_comment = vim.api.nvim_get_hl(0, { name = "Comment" })
+  local hl_seperator = vim.tbl_extend("force", hl_comment, { italic = false })
+  vim.api.nvim_set_hl(0, "WhichKeySeparator", hl_seperator)
+
   -- sonokai_hl('NvimTreeNormal', palette.fg, palette.black, 'NONE')
 
   -- Git {{{

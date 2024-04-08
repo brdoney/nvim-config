@@ -60,31 +60,6 @@ return {
     ft = 'java'
   },
   {
-    -- Non-spec LSP additions for Rust
-    'simrat39/rust-tools.nvim',
-    dependencies = 'hrsh7th/cmp-nvim-lsp',
-    -- Doesn't seem to work for some reason
-    -- ft = 'rust',
-    opts = {
-      tools = {
-        hover_with_actions = false,
-        inlay_hints = {
-          -- Disabled for now
-          auto = false,
-          parameter_hints_prefix = '<- ',
-          other_hints_prefix = '» ',
-          right_align = true
-        },
-        hover_actions = {
-          border = border
-        }
-      },
-      server = {
-        capabilities = require('lsp-utils').capabilities,
-      }
-    }
-  },
-  {
     -- Native LSP support
     'neovim/nvim-lspconfig',
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'folke/neodev.nvim' },
@@ -93,7 +68,6 @@ return {
       for _, server in ipairs(servers) do
         if server == 'jdtls' then
           -- Skip b/c configuerd in after/ftplugin/java.lua
-        elseif server == 'rust_analyzer' then
         else
           local opts = {
             capabilities = require('lsp-utils').capabilities,
@@ -277,7 +251,11 @@ return {
       snippet_engine = "vsnip"
     },
     keys = {
-      { "<leader>qn", function() require("neogen").generate() end, silent = true, desc = "Neogen" }
+      { "<leader>qnn", function() require("neogen").generate({}) end,                   silent = true, desc = "Auto" },
+      { "<leader>qnf", function() require("neogen").generate({ type = "function" }) end, silent = true, desc = "Function" },
+      { "<leader>qnc", function() require("neogen").generate({ type = "class" }) end,   silent = true, desc = "Class" },
+      { "<leader>qnt", function() require("neogen").generate({ type = "type" }) end,    silent = true, desc = "Type" },
+      { "<leader>qnm", function() require("neogen").generate({ type = "file" }) end,    silent = true, desc = "File" },
     }
   },
   {

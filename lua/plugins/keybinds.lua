@@ -37,7 +37,10 @@ return {
           name = "lsp",
           w = {
             name = "workspace"
-          }
+          },
+          n = {
+            name = "neogen"
+          },
         },
         s = {
           name = "search"
