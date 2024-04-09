@@ -251,11 +251,11 @@ return {
       snippet_engine = "vsnip"
     },
     keys = {
-      { "<leader>qnn", function() require("neogen").generate({}) end,                   silent = true, desc = "Auto" },
-      { "<leader>qnf", function() require("neogen").generate({ type = "function" }) end, silent = true, desc = "Function" },
-      { "<leader>qnc", function() require("neogen").generate({ type = "class" }) end,   silent = true, desc = "Class" },
-      { "<leader>qnt", function() require("neogen").generate({ type = "type" }) end,    silent = true, desc = "Type" },
-      { "<leader>qnm", function() require("neogen").generate({ type = "file" }) end,    silent = true, desc = "File" },
+      { "<leader>qnn", function() require("neogen").generate({}) end,                 silent = true, desc = "Auto" },
+      { "<leader>qnf", function() require("neogen").generate({ type = "func" }) end,  silent = true, desc = "Function" },
+      { "<leader>qnc", function() require("neogen").generate({ type = "class" }) end, silent = true, desc = "Class" },
+      { "<leader>qnt", function() require("neogen").generate({ type = "type" }) end,  silent = true, desc = "Type" },
+      { "<leader>qnm", function() require("neogen").generate({ type = "file" }) end,  silent = true, desc = "File" },
     }
   },
   {
