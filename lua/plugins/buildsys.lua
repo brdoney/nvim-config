@@ -1,8 +1,8 @@
 return {
   {
     -- Toggle and control terminals
-    -- 'akinsho/toggleterm.nvim', version = "*",
-    dir = '~/Developer/Vim/toggleterm.nvim',
+    'akinsho/toggleterm.nvim', version = "*",
+    -- dir = '~/Developer/Vim/toggleterm.nvim',
     event = "VeryLazy",
     opts = {
       size = function(term)
