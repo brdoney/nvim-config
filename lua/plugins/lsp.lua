@@ -62,7 +62,7 @@ return {
   {
     -- Native LSP support
     'neovim/nvim-lspconfig',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'folke/neodev.nvim' },
+    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'folke/neodev.nvim', 'williamboman/mason-lspconfig.nvim' },
     event = "VeryLazy",
     config = function()
       for _, server in ipairs(servers) do
@@ -232,8 +232,7 @@ return {
     dependencies = 'williamboman/mason.nvim',
     event = "VeryLazy",
     opts = {
-      ensure_installed = mason_servers,
-      automatic_installation = true,
+      ensure_installed = mason_servers
     }
   },
   {
