@@ -30,14 +30,6 @@ return {
           vim.bo.filetype = 'markdown'
         end
       })
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'text', 'markdown' },
-        group = firenvim_group,
-        callback = function()
-          vim.wo.spell = true
-          vim.opt.wrap = true
-        end
-      })
     end
   }
 
