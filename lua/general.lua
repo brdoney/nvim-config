@@ -43,6 +43,15 @@ vim.api.nvim_create_autocmd("FileType", {
   end
 })
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'text', 'markdown' },
+  group = vim.api.nvim_create_augroup("markdown_settings", {}),
+  callback = function()
+    vim.wo.spell = true
+    vim.wo.wrap = true
+  end
+})
+
 -- Will be disabled for firenvim
 if vim.g.started_by_firenvim then
   vim.o.laststatus = 0
