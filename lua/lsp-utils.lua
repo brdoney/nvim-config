@@ -49,7 +49,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts('Format buffer'))
     vim.keymap.set('v', '<leader>f', vim.lsp.buf.format, opts('Format buffer'))
 
-    vim.keymap.set('n', '<leader>qd', vim.diagnostic.disable, opts('Disable diagnostics'))
+    local function toggle_diagnostics()
+      local is_enabled = vim.diagnostic.is_enabled({ bufnr = bufnr })
+      vim.diagnostic.enable(not is_enabled, { bufnr = bufnr })
+    end
+    vim.keymap.set('n', '<leader>qd', toggle_diagnostics, opts('Toggle diagnostics'))
 
     vim.keymap.set('n', '<leader>qg', require('telescope.builtin').diagnostics, opts('List diagnostics'))
     vim.keymap.set('n', '<leader>qo', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
