@@ -169,6 +169,7 @@ local function sonokai_custom()
   -- }}}
 
   -- Barbar {{{
+  link("BufferTabpagesSep", "BufferTabpages")
   -- link("TabLineSel", "Normal")
   -- highlight! link TabLineFill
   -- link("TabLineSel", "TabLineFill")
