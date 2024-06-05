@@ -63,6 +63,26 @@ vim.api.nvim_create_user_command("CloseFloatingWindows", function()
   print(string.format('Closed %d windows: %s', #closed_windows, vim.inspect(closed_windows)))
 end, { bang = true, desc = "Close all floating windows" })
 
+vim.api.nvim_create_user_command("CloseFugitiveIfOpen", function()
+  if vim.g.fugitive_tab ~= nil then
+    vim.cmd.tabclose(vim.g.fugitive_tab)
+    vim.g.fugitive_tab = nil
+    print("Closed Fugitive")
+  else
+    print("Fugitive not open")
+  end
+end, { bang = true, desc = "Close Fugitive tab if it's open" })
+
+vim.api.nvim_create_user_command("CloseDBUIIfOpen", function()
+  if vim.g.dbui_tab ~= nil then
+    vim.cmd.tabclose(vim.g.dbui_tab)
+    vim.g.dbui_tab = nil
+    print("Closed DBUI")
+  else
+    print("DBUI not open")
+  end
+end, { bang = true, desc = "Close DBUI tab if it's open" })
+
 return {
   {
     'mhinz/vim-startify',
@@ -82,12 +102,12 @@ return {
       vim.g.startify_session_before_save = {
         'silent! tabdo cclose',
         'silent! tabdo NvimTreeClose',
-        'silent! tabdo call TerminalClose()',
-        'silent! tabdo call CloseFugitiveIfOpen()',
+        -- 'silent! tabdo call CloseFugitiveIfOpen()',
         -- 'silent! tabdo lua require("incline").disable()',
         'silent! tabdo TroubleClose',
         'silent! tabdo lua require("fidget").close()',
-        'silent! tabdo CloseFloatingWindows'
+        'silent! tabdo CloseFloatingWindows',
+        'silent! tabdo DBUIClose'
       }
       -- Just to make cowsay look pretty
       vim.g.startify_fortune_use_unicode = 1

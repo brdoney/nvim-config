@@ -24,6 +24,7 @@ return {
           vim.cmd("tab :G")
           vim.o.winheight = 10
           vim.o.winminheight = 10
+          vim.g.fugitive_tab = vim.api.nvim_tabpage_get_number(0)
         end,
         desc = "Open Fugitive"
       },
