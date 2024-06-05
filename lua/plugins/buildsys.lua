@@ -1,7 +1,8 @@
 return {
   {
     -- Toggle and control terminals
-    'akinsho/toggleterm.nvim', version = "*",
+    'akinsho/toggleterm.nvim',
+    version = "*",
     -- dir = '~/Developer/Vim/toggleterm.nvim',
     event = "VeryLazy",
     opts = {
@@ -43,7 +44,19 @@ return {
     dependencies = { 'skywind3000/asynctasks.vim' },
     init = function()
       local function toggleterm_runner(opts)
-        vim.cmd("1TermExec cmd='" .. opts.cmd .. "'")
+        local term = require('toggleterm.terminal').get(1)
+        if term ~= nil then
+          -- Clear the current terminal contents, since they're from a past run
+          vim.cmd("1TermExec cmd=clear")
+          -- May need to wait after this, but haven't had any issues yet
+          local sb = vim.bo[term.bufnr].scrollback
+          vim.bo[term.bufnr].scrollback = 1
+          vim.bo[term.bufnr].scrollback = sb
+          vim.cmd("1TermExec cmd='" .. opts.cmd .. "'")
+        else
+          -- Create a fresh terminal to run the job
+          vim.cmd("1TermExec cmd='" .. opts.cmd .. "'")
+        end
       end
 
       -- Register our custom toggleterm plugin
