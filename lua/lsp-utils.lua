@@ -66,27 +66,27 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     -- Set up code lenses
-    if client ~= nil and client.server_capabilities.codeLensProvider then
-      local codelens = vim.api.nvim_create_augroup("codelens", { clear = false })
-      local codelens_events = { "BufEnter", "CursorHold", "InsertLeave" }
-
-      local commands = vim.api.nvim_get_autocmds({
-        group = codelens,
-        buffer = bufnr,
-        event = codelens_events,
-      })
-      if #commands > 0 then
-        -- We already registered code lens refresh for the buffer, don't do it twice
-        return
-      end
-
-      -- Refresh code lenses
-      vim.api.nvim_create_autocmd(codelens_events, {
-        group = codelens,
-        buffer = bufnr,
-        callback = vim.lsp.codelens.refresh,
-      })
-    end
+    -- if client ~= nil and client.server_capabilities.codeLensProvider then
+    --   local codelens = vim.api.nvim_create_augroup("codelens", { clear = false })
+    --   local codelens_events = { "BufEnter", "CursorHold", "InsertLeave" }
+    --
+    --   local commands = vim.api.nvim_get_autocmds({
+    --     group = codelens,
+    --     buffer = bufnr,
+    --     event = codelens_events,
+    --   })
+    --   if #commands > 0 then
+    --     -- We already registered code lens refresh for the buffer, don't do it twice
+    --     return
+    --   end
+    --
+    --   -- Refresh code lenses
+    --   vim.api.nvim_create_autocmd(codelens_events, {
+    --     group = codelens,
+    --     buffer = bufnr,
+    --     callback = vim.lsp.codelens.refresh,
+    --   })
+    -- end
 
     -- Enable inlay hints
     if vim.lsp.inlay_hint ~= nil and client ~= nil and client.server_capabilities.inlayHintProvider then
