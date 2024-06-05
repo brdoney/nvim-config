@@ -27,6 +27,9 @@ return {
             ['<C-S-p>'] = require('telescope.actions.layout').toggle_preview
           }
         },
+        file_ignore_patterns = {
+          "^.venv/", "^.git/", "__pycache__/"
+        }
       }
     },
     config = function(_, opts)
