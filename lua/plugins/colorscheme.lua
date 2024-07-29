@@ -222,6 +222,28 @@ local function sonokai_custom()
   -- sonokai_hl('BufferTabpageFill', palette.bg2, palette.bg2)
   -- }}}
 
+  -- Markdown.nvim {{{
+
+  -- Heading backgrounds:
+  -- In sonokai, headings are (in order): red, orange, yellow, green, blue, purple
+  sonokai_hl("MarkdownBg1", palette.none, palette.diff_red)
+  link("MarkdownBg2", "DiffChange")
+  local markdown_bg_yellow = {'#4a4d23', '56'}
+  sonokai_hl("MarkdownBg3", palette.none, markdown_bg_yellow)
+  -- link("MarkdownBg3", "DiffChange")
+  link("MarkdownBg4", "DiffAdd")
+  sonokai_hl("MarkdownBg5", palette.none, palette.diff_blue)
+  local markdown_bg_purple = {'#3b334f', '237'}
+  sonokai_hl("MarkdownBg6", palette.none, markdown_bg_purple)
+
+  -- Callout backgrounds
+  link("CalloutInfo", "Blue")
+  link("CalloutTip", "DiagnosticOk")
+  link("CalloutImportant", "Green")
+  link("CalloutWarning", "Yellow")
+  link("CalloutCaution", "Red")
+  -- }}}
+
   if vim.fn.has("nvim-0.10.0") == 1 then
     sonokai_hl('LspInlayHint', palette.grey, palette.bg1, 'NONE')
   end
