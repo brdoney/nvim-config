@@ -56,9 +56,9 @@ return {
       focus_on_close = "previous",
       insert_at_end = true,
       icons = {
-        button = "",
+        button = "",
         modified = {
-          button = ""
+          button = ""
         }
       }
     },
