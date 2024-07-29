@@ -15,6 +15,7 @@ return {
       })
 
       vim.keymap.set('n', '<C-_>', require("Comment.api").toggle.linewise.current, { desc = 'Toggle comment' })
+      vim.keymap.set('n', '<D-/>', require("Comment.api").toggle.linewise.current, { desc = 'Toggle comment' })
       -- vim.keymap.set('i', '<C-_>', function()
       --   require("Comment.api").toggle.linewise.current()
       --   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>A", true, false, true), "m", true)
@@ -55,9 +56,11 @@ return {
       end
       -- vim.keymap.set('i', '<C-_>', '<Esc>gcA', { remap = true, desc = 'Toggle comment' })
       vim.keymap.set('i', '<C-_>', imode_comment, { remap = true, desc = 'Toggle comment' })
+      vim.keymap.set('i', '<D-/>', imode_comment, { remap = true, desc = 'Toggle comment' })
 
       -- Stay in visual mode after the toggle
       vim.keymap.set('v', '<C-_>', 'gcgv', { remap = true, desc = 'Toggle comment' })
+      vim.keymap.set('v', '<D-/>', 'gcgv', { remap = true, desc = 'Toggle comment' })
     end
   }
 

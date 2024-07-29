@@ -89,7 +89,8 @@ return {
     cmd = "Telescope",
     keys = {
       '<leader>PP',
-      { '<C-p>',      function() require('telescope.builtin').find_files() end, desc = "File search" },
+      { '<C-p>', function() require('telescope.builtin').find_files({ hidden = true }) end, desc = "File search" },
+      { '<D-p>', function() require('telescope.builtin').find_files({ hidden = true }) end, desc = "File search" },
       {
         '<leader>sa',
         function() require('telescope.builtin').find_files({ no_ignore = true }) end,
@@ -98,9 +99,9 @@ return {
       {
         '<leader>sh',
         function() require('telescope.builtin').find_files({ no_ignore = true, hidden = true }) end,
-        desc = "File search hidden files"
+        desc = "File search all files"
       },
-      { '<leader>ss', function() require('telescope.builtin').live_grep() end,  desc = "Live grep" }
+      { '<leader>ss', function() require('telescope.builtin').live_grep() end, desc = "Live grep" }
     }
   },
 }

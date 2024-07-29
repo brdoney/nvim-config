@@ -47,7 +47,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set('n', '<leader>qc', vim.lsp.codelens.run, opts('Code lens'))
 
     vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts('Format buffer'))
+    vim.keymap.set('n', '<M-F>', vim.lsp.buf.format, opts('Format buffer'))
     vim.keymap.set('v', '<leader>f', vim.lsp.buf.format, opts('Format buffer'))
+    vim.keymap.set('v', '<M-F>', vim.lsp.buf.format, opts('Format buffer'))
 
     local function toggle_diagnostics()
       local is_enabled = vim.diagnostic.is_enabled({ bufnr = bufnr })
@@ -57,6 +59,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     vim.keymap.set('n', '<leader>qg', require('telescope.builtin').diagnostics, opts('List diagnostics'))
     vim.keymap.set('n', '<leader>qo', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
+    vim.keymap.set('n', '<D-O>', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
     vim.keymap.set('n', '<leader>qwo', require('telescope.builtin').lsp_dynamic_workspace_symbols,
       opts('List workspace symbols'))
 
@@ -125,6 +128,17 @@ end
 ---@return function
 local function enhanced_float_handler(handler)
   return function(err, result, ctx, config)
+    if result ~= nil then
+      local text = result.contents.value
+      -- Mainly for Python docstrings
+      -- text = text:gsub("\\_", "_")
+      text = text:gsub("\\([_*+<])", "%1")
+      text = text:gsub("&nbsp;", " ")
+      text = text:gsub("&gt;", ">")
+      text = text:gsub("&lt;", "<")
+      result.contents.value = text
+    end
+
     local buf, win = handler(
       err,
       result,
