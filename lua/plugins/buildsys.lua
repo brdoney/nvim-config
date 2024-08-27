@@ -21,7 +21,7 @@ return {
         FloatBorder = { link = "Grey" }
       },
       float_opts = {
-        border = 'curved',
+        border = require("border").border,
         -- Width and height match Telescope's
         width = function()
           return math.floor(vim.o.columns * 0.8)

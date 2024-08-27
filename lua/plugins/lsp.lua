@@ -1,5 +1,5 @@
 -- To set up autocmd for LspAttach
-local border = require("lsp-utils").border;
+local border = require("border").border;
 
 local mason_servers = {
   -- HTML/CSS/JS/TS

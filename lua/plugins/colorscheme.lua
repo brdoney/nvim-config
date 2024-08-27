@@ -38,7 +38,8 @@ local function sonokai_custom()
   local hl_seperator = vim.tbl_extend("force", hl_comment, { italic = false })
   vim.api.nvim_set_hl(0, "WhichKeySeparator", hl_seperator)
 
-  -- sonokai_hl('NvimTreeNormal', palette.fg, palette.black, 'NONE')
+  -- sonokai_hl('NvimTreeGitIgnoredIcon', palette.grey_dim, palette.none, 'NONE')
+  link('NvimTreeGitIgnoredIcon', 'Grey')
 
   -- Git {{{
   -- Make diff for modified lines show as orange

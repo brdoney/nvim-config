@@ -5,9 +5,7 @@ local M = {}
 -- Add cmp capabilities to default ones
 M.capabilities = require('cmp_nvim_lsp').default_capabilities()
 
--- Single border that will be used around all floating windows
-local border = 'single'
-M.border = border
+local border = require("border").border
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lspattach", {}),
@@ -132,7 +130,7 @@ local function enhanced_float_handler(handler)
       local text = result.contents.value
       -- Mainly for Python docstrings
       -- text = text:gsub("\\_", "_")
-      text = text:gsub("\\([_*+<])", "%1")
+      text = text:gsub("\\(%S)", "%1")
       text = text:gsub("&nbsp;", " ")
       text = text:gsub("&gt;", ">")
       text = text:gsub("&lt;", "<")

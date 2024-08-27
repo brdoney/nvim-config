@@ -95,13 +95,15 @@ return {
     },
     opts = {
       disable_netrw = true,
-      hijack_netrw = true,
-      hijack_directories = {
-        enable = true,
-        auto_open = true,
-      },
-      open_on_tab = false,
+      -- tab = {
+      --   sync = {
+      --     -- Auto-open nvim-tree if it was open and we do :tabnew
+      --     open = true
+      --   }
+      -- },
+      -- Keep the cursor at the start of the line
       hijack_cursor = true,
+      -- Update cwd if we use :cd for some reason
       sync_root_with_cwd = true,
       diagnostics = {
         enable = true,
@@ -109,22 +111,15 @@ return {
         icons = { error = " ", warning = " ", hint = " ", info = " " }
       },
       update_focused_file = {
-        enable      = false,
-        update_cwd  = false,
-        ignore_list = {}
-      },
-      system_open = {
-        cmd  = nil,
-        args = {}
+        -- Focus a file when opened (if it's in currenet directory)
+        enable      = true,
       },
       actions = {
-        open_file = {
-          resize_window = true
+        file_popup = {
+          open_win_config = {
+            border = require("border").border
+          }
         }
-      },
-      view = {
-        width = 30,
-        side = 'left',
       },
       renderer = {
         indent_markers = {
@@ -136,10 +131,16 @@ return {
         icons = {
           glyphs = {
             git = {
-              unstaged = '*',
+              unstaged = "*",
+              ignored = "",
             }
-          }
+          },
         }
+      },
+      filters = {
+        -- Show gitignore and dotfiles (will highlight differently)
+        git_ignored = false,
+        dotfiles = false,
       },
       on_attach = nvim_tree_on_attach
     },
