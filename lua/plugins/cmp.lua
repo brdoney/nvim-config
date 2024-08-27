@@ -15,11 +15,7 @@ return {
     opts = {
       mode = "symbol_text",
       symbol_map = require("symbols").symbol_map,
-    },
-    config = function(_, opts)
-      -- Bc they don't use .setup() for some reason...
-      require('lspkind').init(opts)
-    end
+    }
   },
   {
     'hrsh7th/nvim-cmp',

@@ -1,6 +1,9 @@
 -- Update time
 vim.go.updatetime = 100
 
+-- Timeout length for mappings
+vim.o.timeoutlen = 300
+
 -- Map leader to Space
 vim.g.mapleader = " "
 

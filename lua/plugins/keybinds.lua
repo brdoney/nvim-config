@@ -9,67 +9,36 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
-      key_labels = {
-        -- override the label used to display some keys. It doesn't effect WK in any other way.
-        ["<space>"] = "spc",
-        ["<cr>"] = "",
-        ["<tab>"] = "",
+      win = {
+        -- Prefer overlap over scrolling
+        no_overlap = false,
+        border = "single",  -- none, single, double, shadow
+        padding = { 2, 2 }, -- extra window padding [top/bottom, right/left]
       },
-      window = {
-        border = "single",        -- none, single, double, shadow
-        padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+      spec = {
+        { "<leader>c", group = "conflict", icon = "" },
+        { "<leader>t", group = "tabs" },
+        { "<leader>h", group = "git" },
+        { "<leader>q", group = "lsp", mode = { "n", "v" }, icon = { icon = "", color = "purple" } },
+        { "<leader>qw", group = "workspace" },
+        { "<leader>qn", group = "neogen" },
+        { "<leader>s", group = "search", icon = { icon = "", color = "grey" } },
+        { "<leader>P", group = "project", icon = { icon = "", color = "blue" } },
+        { "<leader>w", group = "word", icon = { icon = "", color = "grey" } },
+        { "<leader><Space>", group = "VM", icon = { icon = "󰗧", color = "grey" } },
+        { "<leader>i", icon = "󰌒" },
+        { "<leader>m", icon = "󰡏" },
+        { "<leader>M", icon = "󰡎" },
+        { "<leader>R", icon = { icon = "󰑐", color = "green" } },
+        { "<leader>r", icon = { icon = "", color = "green" } },
+        { "<leader>G", icon = { cat = "filetype", name = "git" } },
+        { "<leader>T", icon = { icon = "󰙨", color = "green" } },
+        { "<leader>n", icon = "󰉥" },
+        { "<leader>;", icon = ";" },
       },
+      -- icons = {
+      --   mappings = false
+      -- },
     },
-    config = function(_, opts)
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-
-      local wk = require("which-key")
-      wk.setup(opts)
-      wk.register({
-        c = {
-          name = "conflict" -- optional group name
-        },
-        h = {
-          name = "git"
-        },
-        q = {
-          name = "lsp",
-          w = {
-            name = "workspace"
-          },
-          n = {
-            name = "neogen"
-          },
-        },
-        s = {
-          name = "search"
-        },
-        P = {
-          name = 'project'
-        },
-        ["<Space>"] = {
-          name = "VM"
-        },
-        w = {
-          name = "word"
-        },
-        [";"] = { "Add ; to end of line" },
-        m = { "Max height" },
-        M = { "Max width" }
-      }, { prefix = "<leader>" })
-      -- wk.register({
-      --   D = { "Go to declaration" },
-      --   d = { "Go to definition" },
-      --   r = { "Go to references" },
-      --   i = { "Go to implementation" },
-      -- })
-
-      wk.register({
-        q = {
-          name = "lsp",
-        },
-      }, { prefix = "<leader>", mode = "v" })
-    end
   },
 }
