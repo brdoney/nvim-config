@@ -44,19 +44,22 @@ return {
     dependencies = { 'skywind3000/asynctasks.vim' },
     init = function()
       local function toggleterm_runner(opts)
-        local term = require('toggleterm.terminal').get(1)
-        if term ~= nil then
+        local term, is_new = require('toggleterm.terminal').get_or_create_term(1)
+
+        -- Open it (start the job) if it's new
+        if not term:is_open() then term:open() end
+
+        if not is_new then
           -- Clear the current terminal contents, since they're from a past run
-          vim.cmd("1TermExec cmd=clear")
+          term:clear()
           -- May need to wait after this, but haven't had any issues yet
           local sb = vim.bo[term.bufnr].scrollback
           vim.bo[term.bufnr].scrollback = 1
           vim.bo[term.bufnr].scrollback = sb
-          vim.cmd("1TermExec cmd='" .. opts.cmd .. "'")
-        else
-          -- Create a fresh terminal to run the job
-          vim.cmd("1TermExec cmd='" .. opts.cmd .. "'")
         end
+
+        -- Now run the job
+        term:send(opts.cmd)
       end
 
       -- Register our custom toggleterm plugin
