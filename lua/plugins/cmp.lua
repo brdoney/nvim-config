@@ -1,4 +1,3 @@
-
 return {
   {
     -- Snippet engine (used by cmp)
@@ -96,6 +95,9 @@ return {
           end,
         },
         formatting = {
+          -- Not really sure what this does
+          expandable_indicator = true,
+
           -- lspkind default
           -- format = lspkind.cmp_format(),
 
@@ -203,7 +205,11 @@ return {
           { name = 'nvim_lsp' },
           { name = 'nvim_lsp_signature_help' },
           { name = 'vsnip' },
-          { name = 'path' }
+          { name = 'path' },
+          {
+            name = "lazydev",
+            -- group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+          }
         }, {
           { name = 'buffer' },
         }),

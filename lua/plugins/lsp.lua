@@ -49,8 +49,8 @@ local tools = {
 return {
   {
     -- For nvim Lua API
-    'folke/neodev.nvim',
-    ft = 'lua',
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
     opts = {}
   },
   {
