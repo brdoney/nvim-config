@@ -1,53 +1,44 @@
-local function courses()
-  return { { line = 'CS 6204 Extensibility', cmd = 'SLoad cs6204' } }
-end
-
-local function research()
-  return { { line = 'Thesis', cmd = 'SLoad thesis' } }
-end
-
-local function concat(t1, t2)
-  for _, v in ipairs(t2) do
-    table.insert(t1, v)
+local function load_session_action(session)
+  return function()
+    require("mini.sessions").read(session)
   end
 end
 
-local lists = {}
+local function shortcuts()
+  local shortcuts_list = {
+    { name = "Thesis",   session = "thesis" },
+    { name = "Analysis", session = "thesisanalysis" },
+  }
 
--- Add the lists for mac if we're currently on it
-if vim.fn.hostname() == "BrdMPro.local" then
-  concat(lists, {
-    { type = courses,  header = { '   Courses' } },
-    { type = research, header = { '   Research' } }
-  })
+  local items = {}
+
+  -- Add the lists for mac if we're currently on it
+  if vim.fn.hostname() == "BrdMPro.local" then
+    for i, value in ipairs(shortcuts_list) do
+      items[i] = { name = value.name, action = load_session_action(value.session), section = "Shortcuts" }
+    end
+  end
+
+  return items
 end
-
--- Add the base lists
-concat(lists, {
-  { type = 'sessions',  header = { '   Sessions' } },
-  { type = 'dir',       header = { '   MRU ' .. vim.fn.getcwd() } },
-  { type = 'files',     header = { '   MRU' } },
-  { type = 'bookmarks', header = { '   Bookmarks' } },
-  { type = 'commands',  header = { '   Commands' } },
-})
 
 -- macOS file picker script
-local function pickFile()
-  local output = vim.fn.system("~/Developer/Swift/NvimFilePicker/.build/release/NvimFilePicker")
-
-  -- Do nothing if it wasn't succesful
-  if vim.v.shell_error == 1 then
-    print(output)
-    return
-  end
-
-  -- Get rid of trailing new line
-  output = vim.trim(output)
-
-  -- Close the current session (if open) and open the folder
-  vim.cmd [[ SClose ]]
-  vim.cmd('e ' .. output)
-end
+-- local function pickFile()
+--   local output = vim.fn.system("~/Developer/Swift/NvimFilePicker/.build/release/NvimFilePicker")
+--
+--   -- Do nothing if it wasn't succesful
+--   if vim.v.shell_error == 1 then
+--     print(output)
+--     return
+--   end
+--
+--   -- Get rid of trailing new line
+--   output = vim.trim(output)
+--
+--   -- Close the current session (if open) and open the folder
+--   vim.cmd [[ SClose ]]
+--   vim.cmd('e ' .. output)
+-- end
 
 -- Floating windows (hover, diagnostics, etc.) mess with Startify sessions
 -- The created command is called during startify shutdown
@@ -85,38 +76,74 @@ end, { bang = true, desc = "Close DBUI tab if it's open" })
 
 return {
   {
-    'mhinz/vim-startify',
-    cond = not vim.g.started_by_firenvim,
-    init = function()
-      vim.g.startify_lists = lists
-
-      -- Autoload Session.vim when found in a directory
-      vim.g.startify_session_autoload = 1
-      -- Automatically save sessions when exiting editor
-      vim.g.startify_session_persistence = 1
-      -- Sort sessions by modification time instead of alphabetically
-      vim.g.startify_session_sort = 1
-      -- Close NERDTree before saving session because saving with it causes errors on
-      -- session open
-      -- vim.g.startify_session_before_save = [ 'silent! tabdo NERDTreeClose', 'silent! tabdo call TerminalClose()', 'silent! tabdo call CloseFugitiveIfOpen()' ]
-      vim.g.startify_session_before_save = {
-        'silent! tabdo cclose',
-        'silent! tabdo NvimTreeClose',
-        -- 'silent! tabdo call CloseFugitiveIfOpen()',
-        -- 'silent! tabdo lua require("incline").disable()',
-        'silent! tabdo TroubleClose',
-        'silent! tabdo lua require("fidget").close()',
-        'silent! tabdo CloseFloatingWindows',
-        'silent! tabdo DBUIClose'
+    'echasnovski/mini.sessions',
+    version = '*',
+    dependencies = {
+      "tiagovla/scope.nvim", -- For loading sessions
+    },
+    opts = {
+      hooks = {
+        pre = {
+          write = function()
+            local commands = {
+              -- Per-tab commands
+              'silent! tabdo cclose',
+              'silent! tabdo NvimTreeClose',
+              'silent! tabdo TroubleClose',
+              'silent! tabdo lua require("fidget").close()',
+              -- 'silent! tabdo lua require("incline").disable()',
+              -- Run once commands
+              'silent! CloseFugitiveIfOpen',
+              'silent! CloseDBUIIfOpen',
+              'silent! CloseFloatingWindows',
+            }
+            for _, cmd in ipairs(commands) do
+              vim.cmd(cmd)
+            end
+          end
+        },
       }
-      -- Just to make cowsay look pretty
-      vim.g.startify_fortune_use_unicode = 1
-
-      vim.keymap.set('n', '<leader>Pq', ":SClose<CR>", { desc = 'Close sessions' })
-
-      if vim.fn.has("mac") == 1 then
-        vim.keymap.set('n', '<leader>Po', pickFile, { desc = 'Folder picker' })
-      end
+    },
+    keys = {
+      { "<leader>PP", function() require("mini.sessions").select() end, desc = 'Session picker' },
+      {
+        "<leader>Ps",
+        function()
+          vim.ui.input({ prompt = "Session name" }, function(name)
+            require("mini.sessions").write(name)
+          end)
+        end,
+        desc = "Save session"
+      }
+    }
+  },
+  {
+    "echasnovski/mini.starter",
+    version = "*",
+    dependencies = { "echasnovski/mini.sessions" },
+    config = function()
+      local starter = require("mini.starter")
+      starter.setup({
+        evaluate_single = true,
+        items = {
+          shortcuts,
+          starter.sections.sessions(10),
+          -- Don't show paths on any files (last argument)
+          starter.sections.recent_files(5, false, false),
+          starter.sections.recent_files(5, true, false),
+          starter.sections.builtin_actions(),
+        },
+        content_hooks = {
+          starter.gen_hook.adding_bullet(),
+          starter.gen_hook.indexing("all", { "Builtin actions" }),
+          -- starter.gen_hook.padding(3, 2),
+          starter.gen_hook.aligning("center", "center"),
+        },
+        header = function()
+          -- Looks like "Wednesday 08/28 12:27am"
+          return vim.fn.strftime("%A %m/%d %l:%M%p"):gsub("AM", "am"):gsub("PM", "pm")
+        end
+      })
     end
   },
 }

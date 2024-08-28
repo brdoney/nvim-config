@@ -99,18 +99,22 @@ return {
         },
         select = {
           -- backend = { "builtin", "telescope", "fzf_lua", "fzf", "nui" },
-
-          -- telescope = require('telescope.themes').get_cursor({ borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" } }),
-          telescope = require('telescope.themes').get_cursor({
-            borderchars = {
-              { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
-              prompt = { '─', '│', ' ', '│', '┌', '┐', '│', '│' },
-              results = { '─', '│', '─', '│', '├', '┤', '┘', '└' },
-              preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
-            },
-            winblend = 10,
-            initial_mode = "normal"
-          }),
+          get_config = function(opts)
+            if opts.kind == "codeaction" then
+              return {
+                telescope = require('telescope.themes').get_cursor({
+                  borderchars = {
+                    { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+                    prompt = { '─', '│', ' ', '│', '┌', '┐', '│', '│' },
+                    results = { '─', '│', '─', '│', '├', '┤', '┘', '└' },
+                    preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+                  },
+                  winblend = 10,
+                  initial_mode = "normal"
+                })
+              }
+            end
+          end,
 
           -- Not actually used b/c it looks ugly, but just in case the backend
           -- is changed later
