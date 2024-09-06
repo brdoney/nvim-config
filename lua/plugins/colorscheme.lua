@@ -41,6 +41,13 @@ local function sonokai_custom()
   -- sonokai_hl('NvimTreeGitIgnoredIcon', palette.grey_dim, palette.none, 'NONE')
   link('NvimTreeGitIgnoredIcon', 'Grey')
 
+  -- DAP {{{
+  vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'Red', linehl = '', numhl = '' })
+  vim.fn.sign_define('DapBreakpointCondition', { text = '', texthl = 'Blue', linehl = '', numhl = '' })
+  vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'Purple', linehl = '', numhl = '' })
+  vim.fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'Red', linehl = '', numhl = '' })
+  -- }}}
+
   -- Git {{{
   -- Make diff for modified lines show as orange
   local lighter_diff_yellow = { '#735e35', '56' }
@@ -229,12 +236,12 @@ local function sonokai_custom()
   -- In sonokai, headings are (in order): red, orange, yellow, green, blue, purple
   sonokai_hl("MarkdownBg1", palette.none, palette.diff_red)
   link("MarkdownBg2", "DiffChange")
-  local markdown_bg_yellow = {'#4a4d23', '56'}
+  local markdown_bg_yellow = { '#4a4d23', '56' }
   sonokai_hl("MarkdownBg3", palette.none, markdown_bg_yellow)
   -- link("MarkdownBg3", "DiffChange")
   link("MarkdownBg4", "DiffAdd")
   sonokai_hl("MarkdownBg5", palette.none, palette.diff_blue)
-  local markdown_bg_purple = {'#3b334f', '237'}
+  local markdown_bg_purple = { '#3b334f', '237' }
   sonokai_hl("MarkdownBg6", palette.none, markdown_bg_purple)
 
   -- Callout backgrounds
