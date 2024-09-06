@@ -17,6 +17,7 @@ return {
       },
       spec = {
         { "<leader>c", group = "conflict", icon = "" },
+        { "<leader>d", group = "debug" },
         { "<leader>t", group = "tabs" },
         { "<leader>h", group = "git" },
         { "<leader>q", group = "lsp", mode = { "n", "v" }, icon = { icon = "", color = "purple" } },
