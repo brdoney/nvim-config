@@ -6,7 +6,7 @@ set guifont=LigaMenlo\ Nerd\ Font:h13
 let g:neovide_remember_window_size = v:false
 
 " Use alt as meta to avoid having to redefine keybindings
-let g:neovide_input_macos_alt_is_meta=v:true
+let g:neovide_input_macos_alt_is_meta="both"
 
 " Map alt+bs 
 
