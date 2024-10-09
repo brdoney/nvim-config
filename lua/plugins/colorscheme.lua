@@ -268,8 +268,9 @@ return {
   -- Syntax highlighting
   {
     'sainnhe/sonokai',
+    lazy = false,
     priority = 1000,
-    init = function()
+    config = function()
       -- The configuration options should be placed before `colorscheme sonokai`.
       vim.g.sonokai_style = "maia"
       -- Enable italics
@@ -286,8 +287,6 @@ return {
       vim.g.sonokai_show_eob = 0
       -- Disable terminal colors
       vim.g.sonokai_disable_terminal_colors = 1
-    end,
-    config = function()
       -- load the colorscheme here
       vim.cmd([[colorscheme sonokai]])
     end,

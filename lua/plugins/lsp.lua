@@ -6,7 +6,7 @@ local mason_servers = {
   'emmet_ls',
   'html',
   'cssls',
-  'tsserver',
+  'ts_ls',
   'eslint',
   -- Go
   'gopls',
@@ -24,7 +24,9 @@ local mason_servers = {
   -- Lua
   'lua_ls',
   -- Svelte
-  'svelte'
+  'svelte',
+  -- JSON
+  'jsonls'
 }
 
 ---@diagnostic disable-next-line: deprecated
