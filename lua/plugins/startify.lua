@@ -131,17 +131,28 @@ return {
           -- Don't show paths on any files (last argument)
           starter.sections.recent_files(5, false, false),
           starter.sections.recent_files(5, true, false),
-          starter.sections.builtin_actions(),
+          -- starter.sections.builtin_actions(),
         },
         content_hooks = {
           starter.gen_hook.adding_bullet(),
-          starter.gen_hook.indexing("all", { "Builtin actions" }),
+          -- starter.gen_hook.indexing("all", { "Builtin actions" }),
           -- starter.gen_hook.padding(3, 2),
           starter.gen_hook.aligning("center", "center"),
         },
         header = function()
           -- Looks like "Wednesday 08/28 12:27am"
           return vim.fn.strftime("%A %m/%d %l:%M%p"):gsub("AM", "am"):gsub("PM", "pm")
+        end,
+        -- query_updaters = "0123456789.eq"
+      })
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "MiniStarterOpened",
+        group = vim.api.nvim_create_augroup("starter_opened", {}),
+        callback = function()
+          -- Get regular scrolling back, but does prevent the j and k keys from being used in queries
+          vim.keymap.set("n", "j", function() starter.update_current_item("next") end, { buffer = true })
+          vim.keymap.set("n", "k", function() starter.update_current_item("prev") end, { buffer = true })
         end
       })
     end
