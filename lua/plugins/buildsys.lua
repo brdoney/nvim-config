@@ -31,12 +31,18 @@ return {
         end,
       }
     },
+    keys = {
+      { "<leader>R", ':TermExec cmd="!!"<CR>:TermExec cmd=""<CR>', desc = "Repeat last command" }
+    },
     init = function()
-      vim.keymap.set("n", "<leader>R", ':TermExec cmd="!!"<CR>:TermExec cmd=""<CR>', {
-        desc = "Repeat last command",
-        silent = true
+      -- Turn off the signcolumn for terminals, since we default to it being on elsewhere
+      vim.api.nvim_create_autocmd("TermOpen", {
+        group = vim.api.nvim_create_augroup("toggleterm_group", {}),
+        callback = function()
+          vim.wo.signcolumn = "auto"
+        end
       })
-    end,
+    end
   },
   {
     -- Run code based on a defined task system (like code runner in VSCode)
