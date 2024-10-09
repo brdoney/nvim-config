@@ -34,8 +34,9 @@ return {
     },
     cmd = "Telescope",
     keys = {
-      { '<C-p>', function() require('telescope.builtin').find_files({ hidden = true }) end, desc = "File search" },
-      { '<D-p>', function() require('telescope.builtin').find_files({ hidden = true }) end, desc = "File search" },
+      { '<C-p>',      function() require('telescope.builtin').find_files({ hidden = true }) end,          desc = "File search" },
+      { '<D-p>',      function() require('telescope.builtin').find_files({ hidden = true }) end,          desc = "File search" },
+      { '<leader>qd', function() require('telescope.builtin').lsp_definitions({ jump_type = "never" }) end, desc = "Peek definition" },
       {
         '<leader>sa',
         function() require('telescope.builtin').find_files({ no_ignore = true }) end,

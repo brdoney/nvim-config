@@ -27,6 +27,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts('Go to declaration'))
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts('Go to definition'))
+    vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, opts('Go to type definition'))
     vim.keymap.set('n', 'gm', vim.lsp.buf.implementation, opts('Go to implementation'))
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts('Go to references'))
 
@@ -53,8 +54,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
       local is_enabled = vim.diagnostic.is_enabled({ bufnr = bufnr })
       vim.diagnostic.enable(not is_enabled, { bufnr = bufnr })
     end
-    vim.keymap.set('n', '<leader>qd', toggle_diagnostics, opts('Toggle diagnostics'))
+    vim.keymap.set('n', '<leader>qG', toggle_diagnostics, opts('Toggle diagnostics'))
 
+    -- Peek definition
+    vim.keymap.set('n', '<leader>qd', function()
+      require('telescope.builtin').lsp_type_definitions(require('telescope.themes').get_cursor({
+        jump_type = "never"
+      }))
+    end, opts('Peek definition'))
+
+    -- Lists
     vim.keymap.set('n', '<leader>qg', require('telescope.builtin').diagnostics, opts('List diagnostics'))
     vim.keymap.set('n', '<leader>qo', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
     vim.keymap.set('n', '<D-O>', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
@@ -131,6 +140,9 @@ local function add_inline_highlights(buf)
       ['^%s*(See also:)'] = '@text.title',
       ['{%S-}'] = '@parameter',
       ['|%S-|'] = '@text.reference',
+      -- Python
+      ['^%s*Args:'] = '@text.title',
+      ['^%s*Returns:'] = '@text.title',
     } do
       local from = 1 ---@type integer?
       while from do

@@ -224,7 +224,7 @@ return {
   },
   {
     'folke/trouble.nvim',
-    keys = { { '<leader>g', function() require('trouble').toggle() end, desc = 'Toggle trouble' } }
+    keys = { { '<leader>g', function() require('trouble').toggle("diagnostics") end, desc = 'Toggle trouble' } }
   },
   {
     'williamboman/mason.nvim',

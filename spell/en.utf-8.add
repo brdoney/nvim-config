@@ -137,3 +137,4 @@ inlining
 pyright
 ./assistantprompts/title.txt
 LLM's
+reportUnknownMemberType
