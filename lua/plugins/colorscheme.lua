@@ -13,6 +13,11 @@ local function set_hl(name, data)
 end
 
 local function sonokai_custom()
+  -- Adding this back b/c Windows needs it for `nvim .` for some reason
+  if vim.fn.has('termguicolors') == 1 then
+    vim.api.nvim_set_option_value("termguicolors", true, { scope = "global" })
+  end
+
   -- Link a highlight group to a predefined highlight group.
   -- See `colors/sonokai.vim` for all predefined highlight groups.
 
