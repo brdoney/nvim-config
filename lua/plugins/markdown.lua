@@ -28,11 +28,13 @@ return {
         enabled = true,
         unchecked = {
           -- icon = '• 󰄱 ',
+          icon = '󰄱',
           -- Highlight for the unchecked icon
           highlight = '@markup.list.unchecked',
         },
         checked = {
           -- icon = '• 󰱒 ',
+          icon = '󰱒',
           -- Highligh for the checked icon
           highlight = '@markup.list.checked',
         },
