@@ -1,4 +1,35 @@
--- NvimTree {{{
+local function create_date_file_in_nvim_tree()
+  -- Get the current directory from nvim-tree where the cursor is located
+  local node = require('nvim-tree.api').tree.get_node_under_cursor()
+
+  -- Check if the node is a directory; if not, use the parent directory
+  local dir = node.parent.absolute_path
+  if node.type == "directory" then
+    dir = node.absolute_path
+  end
+
+  -- Get the current date
+  local date = os.date("%y-%m-%d")
+  -- Set the file path
+  local filepath = vim.fn.expand(dir .. "/" .. date .. ".md")
+
+  if filepath == "" then
+    print("Could not expand filepath with pieces " .. dir .. " and " .. date)
+    return
+  end
+
+  -- Check if the file already exists
+  if vim.fn.filereadable(filepath) == 0 then
+    -- Create the file and open it in a new buffer
+    vim.cmd("edit " .. filepath)
+
+    -- Refresh nvim-tree to show the new file
+    require('nvim-tree.api').tree.reload()
+  else
+    print("File already exists: " .. filepath)
+  end
+end
+
 local function nvim_tree_on_attach(bufnr)
   local api = require('nvim-tree.api')
 
@@ -63,6 +94,9 @@ local function nvim_tree_on_attach(bufnr)
   -- You will need to insert "your code goes here" for any mappings with a custom action_cb
   vim.keymap.set('n', 'K', api.node.show_info_popup, opts('Info'))
   vim.keymap.set('n', 'I', api.tree.toggle_gitignore_filter, opts('Toggle Git Ignore'))
+
+  -- Custom functions
+  vim.keymap.set('n', 'M', create_date_file_in_nvim_tree, opts('Create meeting file'))
 end
 
 -- Integrate with barbar so tabs start after tree
@@ -83,7 +117,6 @@ end
 -- nvim_tree_events.on_tree_close(function()
 --   bufferline_state.set_offset(0)
 -- end)
--- }}}
 
 return {
   {
@@ -112,7 +145,7 @@ return {
       },
       update_focused_file = {
         -- Focus a file when opened (if it's in currenet directory)
-        enable      = true,
+        enable = true,
       },
       actions = {
         file_popup = {
