@@ -30,6 +30,9 @@ return {
       vim.g['surround_' .. vim.fn.char2nr('i')] = "*\r*"
       vim.g['surround_' .. vim.fn.char2nr('I')] = "**\r**"
 
+      -- Docstrings for Python
+      vim.g['surround_' .. vim.fn.char2nr('d')] = '"""\r"""'
+
       -- Markdown word formatting
       vim.keymap.set('n', '<leader>wi', '<Plug>YsurroundiWi', { silent = true, desc = 'Italicize' })
       vim.keymap.set('v', '<leader>wi', '<Plug>VsurroundiWi', { silent = true, desc = 'Italicize' })
