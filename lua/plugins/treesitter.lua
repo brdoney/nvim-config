@@ -70,9 +70,18 @@ return {
   {
     'JoosepAlviste/nvim-ts-context-commentstring',
     dependencies = { "nvim-treesitter/nvim-treesitter" },
-    opts = {},
-    config = function()
+    opts = {
+      -- We don't need the autocmd since we're using the Comment.nvim integration
+      enable_autocmd = false,
+      languages      = {
+        -- Use line comments, ignoring vim's default of block comments everywhere
+        c = { __default = '// %s', __multiline = '/* %s */' },
+
+      }
+    },
+    init = function()
       -- Skip backwards compatability to speed up loading
+      -- I don't know if it's actually necessary anymore?
       vim.g.skip_ts_context_commentstring_module = true
     end,
   },
