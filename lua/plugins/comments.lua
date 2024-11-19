@@ -27,9 +27,10 @@ return {
         local curr_line = vim.api.nvim_get_current_line()
         -- vim.pretty_print(curr_line)
         if curr_line ~= nil and curr_line:match('^%s*$') then
-          -- Empty
-          local input = vim.api.nvim_replace_termcodes("x<Esc>gccA<BS>", true, true, true)
-          vim.api.nvim_feedkeys(input, "m", true)
+          -- Empty line (potentially including spaces)
+          -- Make the comment (doesn't move cursor), then move to the end of it
+          comapi.toggle.linewise.current()
+          vim.cmd("startinsert!")
         else
           -- Not empty
           local pos = vim.api.nvim_win_get_cursor(0)
@@ -63,5 +64,4 @@ return {
       vim.keymap.set('v', '<D-/>', 'gcgv', { remap = true, desc = 'Toggle comment' })
     end
   }
-
 }
