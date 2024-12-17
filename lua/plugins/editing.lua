@@ -35,9 +35,13 @@ return {
 
       -- Markdown word formatting
       vim.keymap.set('n', '<leader>wi', '<Plug>YsurroundiWi', { silent = true, desc = 'Italicize' })
-      vim.keymap.set('v', '<leader>wi', '<Plug>VsurroundiWi', { silent = true, desc = 'Italicize' })
+      vim.keymap.set('n', '<D-i>', '<Plug>YsurroundiWi', { silent = true, desc = 'Italicize' })
+      vim.keymap.set('v', '<leader>wi', '<Plug>VSurroundi', { silent = true, desc = 'Italicize' })
+      vim.keymap.set('v', '<D-i>', '<Plug>VSurroundi', { silent = true, desc = 'Italicize' })
       vim.keymap.set('n', '<leader>wb', '<Plug>YsurroundiWI', { silent = true, desc = 'Bold' })
-      vim.keymap.set('v', '<leader>wb', '<Plug>VsurroundiWI', { silent = true, desc = 'Bold' })
+      vim.keymap.set('n', '<D-b>', '<Plug>YsurroundiWI', { silent = true, desc = 'Bold' })
+      vim.keymap.set('v', '<leader>wb', '<Plug>VSurroundI', { silent = true, desc = 'Bold' })
+      vim.keymap.set('v', '<D-b>', '<Plug>VSurroundI', { silent = true, desc = 'Bold' })
     end
   },
   {
