@@ -235,7 +235,7 @@ local function sonokai_custom()
   -- sonokai_hl('BufferTabpageFill', palette.bg2, palette.bg2)
   -- }}}
 
-  -- Markdown.nvim {{{
+  -- render-markdown.nvim {{{
 
   -- Heading backgrounds:
   -- In sonokai, headings are (in order): red, orange, yellow, green, blue, purple
@@ -255,6 +255,8 @@ local function sonokai_custom()
   link("CalloutImportant", "Green")
   link("CalloutWarning", "Yellow")
   link("CalloutCaution", "Red")
+
+  link("RenderMarkdownBullet", "@markup.list.markdown")
   -- }}}
 
   if vim.fn.has("nvim-0.10.0") == 1 then
