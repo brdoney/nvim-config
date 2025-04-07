@@ -9,8 +9,13 @@ local custom_nvimtree_lualine = {
 
 local wordcount_component = {
   function()
-    local words = vim.fn.wordcount()['words']
-    return words .. ' words'
+    -- visual, visual line, and visual-block modes
+    if vim.fn.mode() == "v" or vim.fn.mode() == "V" or vim.fn.mode() == "CTRL-V" then
+      local count = vim.fn.wordcount()
+      return count.words .. " words (" .. count.visual_words .. " selected)"
+    else
+      return vim.fn.wordcount().words .. " words"
+    end
   end,
   cond = function()
     local ft = vim.opt_local.filetype:get()
