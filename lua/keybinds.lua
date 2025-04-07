@@ -8,8 +8,8 @@ vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { silent = true })
 vim.keymap.set("n", "Y", "y$", { silent = true })
 
 -- Navigate lines visually when lines are wrapped
-vim.keymap.set("n", "j", "gj", { silent = true })
-vim.keymap.set("n", "k", "gk", { silent = true })
+vim.keymap.set("", "j", "gj", { silent = true })
+vim.keymap.set("", "k", "gk", { silent = true })
 
 -- Add semicolon to end of line without messing up cursor position
 vim.keymap.set("n", "<leader>;", ":normal! mqA;<Esc>`q", { silent = true, desc = "EOL semicolon" })
