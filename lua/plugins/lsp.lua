@@ -45,7 +45,9 @@ local tools = {
   -- Bash
   'shfmt',
   -- Python
-  'mypy'
+  'mypy',
+  -- C#: Roslyn language - not provided by mason-lspconfig (custom registry)
+  'roslyn'
 }
 
 return {
@@ -60,6 +62,11 @@ return {
     -- (so .setup() isn't run here)
     'mfussenegger/nvim-jdtls',
     ft = 'java'
+  },
+  {
+    "seblyng/roslyn.nvim",
+    ft = "cs",
+    opts = {}
   },
   {
     -- Native LSP support
@@ -81,6 +88,10 @@ return {
               cmd = {
                 "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp" },
               filetypes = { "swift", "objective-c", "objective-cpp" }
+            }, opts)
+          elseif server == "clangd" then
+            opts = vim.tbl_deep_extend("force", {
+              filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' } -- Remove proto
             }, opts)
           end
 
@@ -195,7 +206,7 @@ return {
       autocmd = { enabled = true },
       sign = {
         enabled = true,
-        text = "",
+        text = "󰌵",
         hl = "LightBulbSign",
       },
     }
@@ -236,14 +247,23 @@ return {
   {
     'williamboman/mason.nvim',
     event = "VeryLazy",
-    opts = {}
+    opts = {
+      registries = {
+        -- The base registry
+        "github:mason-org/mason-registry",
+        -- For rosylyn
+        "github:Crashdummyy/mason-registry",
+      },
+    }
   },
   {
     'williamboman/mason-lspconfig.nvim',
     dependencies = 'williamboman/mason.nvim',
     event = "VeryLazy",
     opts = {
-      ensure_installed = mason_servers
+      ensure_installed = mason_servers,
+      -- We manually enable them to change the settings
+      automatic_enable = false
     }
   },
   {
