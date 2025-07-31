@@ -233,15 +233,11 @@ end
 --   return contents
 -- end
 
-if vim.fn.has('nvim-0.10.0') == 1 then
-  -- Depends on treesitter markdown for floats, so only works in 0.10+
-  vim.lsp.handlers['textDocument/hover'] = enhanced_float_handler(vim.lsp.handlers.hover)
-  vim.lsp.handlers['textDocument/signatureHelp'] = enhanced_float_handler(vim.lsp.handlers.signature_help)
-else
-  -- Just put border around the standard popups
-  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border, })
-  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border, })
-end
+-- Maybe try https://gist.github.com/OXY2DEV/645c90df32095a8a397735d0be646452#file-lsp_hover-lua-L77
+-- Depends on treesitter markdown for floats, so only works in 0.10+
+-- vim.lsp.handlers['textDocument/hover'] = enhanced_float_handler(vim.lsp.handlers.hover)
+vim.lsp.handlers['textDocument/hover'] = enhanced_float_handler(vim.lsp.handlers.hover)
+vim.lsp.handlers['textDocument/signatureHelp'] = enhanced_float_handler(vim.lsp.handlers.signature_help)
 
 -- From https://github.com/neovim/neovim/pull/14878 ; don't focus the quickfix window
 local orig_ref_handler = vim.lsp.handlers["textDocument/references"]
@@ -252,19 +248,27 @@ vim.lsp.handlers["textDocument/references"] = function(...)
 end
 
 -- Use custom icons in gutter
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
+for type, icon in pairs(require("symbols").diagnostics) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
 -- Custom header for diagnostics
 vim.diagnostic.config({
+  virtual_text = true,
   float = {
     border = border,
     header = { ' Diagnostics:' },
     -- Show source if there are multiple in the buffer
     source = "if_many"
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = require("symbols").diagnostics.error,
+      [vim.diagnostic.severity.WARN] = require("symbols").diagnostics.warning,
+      [vim.diagnostic.severity.HINT] = require("symbols").diagnostics.hint,
+      [vim.diagnostic.severity.INFO] = require("symbols").diagnostics.info,
+    }
   }
 })
 

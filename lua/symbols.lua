@@ -64,4 +64,11 @@ for k, v in pairs(M.symbol_map) do
   M.symbol_map_spaces[k] = v .. " "
 end
 
+M.diagnostics = {
+  error = " ",
+  warning = " ",
+  hint = "󰌶 ",
+  info = " "
+}
+
 return M

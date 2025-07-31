@@ -141,19 +141,19 @@ return {
       diagnostics = {
         enable = true,
         show_on_dirs = true,
-        icons = { error = " ", warning = " ", hint = " ", info = " " }
+        icons = require("symbols").diagnostics,
       },
       update_focused_file = {
         -- Focus a file when opened (if it's in currenet directory)
         enable = true,
       },
-      actions = {
-        file_popup = {
-          open_win_config = {
-            border = require("border").border
-          }
-        }
-      },
+      -- actions = {
+      --   file_popup = {
+      --     open_win_config = {
+      --       border = require("border").border
+      --     }
+      --   }
+      -- },
       renderer = {
         indent_markers = {
           enable = true
