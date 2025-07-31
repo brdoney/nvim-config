@@ -134,3 +134,13 @@ end
 --   vertright = '┣',
 --   verthoriz = '╋',
 -- })
+
+-- vim.o.winborder = 'single'
+
+vim.filetype.add({
+  extension = {
+    applescript = "applescript",
+    osascript = "applescript",
+    scpt = "applescript",
+  }
+})
