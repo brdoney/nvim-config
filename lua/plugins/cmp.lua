@@ -4,7 +4,17 @@ return {
     'hrsh7th/vim-vsnip',
     event = 'VeryLazy',
     init = function()
-      vim.g.vsnip_snippet_dir = "/Users/brendan-doney/Library/Application Support/Code/User/snippets"
+      ---@diagnostic disable-next-line: undefined-field
+      local os = vim.uv.os_uname().sysname
+      ---@diagnostic disable-next-line: undefined-field
+      local home = vim.uv.os_homedir()
+      if os == "Windows_NT" then
+        vim.g.vsnip_snippet_dir = home .. "\\Application Data\\Code\\User\\snippets"
+      elseif os == "macOS" then
+        vim.g.vsnip_snippet_dir = home .. "/Library/Application Support/Code/User/snippets"
+      else
+        vim.g.vsnip_snippet_dir = home .. "/.config/Code/User/snippets"
+      end
     end
   },
   {
