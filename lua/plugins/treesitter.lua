@@ -35,7 +35,6 @@ local installed = {
   "python",
   -- Data
   "sql",
-  "csv"
 }
 
 return {
@@ -51,7 +50,10 @@ return {
         ensure_installed = installed,
         auto_install = true,
         sync_install = false,
-        ignore_install = {},
+        ignore_install = {
+          -- Use rainbow CSV instead
+          "csv", "tsv"
+        },
         highlight = {
           enable = true,
         }
