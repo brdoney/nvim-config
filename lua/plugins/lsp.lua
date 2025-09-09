@@ -47,7 +47,8 @@ local tools = {
   -- Python
   'mypy',
   -- C#: Roslyn language - not provided by mason-lspconfig (custom registry)
-  'roslyn'
+  'roslyn',
+  'rzls'
 }
 
 return {
@@ -65,17 +66,61 @@ return {
   },
   {
     "seblyng/roslyn.nvim",
-    ft = "cs",
-    opts = {}
+    ft = { "cs", "razor" },
+    dependencies = {
+      {
+        "tris203/rzls.nvim",
+        config = true,
+      },
+      "williamboman/mason.nvim"
+    },
+    config = function()
+      local rzls_path = vim.fn.expand("$MASON/packages/rzls/libexec")
+      local cmd = {
+        "roslyn",
+        "--stdio",
+        "--logLevel=Information",
+        "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
+        "--razorSourceGenerator=" .. vim.fs.joinpath(rzls_path, "Microsoft.CodeAnalysis.Razor.Compiler.dll"),
+        "--razorDesignTimePath=" .. vim.fs.joinpath(rzls_path, "Targets", "Microsoft.NET.Sdk.Razor.DesignTime.targets"),
+        "--extension",
+        vim.fs.joinpath(rzls_path, "RazorExtension", "Microsoft.VisualStudioCode.RazorExtension.dll"),
+      }
+      vim.lsp.config('roslyn', {
+        cmd = cmd,
+        handlers = require('rzls.roslyn_handlers'),
+        capabilities = require('lsp-utils').capabilities,
+        settings = {
+          ["csharp|background_analysis"] = {
+            dotnet_analyzer_diagnostics_scope = "openFiles",
+            dotnet_compiler_diagnostics_scope = "openFiles",
+          },
+        }
+      })
+      vim.lsp.enable('roslyn')
+
+      require("roslyn").setup({
+        filewatching = "off"
+      })
+    end,
+    init = function()
+      -- We add the Razor file types before the plugin loads.
+      vim.filetype.add({
+        extension = {
+          razor = "razor",
+          cshtml = "razor",
+        },
+      })
+    end,
   },
   {
     -- Native LSP support
     'neovim/nvim-lspconfig',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'folke/neodev.nvim', 'williamboman/mason-lspconfig.nvim' },
+    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'folke/neodev.nvim', 'williamboman/mason-lspconfig.nvim', 'seblyng/roslyn.nvim', "tris203/rzls.nvim" },
     event = "VeryLazy",
     config = function()
       for _, server in ipairs(servers) do
-        if server == 'jdtls' then
+        if server == 'jdtls' or server == "roslyn" then
           -- Skip b/c configuerd in after/ftplugin/java.lua
         else
           local opts = {
@@ -242,7 +287,19 @@ return {
   },
   {
     'folke/trouble.nvim',
-    keys = { { '<leader>g', function() require('trouble').toggle("diagnostics") end, desc = 'Toggle trouble' } }
+    keys = { { '<leader>g', function() require('trouble').toggle("diagnostics") end, desc = 'Toggle trouble' } },
+    opts = {
+      modes = {
+        diagnostics = {
+          filter = function(items)
+            -- For C# diagnostics
+            return vim.tbl_filter(function(item)
+              return not string.match(item.basename, "%__virtual.cs$")
+            end, items)
+          end,
+        },
+      },
+    }
   },
   {
     'williamboman/mason.nvim',
@@ -251,7 +308,7 @@ return {
       registries = {
         -- The base registry
         "github:mason-org/mason-registry",
-        -- For rosylyn
+        -- For roslyn
         "github:Crashdummyy/mason-registry",
       },
     }
