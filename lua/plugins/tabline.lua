@@ -31,7 +31,7 @@ return {
       end
 
       -- Barbar operations
-      barbarmap("<leader>p", ":BufferPick<CR>", "Pick buffer")
+      -- barbarmap("<leader>p", ":BufferPick<CR>", "Pick buffer")
       barbarmap("<leader>[", ":BufferPrevious<CR>", "Previous buffer")
       barbarmap("<leader>]", ":BufferNext<CR>", "Next buffer")
       barbarmap("<leader>{", ":BufferMovePrevious<CR>", "Move buffer left")

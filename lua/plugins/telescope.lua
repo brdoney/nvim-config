@@ -28,7 +28,7 @@ return {
           }
         },
         file_ignore_patterns = {
-          "^.?venv/", "^.git/", "__pycache__/"
+          "^.?venv/", "^.git/", "__pycache__/", "Migrations\\", "%__virtual.cs$"
         }
       }
     },
@@ -47,7 +47,8 @@ return {
         function() require('telescope.builtin').find_files({ no_ignore = true, hidden = true }) end,
         desc = "File search all files"
       },
-      { '<leader>ss', function() require('telescope.builtin').live_grep() end, desc = "Live grep" }
+      { '<leader>ss', function() require('telescope.builtin').live_grep() end, desc = "Live grep" },
+      { '<leader>p', function() require('telescope.builtin').buffers() end, desc = "Buffers" }
     }
   },
 }
