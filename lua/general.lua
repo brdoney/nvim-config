@@ -144,3 +144,15 @@ vim.filetype.add({
     scpt = "applescript",
   }
 })
+
+if vim.fn.has('win64') == 1 or vim.fn.has('win32') == 1 then
+  -- Make bash/zsh work on Windows
+  -- Unfortunately, `-s` makes :! nonfunctional;
+  -- Need `-c` for this, which breaks toggleterm
+  -- There is a fix in https://github.com/akinsho/toggleterm.nvim/issues/463
+  vim.opt.shell = '"C:/Program Files/Git/usr/bin/zsh.exe"'
+  vim.opt.shellcmdflag = "-s"
+  -- vim.opt.shellcmdflag = "-c"
+  vim.opt.shellquote = "\""
+  vim.opt.shellxquote = "\""
+end

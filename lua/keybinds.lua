@@ -23,3 +23,11 @@ vim.keymap.set("n", "<leader>qq", ":cclose<CR>", { silent = true })
 -- Maximise height/width of current window w/o using <C-w>_ or <C-w>| (awkward keybindings)
 vim.keymap.set("", "<leader>m", "<C-w>_", { silent = true, desc = "Max height" })
 vim.keymap.set("", "<leader>M", "<C-w>|", { silent = true, desc = "Max width" })
+
+if vim.fn.has('win64') == 1 or vim.fn.has('win32') == 1 then
+  -- Remap C-n/C-p (set to down/up with Powertoys) so they work like normal
+  vim.keymap.set("", "<Down>", "<C-n>", { remap = true })
+  vim.keymap.set("!", "<Down>", "<C-n>", { remap = true })
+  vim.keymap.set("", "<Up>", "<C-p>", { remap = true })
+  vim.keymap.set("!", "<Up>", "<C-p>", { remap = true })
+end
