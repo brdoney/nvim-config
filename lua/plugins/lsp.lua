@@ -66,6 +66,10 @@ return {
     'mfussenegger/nvim-jdtls',
     ft = 'java'
   },
+  -- {
+  --   "jlcrochet/vim-razor",
+  --   ft = "razor",
+  -- },
   {
     "seblyng/roslyn.nvim",
     ft = { "cs", "razor" },
@@ -77,6 +81,20 @@ return {
       "williamboman/mason.nvim"
     },
     config = function()
+      require("roslyn").setup({
+        -- Turn off filewatching for performance
+        filewatching = "off",
+
+        -- Default to full stack solution
+        choose_target = function(target)
+          return vim.iter(target):find(function(item)
+            if string.match(item, "StudentFirst Full Stack.sln") then
+              return item
+            end
+          end)
+        end
+      })
+
       local rzls_path = vim.fn.expand("$MASON/packages/rzls/libexec")
       local cmd = {
         "roslyn",
@@ -97,13 +115,21 @@ return {
             dotnet_analyzer_diagnostics_scope = "openFiles",
             dotnet_compiler_diagnostics_scope = "openFiles",
           },
+          ["csharp|inlay_hints"] = {
+            csharp_enable_inlay_hints_for_implicit_object_creation = true,
+            csharp_enable_inlay_hints_for_lambda_parameter_types = true,
+            dotnet_enable_inlay_hints_for_literal_parameters = true,
+            dotnet_enable_inlay_hints_for_object_creation_parameters = true,
+            dotnet_enable_inlay_hints_for_other_parameters = true,
+            dotnet_enable_inlay_hints_for_parameters = true,
+            dotnet_suppress_inlay_hints_for_parameters_that_differ_only_by_suffix = true,
+            dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
+            dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
+            dotnet_enable_inlay_hints_for_indexer_parameters = true,
+          },
         }
       })
       vim.lsp.enable('roslyn')
-
-      require("roslyn").setup({
-        filewatching = "off"
-      })
     end,
     init = function()
       -- We add the Razor file types before the plugin loads.
