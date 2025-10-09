@@ -55,13 +55,13 @@ local function sonokai_custom()
 
   -- Git {{{
   -- Make diff for modified lines show as orange
-  local lighter_diff_yellow = { '#735e35', '56' }
-  sonokai_hl('DiffChange', palette.none, palette.diff_yellow)
+  local lighter_bg_yellow = { '#735e35', '56' }
+  sonokai_hl('DiffChange', palette.none, palette.bg_yellow)
   -- sonokai_hl('DiffText', palette.bg0, palette.orange)
-  sonokai_hl('DiffText', palette.none, lighter_diff_yellow)
+  sonokai_hl('DiffText', palette.none, lighter_bg_yellow)
 
   -- Don't show text in foreground of diff deleted (it's always dashes, which is useless)
-  sonokai_hl('DiffDelete', palette.diff_red, palette.diff_red)
+  sonokai_hl('DiffDelete', palette.bg_red, palette.bg_red)
 
   -- Use orange signs for changes with GitGutter
   link("GitGutterChange", "OrangeSign")
@@ -239,13 +239,13 @@ local function sonokai_custom()
 
   -- Heading backgrounds:
   -- In sonokai, headings are (in order): red, orange, yellow, green, blue, purple
-  sonokai_hl("MarkdownBg1", palette.none, palette.diff_red)
+  sonokai_hl("MarkdownBg1", palette.none, palette.bg_red)
   link("MarkdownBg2", "DiffChange")
   local markdown_bg_yellow = { '#4a4d23', '56' }
   sonokai_hl("MarkdownBg3", palette.none, markdown_bg_yellow)
   -- link("MarkdownBg3", "DiffChange")
   link("MarkdownBg4", "DiffAdd")
-  sonokai_hl("MarkdownBg5", palette.none, palette.diff_blue)
+  sonokai_hl("MarkdownBg5", palette.none, palette.bg_blue)
   local markdown_bg_purple = { '#3b334f', '237' }
   sonokai_hl("MarkdownBg6", palette.none, markdown_bg_purple)
 

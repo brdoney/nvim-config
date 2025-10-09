@@ -102,6 +102,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if vim.lsp.inlay_hint ~= nil and client ~= nil and client.server_capabilities.inlayHintProvider then
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
+
+    if vim.lsp.semantic_tokens ~= nil and client ~= nil and client.server_capabilities.semanticTokensProvider then
+      client.server_capabilities.semanticTokensProvider = nil
+    end
+
+    if vim.lsp.inlay_hint ~= nil and client ~= nil and client.server_capabilities.inlayHintProvider then
+      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    end
   end,
 })
 

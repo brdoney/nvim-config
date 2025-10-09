@@ -66,7 +66,8 @@ end, { bang = true, desc = "Close Fugitive tab if it's open" })
 
 vim.api.nvim_create_user_command("CloseDBUIIfOpen", function()
   if vim.g.dbui_tab ~= nil then
-    vim.cmd.tabclose(vim.g.dbui_tab)
+    -- vim.cmd.tabclose(vim.g.dbui_tab)
+    require("dbee").close()
     vim.g.dbui_tab = nil
     print("Closed DBUI")
   else
@@ -85,10 +86,11 @@ return {
       hooks = {
         pre = {
           write = function()
+            require("nvim-tree.api").tree.close_in_all_tabs()
+
             local commands = {
               -- Per-tab commands
               'silent! tabdo cclose',
-              'silent! tabdo NvimTreeClose',
               'silent! tabdo TroubleClose',
               'silent! tabdo lua require("fidget").close()',
               -- 'silent! tabdo lua require("incline").disable()',

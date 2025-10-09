@@ -55,7 +55,16 @@ M.symbol_map = {
   Struct = "",
   Event = "",
   Operator = "",
-  TypeParameter = ""
+  TypeParameter = "",
+
+  -- cmp-dbee
+  schema = "",
+  table = "",
+  view = "",
+  columns = "󰠵",
+  keyword = "",
+  alias = "",
+  cte = "",
 }
 
 -- Same as symbol_map, but with spaces after each symbol

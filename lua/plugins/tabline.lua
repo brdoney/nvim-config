@@ -43,6 +43,13 @@ return {
       barbarmap("<leader>t[", ":tabprevious<CR>", "Previous tab")
       barbarmap("<leader>t]", ":tabnext<CR>", "Next tab")
       barbarmap("<leader>|", function()
+        if vim.g.dbui_tab ~= nil and vim.api.nvim_get_current_tabpage() == vim.g.dbui_tab then
+          -- If we're currently in dbee, close it
+          require("dbee").close()
+          vim.g.dbui_tab = nil
+          return
+        end
+
         -- ":tabclose<CR>"
         vim.cmd.tabclose()
         -- Reload nvim tree for git updates

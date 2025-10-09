@@ -42,6 +42,14 @@ return {
       'hrsh7th/vim-vsnip',
       -- For putting dunder methods lower in list in Python
       'lukas-reineke/cmp-under-comparator',
+      {
+        "MattiasMTS/cmp-dbee",
+        dependencies = {
+          { "kndndrj/nvim-dbee" }
+        },
+        ft = "sql",
+        opts = {}, -- needed
+      }
     },
     event = 'VeryLazy',
     config = function()
@@ -117,8 +125,10 @@ return {
           format = function(entry, vim_item)
             local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
             local strings = vim.split(kind.kind, "%s", { trimempty = true })
-            kind.kind = " " .. strings[1] .. " "
-            kind.menu = " " .. string.format(symbol_format_string, strings[2]:lower()) .. ""
+            if #strings > 1 then
+              kind.kind = " " .. strings[1] .. " "
+              kind.menu = " " .. string.format(symbol_format_string, strings[2]:lower()) .. ""
+            end
 
             -- Get rid of empty leading space on clangd
             -- (it reserves empty space for dot char do signify imports)
@@ -211,18 +221,20 @@ return {
             compare.locality,
           }
         },
-        sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-          { name = 'nvim_lsp_signature_help' },
-          { name = 'vsnip' },
-          { name = 'path' },
+        sources = cmp.config.sources(
           {
-            name = "lazydev",
-            -- group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-          }
-        }, {
-          { name = 'buffer' },
-        }),
+            { name = 'nvim_lsp' },
+            { name = 'nvim_lsp_signature_help' },
+            { name = 'vsnip' },
+            { name = 'path' },
+            {
+              name = "lazydev",
+              -- group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+            },
+          },
+          { { name = 'cmp-dbee' } },
+          { { name = 'buffer' }, }
+        ),
       });
 
       -- Mapping used for / and : completion
