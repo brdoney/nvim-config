@@ -9,13 +9,12 @@ return {
     -- keys = "<C-_>",
     event = "VeryLazy",
     config = function()
+      ---@diagnostic disable-next-line: missing-fields
       require("Comment").setup({
         -- Integrate with nvim-ts-context-commentstring
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
       })
 
-      vim.keymap.set('n', '<C-_>', require("Comment.api").toggle.linewise.current, { desc = 'Toggle comment' })
-      vim.keymap.set('n', '<D-/>', require("Comment.api").toggle.linewise.current, { desc = 'Toggle comment' })
       -- vim.keymap.set('i', '<C-_>', function()
       --   require("Comment.api").toggle.linewise.current()
       --   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>A", true, false, true), "m", true)
@@ -57,11 +56,18 @@ return {
       end
       -- vim.keymap.set('i', '<C-_>', '<Esc>gcA', { remap = true, desc = 'Toggle comment' })
       vim.keymap.set('i', '<C-_>', imode_comment, { remap = true, desc = 'Toggle comment' })
+      vim.keymap.set('i', '<C-/>', imode_comment, { remap = true, desc = 'Toggle comment' })
       vim.keymap.set('i', '<D-/>', imode_comment, { remap = true, desc = 'Toggle comment' })
 
       -- Stay in visual mode after the toggle
       vim.keymap.set('v', '<C-_>', 'gcgv', { remap = true, desc = 'Toggle comment' })
+      vim.keymap.set('v', '<C-/>', 'gcgv', { remap = true, desc = 'Toggle comment' })
       vim.keymap.set('v', '<D-/>', 'gcgv', { remap = true, desc = 'Toggle comment' })
+
+      -- Standard normal mode mappings
+      vim.keymap.set('n', '<C-_>', comapi.toggle.linewise.current, { desc = 'Toggle comment' })
+      vim.keymap.set('n', '<C-/>', comapi.toggle.linewise.current, { desc = 'Toggle comment' })
+      vim.keymap.set('n', '<D-/>', comapi.toggle.linewise.current, { desc = 'Toggle comment' })
     end
   }
 }
