@@ -12,7 +12,7 @@ return {
     "jay-babu/mason-nvim-dap.nvim",
     dependencies = { "williamboman/mason.nvim", "mfussenegger/nvim-dap" },
     opts = {
-      ensure_installed = { "python", "delve", "codelldb", "node2" },
+      ensure_installed = { "python", "delve", "codelldb" },
       handlers = {},
     }
   },

@@ -45,10 +45,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set({ 'n', 'v' }, '<leader>qa', vim.lsp.buf.code_action, opts('Code action'))
     vim.keymap.set('n', '<leader>qc', vim.lsp.codelens.run, opts('Code lens'))
 
-    vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, opts('Format buffer'))
-    vim.keymap.set('n', '<M-F>', vim.lsp.buf.format, opts('Format buffer'))
-    vim.keymap.set('v', '<leader>f', vim.lsp.buf.format, opts('Format buffer'))
-    vim.keymap.set('v', '<M-F>', vim.lsp.buf.format, opts('Format buffer'))
+    local function format()
+      vim.lsp.buf.format({ timeout_ms = 5000, async = true })
+    end
+
+    vim.keymap.set('n', '<leader>f', format, opts('Format buffer'))
+    vim.keymap.set('n', '<M-F>', format, opts('Format buffer'))
+    vim.keymap.set('v', '<leader>f', format, opts('Format buffer'))
+    vim.keymap.set('v', '<M-F>', format, opts('Format buffer'))
 
     local function toggle_diagnostics()
       local is_enabled = vim.diagnostic.is_enabled({ bufnr = bufnr })
@@ -67,6 +71,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set('n', '<leader>qg', require('telescope.builtin').diagnostics, opts('List diagnostics'))
     vim.keymap.set('n', '<leader>qo', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
     vim.keymap.set('n', '<D-O>', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
+    vim.keymap.set('n', '<M-O>', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
     vim.keymap.set('n', '<leader>qwo', require('telescope.builtin').lsp_dynamic_workspace_symbols,
       opts('List workspace symbols'))
 

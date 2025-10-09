@@ -48,7 +48,9 @@ local tools = {
   'mypy',
   -- C#: Roslyn language - not provided by mason-lspconfig (custom registry)
   'roslyn',
-  'rzls'
+  'rzls',
+  -- SQL
+  'sqlfluff'
 }
 
 return {
@@ -205,6 +207,10 @@ return {
 
           -- Bash
           null_ls.builtins.formatting.shfmt,
+
+          -- SQL
+          null_ls.builtins.diagnostics.sqlfluff,
+          null_ls.builtins.formatting.sqlfluff,
 
           -- Python
           -- null_ls.builtins.diagnostics.flake8.with({
