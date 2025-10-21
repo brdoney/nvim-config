@@ -168,7 +168,8 @@ return {
             }, opts)
           end
 
-          require('lspconfig')[server].setup(opts)
+          vim.lsp.config(server, opts)
+          vim.lsp.enable(server, true)
         end
       end
     end
