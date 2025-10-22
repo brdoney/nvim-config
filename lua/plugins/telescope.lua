@@ -69,7 +69,7 @@ return {
           i = {
             ["<CR>"] = select_one_or_multi,
             ["<esc>"] = "close",
-            ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
+            ['<C-S-p>'] = require('telescope.actions.layout').toggle_preview,
             ['<C-a>'] = require('telescope.actions').toggle_all
           }
         },
