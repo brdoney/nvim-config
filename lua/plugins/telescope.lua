@@ -95,7 +95,8 @@ return {
       },
       { '<leader>ss', function() require('telescope.builtin').live_grep() end,  desc = "Live grep" },
       { '<leader>sg', function() require('telescope.builtin').git_status() end, desc = "Git status" },
-      { '<leader>sr', related_files,                                            desc = "Related" },
+      { '<leader>sr', function() require('telescope.builtin').resume() end,     desc = "Resume" },
+      { '<leader>sf', related_files,                                            desc = "Related" },
       { '<leader>p',  function() require('telescope.builtin').buffers() end,    desc = "Buffers" }
     }
   },
