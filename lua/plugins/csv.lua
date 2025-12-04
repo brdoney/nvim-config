@@ -15,7 +15,7 @@ return {
     ft = { "csv", "tsv", "csv_semicolon", "csv_whitespace", "csv_pipe" },
     keys = {
       { '<leader>f', run_rainbow_align, mode = 'n', { desc = 'Rainbow Align' } },
-      { '<M-F>',     run_rainbow_align, mode = 'n', { desc = 'Rainbow Align' } }
+      { '<M-S-f>',     run_rainbow_align, mode = 'n', { desc = 'Rainbow Align' } }
     },
   },
 }

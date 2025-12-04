@@ -32,9 +32,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts('Go to references'))
 
     -- Trouble only works with its list and provides no preview
-    vim.keymap.set('n', '[g', vim.diagnostic.goto_prev, opts('Go to previous diagnostic'))
+    vim.keymap.set('n', '[g', function() vim.diagnostic.jump({ count = -1, float = true }) end,
+      opts('Go to previous diagnostic'))
     -- vim.keymap.set('n', '[g', function() require('trouble').previous({ skip_groups = true, jump = true }) end, opts('Go to previous diagnostic'))
-    vim.keymap.set('n', ']g', vim.diagnostic.goto_next, opts('Go to next diagnostic'))
+    vim.keymap.set('n', ']g', function() vim.diagnostic.jump({ count = 1, float = true }) end,
+      opts('Go to next diagnostic'))
     -- vim.keymap.set('n', ']g', function() require('trouble').next({ skip_groups = true, jump = true }) end, opts('Go to next diagnostic'))
 
     vim.keymap.set('n', '<leader>qwa', vim.lsp.buf.add_workspace_folder, opts('Add workspace folder'))
@@ -50,9 +52,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     vim.keymap.set('n', '<leader>f', format, opts('Format buffer'))
-    vim.keymap.set('n', '<M-F>', format, opts('Format buffer'))
+    vim.keymap.set('n', '<M-S-f>', format, opts('Format buffer'))
     vim.keymap.set('v', '<leader>f', format, opts('Format buffer'))
-    vim.keymap.set('v', '<M-F>', format, opts('Format buffer'))
+    vim.keymap.set('v', '<M-S-f>', format, opts('Format buffer'))
 
     local function toggle_diagnostics()
       local is_enabled = vim.diagnostic.is_enabled({ bufnr = bufnr })
@@ -70,8 +72,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- Lists
     vim.keymap.set('n', '<leader>qg', require('telescope.builtin').diagnostics, opts('List diagnostics'))
     vim.keymap.set('n', '<leader>qo', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
-    vim.keymap.set('n', '<D-O>', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
-    vim.keymap.set('n', '<M-O>', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
+    vim.keymap.set('n', '<D-S-o>', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
+    vim.keymap.set('n', '<M-S-o>', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
+    vim.keymap.set('n', '<C-S-o>', require('telescope.builtin').lsp_document_symbols, opts('List document symbols'))
     vim.keymap.set('n', '<leader>qwo', require('telescope.builtin').lsp_dynamic_workspace_symbols,
       opts('List workspace symbols'))
 

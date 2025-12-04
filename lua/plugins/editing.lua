@@ -70,7 +70,7 @@ return {
         group = eagroup,
         callback = function()
           vim.keymap.set('x', '<leader>f', ':EasyAlign*<Bar><Enter>gv', { desc = 'Format tables' })
-          vim.keymap.set('x', '<M-F>', ':EasyAlign*<Bar><Enter>gv', { desc = 'Format tables' })
+          vim.keymap.set('x', '<M-S-f>', ':EasyAlign*<Bar><Enter>gv', { desc = 'Format tables' })
           -- vim.keymap.set('n', '<leader>f', ':%EasyAlign*<Bar><Enter>', { desc = 'Format tables' })
           -- vim.keymap.set('n', '<M-F>', ':%EasyAlign*<Bar><Enter>', { desc = 'Format tables' })
           vim.wo.wrap = true
