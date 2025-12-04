@@ -13,7 +13,8 @@ local mason_servers = {
   -- C/C++
   'clangd',
   -- Python
-  'basedpyright',
+  -- 'basedpyright',
+  'pyrefly',
   'ruff',
   -- Rust
   'rust_analyzer',
@@ -165,6 +166,16 @@ return {
           elseif server == "clangd" then
             opts = vim.tbl_deep_extend("force", {
               filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' } -- Remove proto
+            }, opts)
+          elseif server == "pyrefly" then
+            opts = vim.tbl_deep_extend("force", {
+              settings = {
+                python = {
+                  pyrefly = {
+                    displayTypeErrors = "force-on"
+                  }
+                }
+              }
             }, opts)
           end
 
