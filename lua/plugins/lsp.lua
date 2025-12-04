@@ -88,7 +88,7 @@ return {
         -- Default to full stack solution
         choose_target = function(target)
           return vim.iter(target):find(function(item)
-            if string.match(item, "StudentFirst Full Stack.sln") then
+            if string.match(item, "StudentFirst Full Stack%.sln$") then
               return item
             end
           end)
