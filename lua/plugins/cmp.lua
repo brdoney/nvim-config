@@ -18,15 +18,6 @@ return {
     end
   },
   {
-    -- LSP symbols (depended on by nvim-cmp)
-    'onsails/lspkind.nvim',
-    event = 'VeryLazy',
-    opts = {
-      mode = "symbol_text",
-      symbol_map = require("symbols").symbol_map,
-    }
-  },
-  {
     'hrsh7th/nvim-cmp',
     dependencies = {
       -- cmp sources
@@ -35,8 +26,6 @@ return {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
-      -- LSP symbols
-      'onsails/lspkind.nvim',
       -- Snippets
       'hrsh7th/cmp-vsnip',
       'hrsh7th/vim-vsnip',
@@ -71,25 +60,6 @@ return {
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
       end
 
-      local function isempty(s)
-        return s == nil or s == ""
-      end
-
-
-      local function find_max_symbol_len()
-        local symbol_len = nil
-        for symbol_name, _ in pairs(require('lspkind').symbol_map) do
-          if symbol_len == nil or #symbol_name > symbol_len then
-            symbol_len = #symbol_name
-          end
-        end
-        return symbol_len
-      end
-
-      local max_symbol_len = find_max_symbol_len()
-      local symbol_format_string = string.format("%%%ds", max_symbol_len)
-
-
       cmp.setup({
         completion = {
           completeopt = "menu,menuone,noinsert"
@@ -113,40 +83,16 @@ return {
           end,
         },
         formatting = {
-          -- Not really sure what this does
+          -- Not really sure what this does?
           expandable_indicator = true,
 
-          -- lspkind default
-          -- format = lspkind.cmp_format(),
-
           -- Highlighted type on left, annotation on right
-          -- Taken from https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-get-types-on-the-left-and-offset-the-menu
-          fields = { "kind", "abbr", "menu" },
-          format = function(entry, vim_item)
-            local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
-            local strings = vim.split(kind.kind, "%s", { trimempty = true })
-            if #strings > 1 then
-              kind.kind = " " .. strings[1] .. " "
-              kind.menu = " " .. string.format(symbol_format_string, strings[2]:lower()) .. ""
-            end
-
-            -- Get rid of empty leading space on clangd
-            -- (it reserves empty space for dot char do signify imports)
-            -- From https://stackoverflow.com/a/48328232/7162675
-            -- Ideally there should always be an abbr, but vim-language-server somtimes doesn't follow this (e.g. `hostname()`)
-            if not isempty(kind.abbr) and kind.abbr:byte(1) <= 32 then
-              kind.abbr = kind.abbr:sub(2)
-            end
-
-            return kind
+          -- Adapted from https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-add-visual-studio-code-codicons-to-the-menu
+          fields = { 'kind', 'abbr', 'menu' },
+          format = function(_, vim_item)
+            vim_item.kind = " " .. (require("symbols").symbol_map[vim_item.kind] or '') .. " "
+            return vim_item
           end,
-
-          -- Something else? Idk what
-          --   fields = { "kind", "abbr" },
-          --   format = function(_, vim_item)
-          --     vim_item.kind = cmp_kinds[vim_item.kind] or ""
-          --     return vim_item
-          --   end,
         },
         experimental = {
           ghost_text = true
