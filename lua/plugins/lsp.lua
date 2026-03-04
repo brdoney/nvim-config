@@ -49,7 +49,7 @@ local tools = {
   'mypy',
   -- C#: Roslyn language - not provided by mason-lspconfig (custom registry)
   'roslyn',
-  'rzls',
+  -- 'rzls',
   -- SQL
   'sqlfluff'
 }
@@ -75,11 +75,11 @@ return {
     "seblyng/roslyn.nvim",
     ft = { "cs", "razor" },
     dependencies = {
-      {
-        "tris203/rzls.nvim",
-        config = true,
-      },
-      "williamboman/mason.nvim"
+      -- {
+      --   "tris203/rzls.nvim",
+      --   config = true,
+      -- },
+      -- "williamboman/mason.nvim"
     },
     config = function()
       require("roslyn").setup({
@@ -96,20 +96,20 @@ return {
         end
       })
 
-      local rzls_path = vim.fn.expand("$MASON/packages/rzls/libexec")
-      local cmd = {
-        "roslyn",
-        "--stdio",
-        "--logLevel=Information",
-        "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
-        "--razorSourceGenerator=" .. vim.fs.joinpath(rzls_path, "Microsoft.CodeAnalysis.Razor.Compiler.dll"),
-        "--razorDesignTimePath=" .. vim.fs.joinpath(rzls_path, "Targets", "Microsoft.NET.Sdk.Razor.DesignTime.targets"),
-        "--extension",
-        vim.fs.joinpath(rzls_path, "RazorExtension", "Microsoft.VisualStudioCode.RazorExtension.dll"),
-      }
+      -- local rzls_path = vim.fn.expand("$MASON/packages/rzls/libexec")
+      -- local cmd = {
+      --   "roslyn",
+      --   "--stdio",
+      --   "--logLevel=Information",
+      --   "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
+      --   "--razorSourceGenerator=" .. vim.fs.joinpath(rzls_path, "Microsoft.CodeAnalysis.Razor.Compiler.dll"),
+      --   "--razorDesignTimePath=" .. vim.fs.joinpath(rzls_path, "Targets", "Microsoft.NET.Sdk.Razor.DesignTime.targets"),
+      --   "--extension",
+      --   vim.fs.joinpath(rzls_path, "RazorExtension", "Microsoft.VisualStudioCode.RazorExtension.dll"),
+      -- }
       vim.lsp.config('roslyn', {
-        cmd = cmd,
-        handlers = require('rzls.roslyn_handlers'),
+        -- cmd = cmd,
+        -- handlers = require('rzls.roslyn_handlers'),
         capabilities = require('lsp-utils').capabilities,
         settings = {
           ["csharp|background_analysis"] = {
@@ -134,18 +134,18 @@ return {
     end,
     init = function()
       -- We add the Razor file types before the plugin loads.
-      vim.filetype.add({
-        extension = {
-          razor = "razor",
-          cshtml = "razor",
-        },
-      })
+      -- vim.filetype.add({
+      --   extension = {
+      --     razor = "razorre",
+      --     cshtml = "razorre",
+      --   },
+      -- })
     end,
   },
   {
     -- Native LSP support
     'neovim/nvim-lspconfig',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'folke/neodev.nvim', 'williamboman/mason-lspconfig.nvim', 'seblyng/roslyn.nvim', "tris203/rzls.nvim" },
+    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'folke/neodev.nvim', 'williamboman/mason-lspconfig.nvim', 'seblyng/roslyn.nvim' },
     event = "VeryLazy",
     config = function()
       for _, server in ipairs(servers) do
