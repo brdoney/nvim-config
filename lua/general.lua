@@ -92,7 +92,13 @@ vim.opt.fillchars:append({ fold = " " })
 -- Mouse support
 vim.go.mouse = "a"
 -- Make vertical and horizontal scrolling the same amount
-vim.opt.mousescroll = not vim.g.started_by_firenvim and "ver:3,hor:3" or "ver:1,hor:1"
+if vim.g.started_by_firenvim then
+  vim.opt.mousescroll = "ver:1,hor:1"
+elseif vim.uv.os_uname().sysname == "Linux" then
+  vim.opt.mousescroll = "ver:6,hor:6"
+else
+  vim.opt.mousescroll = "ver:3,hor:3"
+end
 
 -- Set the indenting level to 2 spaces for the following file types.
 local two_files = { 'markdown', 'typescript', 'javascript', 'jsx', 'tsx', 'css', 'html', 'ruby', 'elixir',
