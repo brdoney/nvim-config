@@ -6,6 +6,12 @@ return {
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
     ft = "markdown",
     opts = {
+      win_options = {
+        conceallevel = {
+          -- I don't really remember why I did this...
+          rendered = 2
+        }
+      },
       heading = {
         -- Also render them in insert mode, just to make things look better
         render_modes = { 'i' },
