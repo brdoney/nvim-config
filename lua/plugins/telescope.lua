@@ -70,11 +70,28 @@ return {
             ["<CR>"] = select_one_or_multi,
             ["<esc>"] = "close",
             ['<C-S-p>'] = require('telescope.actions.layout').toggle_preview,
-            ['<C-a>'] = require('telescope.actions').toggle_all
+            ['<C-a>'] = require('telescope.actions').toggle_all,
+            ['<C-l>'] = function(prompt_bufnr)
+              local current_picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+              local strategies = { "horizontal", "vertical" }
+
+              -- Find the next strategy in the list
+              local next_strategy = "horizontal"
+              for i, s in ipairs(strategies) do
+                if s == current_picker.layout_strategy then
+                  next_strategy = strategies[(i % #strategies) + 1]
+                  break
+                end
+              end
+
+              -- Update the layout and refresh the picker
+              current_picker.layout_strategy = next_strategy
+              current_picker:full_layout_update()
+            end,
           }
         },
         file_ignore_patterns = {
-          "^.?venv/", "^.git/", "__pycache__/", "Migrations\\", "%__virtual.cs$"
+          "^.?venv/", "^.git/", "__pycache__/", "Migrations\\", "%__virtual.cs$", "Environment/"
         }
       }
     },
