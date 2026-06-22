@@ -66,7 +66,7 @@ return {
       vim.opt.foldnestmax = 10
       -- Remove folds since treesitter will regenerate them each time anyway
       -- (and sessions will preserve manual folding from past otherwise)
-      vim.opt.sessionoptions = "blank,buffers,curdir,help,tabpages,winsize,terminal"
+      vim.opt.sessionoptions = "buffers,curdir,help,tabpages,winsize,terminal"
     end
   },
   {

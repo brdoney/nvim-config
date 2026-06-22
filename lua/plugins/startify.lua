@@ -5,18 +5,19 @@ local function load_session_action(session)
 end
 
 local function shortcuts()
-  local shortcuts_list = {
-    { name = "Thesis",   session = "thesis" },
-    { name = "Analysis", session = "thesisanalysis" },
-  }
-
   local items = {}
 
   -- Add the lists for mac if we're currently on it
   if vim.fn.hostname() == "BrdMPro.local" then
+    local shortcuts_list = {
+      { name = "Thesis",   session = "thesis" },
+      { name = "Analysis", session = "thesisanalysis" },
+    }
     for i, value in ipairs(shortcuts_list) do
       items[i] = { name = value.name, action = load_session_action(value.session), section = "Shortcuts" }
     end
+  elseif vim.fn.hostname() == "fedora" then
+      items[1] = { name = "Todos", action = load_session_action("todos"), section = "Shortcuts" }
   end
 
   return items
@@ -88,6 +89,11 @@ return {
           write = function()
             require("nvim-tree.api").tree.close_in_all_tabs()
 
+            -- Clear the arglist so a directory arg (e.g. `.` from `nvim .`) isn't
+            -- baked into the session. On read, `argadd .` creates a listed directory
+            -- buffer that shows up in barbar and gets hijacked into a full-window tree.
+            vim.cmd("silent! %argdelete")
+
             local commands = {
               -- Per-tab commands
               'silent! tabdo cclose',
@@ -102,8 +108,40 @@ return {
             for _, cmd in ipairs(commands) do
               vim.cmd(cmd)
             end
+
+            -- vim.cmd[[silent! 5sleep]]
           end
         },
+        post = {
+          read = function()
+            -- Get a list of all buffer numbers
+            local bufs = vim.api.nvim_list_bufs()
+
+            local bufnos = "Closed:"
+            local closed_buf = false
+            -- Iterate through each buffer
+            for _, bufnr in ipairs(bufs) do
+              local name = vim.api.nvim_buf_get_name(bufnr)
+              -- Wipe unlisted buffers, plus any directory buffer left in the arglist
+              -- by an old session (`argadd .`) — otherwise it lingers in barbar and
+              -- nvim-tree hijacks it into a full-window tree.
+              if not vim.bo[bufnr].buflisted or (name ~= "" and vim.fn.isdirectory(name) == 1) then
+                bufnos = bufnos .. " " .. tostring(bufnr)
+                -- Delete the buffer (forcefully, if needed, to close modified buffers)
+                vim.api.nvim_buf_delete(bufnr, { force = true })
+                closed_buf = true
+              end
+              -- if vim.api.nvim_buf_is_loaded(bufnr) and vim.fn.bufwinnr(bufnr) == -1 then
+              --   -- Delete the buffer (forcefully, if needed, to close modified buffers)
+              --   vim.api.nvim_buf_delete(bufnr, { force = true })
+              -- end
+            end
+
+            if closed_buf then
+              print(bufnos)
+            end
+          end
+        }
       }
     },
     keys = {
