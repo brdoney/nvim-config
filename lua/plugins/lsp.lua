@@ -27,7 +27,9 @@ local mason_servers = {
   -- Svelte
   'svelte',
   -- JSON
-  'jsonls'
+  'jsonls',
+  -- Quickshell
+  'qmlls'
 }
 
 ---@diagnostic disable-next-line: deprecated
