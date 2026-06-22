@@ -100,8 +100,11 @@ local function sonokai_custom()
   -- link("@punctuation.special", "Comment")
   link("@markup.list.markdown", "Comment")
 
-  -- For XML tags (HTML/JSX/TSX)
+  -- For XML tags (HTML/JSX/TSX). Built-in/DOM tags are @tag.builtin; component
+  -- tags (PascalCase, e.g. <TelerikCard>) are @tag + @type, so they pick up red
+  -- from @tag and italic from @type (matching JSX/TSX).
   link("@tag", "Red")
+  link("@tag.builtin", "Red")
   link("@tag.tsx", "Red")
   link("@tag.attribute", "Blue")
   link("@tag.delimiter", "Grey")
@@ -264,12 +267,12 @@ local function sonokai_custom()
   end
 end
 
+-- Trigger our custom color tweaks after sonokai is active
 vim.api.nvim_create_autocmd('ColorScheme', {
   group = vim.api.nvim_create_augroup('custom_highlights_sonokai', {}),
   pattern = 'sonokai',
   callback = sonokai_custom
 })
-
 
 return {
   -- Syntax highlighting
