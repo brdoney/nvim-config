@@ -51,7 +51,6 @@ local tools = {
   'mypy',
   -- C#: Roslyn language - not provided by mason-lspconfig (custom registry)
   'roslyn',
-  -- 'rzls',
   -- SQL
   'sqlfluff'
 }
@@ -282,6 +281,9 @@ return {
           -- }),
           -- null_ls.builtins.formatting.autopep8
           -- null_ls.builtins.formatting.black,
+
+          -- C#
+          null_ls.builtins.formatting.csharpier,
 
           -- Swift
           null_ls.builtins.formatting.swiftformat
