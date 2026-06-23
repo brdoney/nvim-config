@@ -174,15 +174,15 @@ return {
         -- Show gitignore and dotfiles (will highlight differently)
         git_ignored = false,
         dotfiles = false,
+        -- Show only open buffers by default (toggle with B)
+        -- no_buffer = true,
       },
       on_attach = nvim_tree_on_attach
     },
-    config = function(_, opts)
-      require("nvim-tree").setup(opts)
-
-      vim.keymap.set('n', '<leader>e', ":NvimTreeToggle<CR>", { desc = "Toggle NvimTree", silent = true })
-      -- vim.keymap.set('n', '<leader>ef', require('nvim-tree').find_file, { desc = "Show open file in NvimTree" })
-    end
+    keys = {
+      { '<leader>e', ":NvimTreeToggle<CR>", desc = "Toggle NvimTree", silent = true },
+      -- { '<leader>ef', function() require('nvim-tree').find_file() end,  desc = "Show open file in NvimTree"  }
+    }
   },
   {
     'antosha417/nvim-lsp-file-operations',
