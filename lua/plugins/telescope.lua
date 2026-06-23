@@ -51,7 +51,15 @@ return {
     opts = {
       defaults = {
         scroll_strategy = "limit",
+
         -- path_display = "tail",
+        -- Show file names before the path, like VSCode (better for deeply nested directories)
+        path_display = {
+          filename_first = {
+            reverse_directories = false
+          }
+        },
+
         set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
         sorting_strategy = "ascending",
 
@@ -69,6 +77,13 @@ return {
           i = {
             ["<CR>"] = select_one_or_multi,
             ["<esc>"] = "close",
+            ['<C-u>'] = require('telescope.actions').results_scrolling_up,
+            ['<C-d>'] = require('telescope.actions').results_scrolling_down,
+            ['<Up>'] = require('telescope.actions').preview_scrolling_up,
+            ['<Down>'] = require('telescope.actions').preview_scrolling_down,
+            ['<Right>'] = require('telescope.actions').preview_scrolling_right,
+            ['<Left>'] = require('telescope.actions').preview_scrolling_left,
+
             ['<C-S-p>'] = require('telescope.actions.layout').toggle_preview,
             ['<C-a>'] = require('telescope.actions').toggle_all,
             ['<C-l>'] = function(prompt_bufnr)
@@ -91,7 +106,23 @@ return {
           }
         },
         file_ignore_patterns = {
-          "^.?venv/", "^.git/", "__pycache__/", "Migrations\\", "%__virtual.cs$", "Environment/"
+          "^.?venv/",
+          "^.git/",
+          "__pycache__/",
+          "%__virtual.cs$",
+          "%.Designer%.cs$",  -- EF designer files (basically a db dump)
+          -- The conservative set:
+          -- "Migrations/",
+          -- "Environment/",
+          -- The technical set:
+          "src/Environment/RestContracts/",
+          "src/Environment/StudentFirst.DbMaintenance.ConsoleApp/",
+          "src/Environment/StudentFirst.DbMigration.ConsoleApp/",
+          -- "src/Environment/StudentFirst.Infrastructure/", -- the actual, good one
+          -- "src/Environment/Tenants/",  -- probably want to include? Not sure though
+          "src/Services/Crm/Contacts/GlobalEdTech.Crm.Contracts.Infrastructure/Migrations/",
+          "src/Web/GlobalEdTech.Authentication.WebApp/Data/Migrations/",
+          "src/operations/infrastructure/Migrations/",
         }
       }
     },
