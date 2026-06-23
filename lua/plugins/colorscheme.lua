@@ -115,6 +115,16 @@ local function sonokai_custom()
   -- sonokai_hl('@text.literal', lighter_grey_color, palette.none)
   sonokai_hl('@markup.raw.markdown_inline', lighter_grey_color, palette.none)
   sonokai_hl('@markup.raw.delimiter.markdown_inline', lighter_grey_color, palette.none)
+
+  -- Conventional-commit prefixes in gitcommit subjects (`fix:`, `feat(scope):`,
+  -- `refactor!:`, …). Captured in after/queries/gitcommit/highlights.scm. The
+  -- subject heading is bold red, so colour the label distinctly so it pops.
+  -- The type is the emphasised part; scope/delimiters are muted.
+  sonokai_hl("@keyword.conventional", palette.purple, palette.none, "bold")
+  -- Scope is secondary to the verb, so mute it (incl. its parens) to grey.
+  link("@keyword.conventional.scope", "Grey")
+  link("@keyword.conventional.delimiter", "Grey")
+  link("@keyword.conventional.breaking", "Red")
   -- }}}
 
   -- Neovide Terminal {{{
