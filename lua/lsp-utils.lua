@@ -7,6 +7,9 @@ M.capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local border = require("border").border
 
+-- Opt-in list for semantic tokens, because I don't generally like them
+local semantic_tokens_opt_in = { }
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lspattach", {}),
   callback = function(args)
@@ -111,8 +114,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
 
-    if vim.lsp.semantic_tokens ~= nil and client ~= nil and client.server_capabilities.semanticTokensProvider then
-      client.server_capabilities.semanticTokensProvider = nil
+    -- I don't really like semantic highlights most of the time
+    if vim.lsp.semantic_tokens ~= nil and client ~= nil and client.server_capabilities.semanticTokensProvider and semantic_tokens_opt_in[vim.bo.filetype] == nil then
+      -- Internal hack
+      -- client.server_capabilities.semanticTokensProvider = nil
+      -- Vim api setting - not sure which is better
+      vim.lsp.semantic_tokens.enable(false, { bufnr = bufnr })
     end
 
     if vim.lsp.inlay_hint ~= nil and client ~= nil and client.server_capabilities.inlayHintProvider then
