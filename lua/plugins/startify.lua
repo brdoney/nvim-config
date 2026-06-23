@@ -4,6 +4,20 @@ local function load_session_action(session)
   end
 end
 
+-- Return "name (branch)" if `dir` is a git repo, otherwise just "name".
+-- Handles worktrees too, since it shells out to git rather than reading .git/HEAD.
+local function name_with_branch(name, dir)
+  local branch = vim.fn.system({ "git", "-C", vim.fn.expand(dir), "rev-parse", "--abbrev-ref", "HEAD" })
+  if vim.v.shell_error ~= 0 then
+    return name
+  end
+  branch = vim.trim(branch)
+  if branch == "" then
+    return name
+  end
+  return name .. " [" .. branch .. "]"
+end
+
 local function shortcuts()
   local items = {}
 
@@ -17,7 +31,10 @@ local function shortcuts()
       items[i] = { name = value.name, action = load_session_action(value.session), section = "Shortcuts" }
     end
   elseif vim.fn.hostname() == "fedora" then
-      items[1] = { name = "Todos", action = load_session_action("todos"), section = "Shortcuts" }
+    items[1] = { name = name_with_branch("Sis1", "~/Documents/StudentFirstSIS"), action = load_session_action("StudentFirstSis"), section = "Shortcuts" }
+    items[2] = { name = name_with_branch("Sis2", "~/Documents/StudentFirstSIS2"), action = load_session_action("StudentFirstSis2"), section = "Shortcuts" }
+    items[3] = { name = name_with_branch("Sis3", "~/Documents/StudentFirstSIS3"), action = load_session_action("StudentFirstSis3"), section = "Shortcuts" }
+    items[4] = { name = "Todos", action = load_session_action("todos"), section = "Shortcuts" }
   end
 
   return items
