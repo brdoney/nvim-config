@@ -29,6 +29,15 @@ local wordcount_component = {
   end,
 }
 
+local roslyn_solution_component = {
+  function()
+    return vim.fn.fnamemodify(vim.g.roslyn_nvim_selected_solution, ':t')
+  end,
+  cond = function()
+    return vim.g.roslyn_nvim_selected_solution ~= nil
+  end,
+}
+
 local sleuth_symbols = {
   space = '󱁐 ',
   tab = '󰌒 ',
@@ -91,7 +100,7 @@ return {
           },
           'diagnostics'
         },
-        lualine_x = { wordcount_component, 'encoding', 'fileformat', { 'filetype', colored = false } },
+        lualine_x = { wordcount_component, roslyn_solution_component, 'encoding', 'fileformat', { 'filetype', colored = false } },
         lualine_y = { sleuth_component },
         lualine_z = {
           { 'location', padding = { left = 1, right = 1 } },
