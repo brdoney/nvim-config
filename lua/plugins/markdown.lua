@@ -52,6 +52,7 @@ return {
         custom = {
           todo = { raw = '[-]', rendered = '󰡖', highlight = 'RenderMarkdownTodo', scope_highlight = nil },
           closed = { raw = '[/]', rendered = '󱋭', highlight = 'RenderMarkdownTodo', scope_highlight = nil },
+          star = { raw = '[*]', rendered = '󰩴', highlight = 'RenderMarkdownTodo', scope_highlight = nil },
         },
       },
       callout = {
