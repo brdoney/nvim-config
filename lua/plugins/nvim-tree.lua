@@ -99,6 +99,34 @@ local function nvim_tree_on_attach(bufnr)
   vim.keymap.set('n', 'M', create_date_file_in_nvim_tree, opts('Create meeting file'))
 end
 
+-- Remember the tree's width for the duration of this nvim session so toggling
+-- (or a manual separator drag) reopens at the last size. Stored in a global so
+-- it survives close/open; the `view.width` function below reads it back. Not
+-- persisted across restarts yet (would need `globals` in sessionoptions).
+--
+-- WinResized's pattern matches a window-ID, not a filetype, so we can't scope it
+-- declaratively. Instead we register it buffer-local from FileType NvimTree, so
+-- the handler only exists for tree buffers and is torn down when they're wiped.
+local remember_width_group = vim.api.nvim_create_augroup("nvim_tree_remember_width", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "NvimTree",
+  group = remember_width_group,
+  callback = function(args)
+    vim.api.nvim_create_autocmd("WinResized", {
+      buffer = args.buf,
+      callback = function()
+        local ok, api = pcall(require, "nvim-tree.api")
+        if not ok then return end
+        local winid = api.tree.winid()
+        -- Only capture when the resize actually touched the tree window.
+        if winid and vim.tbl_contains(vim.v.event.windows, winid) then
+          vim.g.NvimTreeWidth = vim.api.nvim_win_get_width(winid)
+        end
+      end,
+    })
+  end,
+})
+
 -- Integrate with barbar so tabs start after tree
 -- local nvim_tree_events = require('nvim-tree.events')
 -- local bufferline_state = require('bufferline.state')
@@ -128,6 +156,19 @@ return {
     },
     opts = {
       disable_netrw = true,
+      -- Adaptive width: grow to fit the longest line (the root line is excluded
+      -- by default), capped at 60. Recomputed as the tree content changes.
+      -- (Old value: no `view.width` set, i.e. nvim-tree's fixed default of 30.)
+      view = {
+        width = { max = 60 },
+      },
+      -- Fallback: remember the last (possibly manually-dragged) width for the
+      -- session instead of fitting content. Re-evaluated on every open; defaults
+      -- to 30 before any resize. Pair with the FileType/WinResized autocmd below
+      -- (also commented out).
+      -- view = {
+      --   width = function() return vim.g.NvimTreeWidth or 30 end,
+      -- },
       -- tab = {
       --   sync = {
       --     -- Auto-open nvim-tree if it was open and we do :tabnew
