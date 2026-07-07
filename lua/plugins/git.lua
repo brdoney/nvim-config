@@ -1,17 +1,66 @@
+local border = require("border")
+
 return {
+  -- {
+  --   -- Shows git status icons in the gutter
+  --   'airblade/vim-gitgutter',
+  --   event = 'VeryLazy',
+  --   init = function()
+  --     vim.g.gitgutter_sign_added                   = '┃'
+  --     vim.g.gitgutter_sign_modified                = '┃'
+  --     vim.g.gitgutter_sign_removed                 = '┃'
+  --     vim.g.gitgutter_sign_removed_first_line      = '╹'
+  --     vim.g.gitgutter_sign_removed_above_and_below = '┇'
+  --     vim.g.gitgutter_sign_modified_removed        = '┇'
+  --     vim.keymap.set("n", "<leader>hh", "<Plug>(GitGutterPreviewHunk)")
+  --   end
+  -- },
   {
-    -- Shows git status icons in the gutter
-    'airblade/vim-gitgutter',
-    event = 'VeryLazy',
-    init = function()
-      vim.g.gitgutter_sign_added                   = '┃'
-      vim.g.gitgutter_sign_modified                = '┃'
-      vim.g.gitgutter_sign_removed                 = '┃'
-      vim.g.gitgutter_sign_removed_first_line      = '╹'
-      vim.g.gitgutter_sign_removed_above_and_below = '┇'
-      vim.g.gitgutter_sign_modified_removed        = '┇'
-      vim.keymap.set("n", "<leader>hh", "<Plug>(GitGutterPreviewHunk)")
-    end
+    "lewis6991/gitsigns.nvim",
+    event = "VeryLazy",
+    opts = {
+      signs = {
+        add          = { text = '┃' },
+        change       = { text = '┃' },
+        delete       = { text = '┃' },
+        topdelete    = { text = '╹' },
+        changedelete = { text = '┇' },
+        untracked    = { text = '' },
+      },
+      signs_staged = {
+        add          = { text = '┃' },
+        change       = { text = '┃' },
+        delete       = { text = '┃' },
+        topdelete    = { text = '╹' },
+        changedelete = { text = '┇' },
+        untracked    = { text = '' },
+      },
+      preview_config = {
+        col = 1,
+        relative = "cursor",
+        row = 0,
+        border = border.border,
+        style = "minimal"
+      },
+      current_line_blame_opts = {
+        virt_text_pos = "right_align"
+      },
+      trouble = false,
+      gh = true,
+    },
+    keys = {
+      { "<leader>hl", function() require("gitsigns").toggle_current_line_blame() end, desc = "Toggle line blame" },
+      { "<leader>hh", function() require("gitsigns").preview_hunk() end,              desc = "Preview hunk" },
+      { "<leader>hi", function() require("gitsigns").preview_hunk_inline() end,       desc = "Preview hunk inline" },
+      { "<leader>hs", function() require("gitsigns").stage_hunk() end,                desc = "Stage hunk" },
+      { "<leader>hu", function() require("gitsigns").reset_hunk() end,                desc = "Unstage hunk" },
+      { "<leader>hB", function() require("gitsigns").blame() end,                     desc = "Open buffer blame" },
+      { "<leader>hb", function() require("gitsigns").blame_line() end,                desc = "Open line blame" },
+      { "<leader>hq", function() require("gitsigns").setqflist() end,                 desc = "Open line blame" },
+      { "<leader>hw", function() require("gitsigns").toggle_word_diff() end,          desc = "Toggle word diff" },
+      { "]c",         function() require("gitsigns").nav_hunk("next") end,            desc = "Next hunk" },
+      { "[c",         function() require("gitsigns").nav_hunk("prev") end,            desc = "Previous hunk" },
+    }
   },
   {
     -- Vim fugitive does literally everything git related

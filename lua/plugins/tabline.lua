@@ -55,7 +55,8 @@ return {
         -- Reload nvim tree for git updates
         require('nvim-tree.api').tree.reload()
         -- Refresh gitgutter for updates
-        vim.cmd("GitGutterAll")
+        -- vim.cmd("GitGutterAll")
+        require('gitsigns').refresh()
       end, "Close tab")
     end,
     opts = {

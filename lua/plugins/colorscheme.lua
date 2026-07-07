@@ -65,7 +65,9 @@ local function sonokai_custom()
 
   -- Use orange signs for changes with GitGutter
   link("GitGutterChange", "OrangeSign")
+  link("GitsignsChange", "OrangeSign")
   link("GitGutterChangeDelete", "OrangeSign")
+  link("GitsignsChangeDelete", "OrangeSign")
 
   -- Use orange for changes in lualine
   link("LuaLineDiffChange", "OrangeSign")
