@@ -35,6 +35,7 @@ local function shortcuts()
     items[2] = { name = name_with_branch("Sis2", "~/Documents/StudentFirstSIS2"), action = load_session_action("StudentFirstSis2"), section = "Shortcuts" }
     items[3] = { name = name_with_branch("Sis3", "~/Documents/StudentFirstSIS3"), action = load_session_action("StudentFirstSis3"), section = "Shortcuts" }
     items[4] = { name = "Todos", action = load_session_action("todos"), section = "Shortcuts" }
+    items[5] = { name = "Notes", action = load_session_action("sf-notes"), section = "Shortcuts" }
   end
 
   return items
