@@ -245,7 +245,9 @@ return {
           null_ls.builtins.formatting.prettierd,
 
           -- Bash
-          null_ls.builtins.formatting.shfmt,
+          null_ls.builtins.formatting.shfmt.with({
+            filetypes = { "sh", "bash", "mksh", "zsh" },
+          }),
 
           -- SQL
           null_ls.builtins.diagnostics.sqlfluff,
