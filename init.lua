@@ -15,7 +15,7 @@ if not vim.uv.fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
+      { out,                            "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -24,7 +24,22 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins")
+local os = vim.uv.os_uname().sysname
+
+--- @type string|nil
+local dev_path = ""
+if os == "Windows_NT" then
+  dev_path = nil
+elseif os == "macOS" then
+  dev_path = "~/Developer/nvim-plugins"
+else
+  dev_path = "~/Documents/Tools/nvim-plugins"
+end
+
+-- require("lazy").setup("plugins")
+require("lazy").setup("plugins", {
+  dev = { path = dev_path }
+})
 
 -- Window bar setup
 require("winbar")
