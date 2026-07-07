@@ -4,6 +4,7 @@ return {
     dependencies = {
       "MunifTanjim/nui.nvim",
     },
+    dev = true,
     build = function()
       -- Install tries to automatically detect the install method.
       -- if it fails, try calling it with one of these parameters:
@@ -39,7 +40,7 @@ return {
             { key = "<Esc>",     mode = "n", action = "menu_close" },
             { key = "q",         mode = "n", action = "menu_close" },
             -- Toggle sidebar
-            { key = "<leader>e", mode = "n", action = require("dbee").sidebar_toggle },
+            { key = "<leader>e", mode = "n", action = require("dbee").toggle_sidebar },
           },
           candies = {
             node_expanded = {
@@ -72,7 +73,7 @@ return {
             -- cancel current call execution
             { key = "<C-c>",     mode = "",  action = "cancel_call" },
             -- Toggle sidebar
-            { key = "<leader>e", mode = "n", action = require("dbee").sidebar_toggle },
+            { key = "<leader>e", mode = "n", action = require("dbee").toggle_sidebar },
           },
         },
         editor = {
@@ -85,7 +86,7 @@ return {
             -- run what's under the cursor to the next newline
             { key = "<CR>",      mode = "n", action = "run_under_cursor" },
             -- Toggle sidebar
-            { key = "<leader>e", mode = "n", action = require("dbee").sidebar_toggle },
+            { key = "<leader>e", mode = "n", action = require("dbee").toggle_sidebar },
           },
         },
 
@@ -97,7 +98,7 @@ return {
             -- cancel the currently selected call (if its still executing)
             { key = "<C-c>",     mode = "",  action = "cancel_call" },
             -- Toggle sidebar
-            { key = "<leader>e", mode = "n", action = require("dbee").sidebar_toggle },
+            { key = "<leader>e", mode = "n", action = require("dbee").toggle_sidebar },
           },
         },
         window_layout = require("dbee.layouts").Default:new({
