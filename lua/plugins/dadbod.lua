@@ -111,7 +111,6 @@ return {
       -- })
     end,
     keys = {
-      -- { "<leader>B", function() require("dbee").toggle() end, desc = "Toggle DBee" },
       {
         "<leader>D",
         function()

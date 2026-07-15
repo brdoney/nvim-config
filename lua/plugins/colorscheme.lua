@@ -274,6 +274,15 @@ local function sonokai_custom()
   link("RenderMarkdownBullet", "@markup.list.markdown")
   -- }}}
 
+  -- nvim-dbee {{{
+  -- Custom highlight groups from my fork
+  -- Make <nil> recede instead of pop in results panel
+  link("DbeeResultNull", "Comment")
+  -- Color true and false specially
+  link("DbeeResultBooleanTrue", "Green")
+  link("DbeeResultBooleanFalse", "Red")
+  -- }}}
+
   if vim.fn.has("nvim-0.10.0") == 1 then
     sonokai_hl('LspInlayHint', palette.grey, palette.bg1, 'NONE')
   end
