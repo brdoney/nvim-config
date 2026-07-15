@@ -26,6 +26,8 @@ return {
       -- Lazy will set it up for us
       vim.g.barbar_auto_setup = false
     end,
+    -- Load after startup so the tabline shows on session restore, not just on keypress
+    event = "VeryLazy",
     keys = {
       -- Buffer operations
       -- { "<leader>p", "<Cmd>BufferPick<CR>", desc = "Pick buffer" },
