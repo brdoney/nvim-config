@@ -42,6 +42,21 @@ local function related_files(opts)
   }):find()
 end
 
+local function if_preview_open(open_callback, closed_callback)
+  return function(prompt_bufnr)
+    local action_state = require("telescope.actions.state")
+    local current_picker = action_state.get_current_picker(prompt_bufnr)
+
+    if current_picker.previewer ~= nil
+        and vim.api.nvim_win_is_valid(current_picker.previewer.state.winid)
+        and vim.api.nvim_buf_is_loaded(current_picker.previewer.state.bufnr) then
+      open_callback(prompt_bufnr)
+    else
+      closed_callback(prompt_bufnr)
+    end
+  end
+end
+
 return {
   {
     -- Fuzzy finder and selectors
@@ -79,8 +94,18 @@ return {
             ["<esc>"] = "close",
             ['<C-u>'] = require('telescope.actions').results_scrolling_up,
             ['<C-d>'] = require('telescope.actions').results_scrolling_down,
-            ['<Up>'] = require('telescope.actions').preview_scrolling_up,
-            ['<Down>'] = require('telescope.actions').preview_scrolling_down,
+
+            ['<C-f>'] = require('telescope.actions').results_scrolling_right,
+            ['<C-b>'] = require('telescope.actions').results_scrolling_left,
+
+            ['<Up>'] = if_preview_open(
+              require('telescope.actions').preview_scrolling_up,
+              require('telescope.actions').move_selection_previous
+            ),
+            ['<Down>'] = if_preview_open(
+              require('telescope.actions').preview_scrolling_down,
+              require('telescope.actions').move_selection_next
+            ),
             ['<Right>'] = require('telescope.actions').preview_scrolling_right,
             ['<Left>'] = require('telescope.actions').preview_scrolling_left,
 
@@ -110,7 +135,7 @@ return {
           "^.git/",
           "__pycache__/",
           "%__virtual.cs$",
-          "%.Designer%.cs$",  -- EF designer files (basically a db dump)
+          "%.Designer%.cs$", -- EF designer files (basically a db dump)
           -- The conservative set:
           -- "Migrations/",
           -- "Environment/",
@@ -128,8 +153,8 @@ return {
     },
     cmd = "Telescope",
     keys = {
-      { '<C-p>',      function() require('telescope.builtin').find_files({ hidden = true }) end,            desc = "File search" },
-      { '<D-p>',      function() require('telescope.builtin').find_files({ hidden = true }) end,            desc = "File search" },
+      { '<C-p>',      function() require('telescope.builtin').find_files({ hidden = true, previewer = false }) end,    desc = "File search" },
+      { '<D-p>',      function() require('telescope.builtin').find_files({ hidden = true, previewer = false }) end,            desc = "File search" },
       { '<leader>qd', function() require('telescope.builtin').lsp_definitions({ jump_type = "never" }) end, desc = "Peek definition" },
       {
         '<leader>sa',
