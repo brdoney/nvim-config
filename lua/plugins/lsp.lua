@@ -6,7 +6,7 @@ local mason_servers = {
   'emmet_ls',
   'html',
   'cssls',
-  'ts_ls',
+  'tsgo',
   'eslint',
   -- Go
   'gopls',
@@ -173,10 +173,14 @@ return {
               settings = {
                 python = {
                   pyrefly = {
-                    displayTypeErrors = "force-on"
-                  }
+                    displayTypeErrors = "force-on",
+                  },
+                  -- Equivalent to VSCode's "python.analysis.showHoverGoToLinks": false, but doesn't seem to be implemented at the moment
+                  -- analysis = {
+                  --   showHoverGoToLinks = false,
+                  -- }
                 }
-              }
+              },
             }, opts)
           end
 
