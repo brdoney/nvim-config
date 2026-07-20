@@ -36,6 +36,7 @@ return {
       { "<leader>{", "<Cmd>BufferMovePrevious<CR>", desc = "Move buffer left" },
       { "<leader>}", "<Cmd>BufferMoveNext<CR>", desc = "Move buffer right" },
       { "<leader>\\", "<Cmd>BufferClose<CR>", desc = "Close buffer" },
+      { "<leader>B", "<Cmd>BufferCloseAllButCurrentOrPinned<CR>", desc = "Previous buffer" },
 
       -- Tabpage operations
       { "<leader>tt", "<Cmd>tabnew<CR>", desc = "Open new tab" },
